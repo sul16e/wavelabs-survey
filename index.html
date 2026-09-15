@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#20769B"><style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#20769B"><style>html{color-scheme:light}body{margin:0}img{max-width:100%}</style>
+</head><body>
 <title>웨이브랩스 유입 경로</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
@@ -260,6 +261,38 @@
     claude.use('db').then(d=>{db=d;dbReady=!!d;}).catch(()=>{});
     claude.use('downloads').then(d=>{downloads=d;}).catch(()=>{});
   }
+
+  // ---- 자동 업데이트 (사장이 새로고침 안 해도 됨) ----
+  // 2분마다 version.txt를 확인해서 값이 바뀌었으면, 홈 화면이고 손님이 안 만지는 동안에만 새로고침
+  const BUILD='20260915-105434';
+  (function autoUpdate(){
+    if(BUILD.indexOf('__')===0) return;              // 로컬/아티팩트에서 열었을 땐 동작 안 함
+    let lastTouch=Date.now(), pending=null;
+    ['touchstart','mousedown','keydown'].forEach(ev=>
+      document.addEventListener(ev,()=>{lastTouch=Date.now()},{passive:true,capture:true}));
+    function idleHome(){
+      return document.getElementById('home').classList.contains('on')
+        && !document.getElementById('admin').classList.contains('on')
+        && !document.getElementById('pwModal').classList.contains('on')
+        && Date.now()-lastTouch > 15000;
+    }
+    function reload(v){
+      const u=location.origin+location.pathname+'?v='+encodeURIComponent(v);
+      location.replace(u);
+    }
+    async function check(){
+      try{
+        const r=await fetch('version.txt?t='+Date.now(),{cache:'no-store'});
+        if(!r.ok)return;
+        const v=(await r.text()).trim();
+        if(!v||v===BUILD)return;
+        pending=v;
+      }catch(e){}
+    }
+    setInterval(check,120000);
+    setInterval(()=>{if(pending&&idleHome())reload(pending)},5000);
+    setTimeout(check,8000);
+  })();
 
   // ---- storage ----
   function loadLocal(){try{return JSON.parse(localStorage.getItem(LS_KEY)||'[]')}catch(e){return[]}}
