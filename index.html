@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#20769B"><style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>웨이브랩스 유입 경로</title></head><body>
+<title>웨이브랩스 유입 경로</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
@@ -26,42 +26,42 @@
   button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
   /* ---------- kiosk screens (brand blue, single theme) ---------- */
-  .screen{min-height:100svh;display:none;flex-direction:column;align-items:center;padding:clamp(20px,4vw,48px);position:relative;
+  .screen{height:100svh;overflow:hidden;display:none;flex-direction:column;align-items:center;padding:clamp(12px,2.2vh,28px) clamp(16px,3vw,40px);position:relative;
     background:var(--b3);color:#fff}
   .screen.on{display:flex}
-  .brand{display:flex;align-items:center;gap:14px;margin:1vh 0 2vh;z-index:1;align-self:center}
-  .brand img{width:clamp(220px,28vw,360px);height:auto;display:block}
+  .brand{display:flex;align-items:center;gap:14px;margin:0 0 1vh;z-index:1;align-self:center;flex:0 0 auto}
+  .brand img{width:clamp(140px,17vw,220px);height:auto;display:block}
     padding:6px 14px;border-radius:22px 22px 22px 6px;transform:translateY(-14px) rotate(-6deg);box-shadow:0 4px 14px rgba(0,0,0,.2)}
   .brand small{display:none}
-  .center{width:min(960px,100%);margin:auto 0;display:flex;flex-direction:column;align-items:center;gap:clamp(20px,3vh,36px);z-index:1}
-  h1{font-size:clamp(30px,5.2vw,58px);font-weight:700;line-height:1.22;text-align:center;margin:0;letter-spacing:-.01em;text-wrap:balance;color:#fff}
+  .center{width:min(1040px,100%);flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,2.2vh,24px);z-index:1}
+  h1{font-size:clamp(24px,4.2vw,44px);font-weight:700;line-height:1.24;text-align:center;margin:0;letter-spacing:-.01em;text-wrap:balance;color:#fff}
   h1 em{font-style:normal;color:#fff}
-  .lead{font-size:clamp(20px,2.5vw,28px);color:var(--b4);font-weight:700;text-align:center;margin:0;line-height:1.5;text-wrap:balance;max-width:30em;background:#fff;padding:14px 26px;border-radius:14px}
+  .lead{font-size:clamp(15px,1.9vw,21px);color:var(--b4);font-weight:700;text-align:center;margin:0;line-height:1.45;text-wrap:balance;max-width:34em;background:#fff;padding:9px 20px;border-radius:12px}
 
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,20px);width:100%}
-  @media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}.grid .opt:last-child:nth-child(odd){grid-column:span 2;min-height:clamp(96px,12vh,120px)}}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(10px,1.4vw,16px);width:100%}
+  .grid .opt:last-child{grid-column:1 / -1}
+  @media (min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
   .opt{
-    background:var(--card);border:2px solid transparent;border-radius:20px;padding:clamp(22px,3vh,34px) 16px;color:var(--ink);
-    min-height:clamp(118px,17vh,168px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
-    font-size:clamp(21px,2.4vw,28px);font-weight:700;box-shadow:none;transition:transform .12s,background .12s;
+    background:var(--card);border:2px solid transparent;border-radius:16px;padding:clamp(12px,1.8vh,20px) clamp(14px,2vw,22px);color:var(--ink);
+    min-height:clamp(62px,9vh,86px);display:flex;flex-direction:row;align-items:center;justify-content:center;gap:clamp(10px,1.2vw,16px);
+    font-size:clamp(17px,2vw,24px);font-weight:700;line-height:1.25;box-shadow:none;transition:transform .12s,background .12s;
   }
-  .opt .app{width:clamp(44px,5vw,60px);height:auto;border-radius:22%;display:block}
+  .opt .app{width:clamp(28px,3.4vw,40px);height:auto;border-radius:22%;display:block;flex:0 0 auto}
   .opt .app.stroke{box-shadow:0 0 0 1px rgba(0,0,0,.12)}
   .opt:active{transform:scale(.96);background:var(--accent-soft);border-color:var(--b1)}
-  .opt.ghost{background:rgba(255,255,255,.22);box-shadow:none;border:2px solid transparent;color:#fff}
 
   /* etc screen */
   .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%}
   @media (max-width:700px){.chips{grid-template-columns:1fr}}
-  .chip{background:var(--card);color:var(--ink);border:2px solid transparent;border-radius:18px;padding:24px 14px;font-size:clamp(18px,2vw,23px);font-weight:700}
+  .chip{background:var(--card);color:var(--ink);border:2px solid transparent;border-radius:16px;padding:16px 14px;font-size:clamp(16px,1.9vw,21px);font-weight:700}
   .chip:active{background:var(--accent-soft);border-color:var(--b1)}
   .or{display:flex;align-items:center;gap:14px;width:100%;color:rgba(255,255,255,.7);font-size:14px;letter-spacing:.2em}
   .or::before,.or::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.35)}
   .free{display:flex;gap:12px;width:100%}
-  .free input{flex:1;font-size:clamp(18px,2vw,22px);padding:18px 20px;border:2px solid transparent;border-radius:16px;background:var(--card);color:var(--ink);font-family:inherit}
+  .free input{flex:1;font-size:clamp(16px,1.9vw,21px);padding:14px 18px;border:2px solid transparent;border-radius:16px;background:var(--card);color:var(--ink);font-family:inherit}
   .free input::placeholder{color:var(--ink-3)}
   .free input:focus{outline:none;border-color:var(--b1)}
-  .btn{border:none;border-radius:16px;padding:18px 28px;font-size:clamp(17px,1.9vw,21px);font-weight:700;background:var(--b4);color:#fff}
+  .btn{border:none;border-radius:14px;padding:14px 24px;font-size:clamp(16px,1.8vw,20px);font-weight:700;background:var(--b4);color:#fff}
   .btn:active{background:var(--navy)}
   .btn:disabled{opacity:.45}
   .back{position:absolute;top:22px;left:22px;background:rgba(255,255,255,.14);border:none;font-size:18px;font-weight:500;color:#fff;padding:10px 16px;border-radius:12px;z-index:2}
@@ -141,6 +141,8 @@
   .tag{display:inline-block;padding:3px 9px;border-radius:8px;background:var(--accent-soft);color:var(--accent-dk);font-weight:500;font-size:13px}
   .tag.etc{background:var(--paper);color:var(--ink-2);border:1px solid var(--line)}
   .empty{color:var(--ink-3);padding:24px;text-align:center}
+  .del{border:1px solid var(--line);background:var(--card);color:var(--ink-3);border-radius:8px;padding:5px 11px;font-size:13px;font-weight:500}
+  .del:active{background:#FDECEA;border-color:var(--crit);color:var(--crit)}
   .sync{font-size:12px;color:var(--ink-3)}
   .sync.ok{color:var(--good)}
 </style>
@@ -160,7 +162,7 @@
       </button>
       <button class="opt" data-ch="텔온 단골">텔온 때부터 단골
       </button>
-      <button class="opt ghost" data-ch="기타">기타
+      <button class="opt" data-ch="기타">기타
       </button>
     </div>
   </div>
@@ -240,7 +242,7 @@
     </div>
     <div class="panel"><h3>시간대별 (12시~23시)</h3><div class="hours" id="byHour"></div></div>
     <div class="panel"><h3>기타 · 직접 입력 내용</h3><div class="bars" id="byDetail"></div></div>
-    <div class="panel"><h3>전체 응답 (최근순)</h3><div class="tbl-wrap"><table><thead><tr><th>날짜</th><th>요일</th><th>시각</th><th>채널</th><th>내용</th></tr></thead><tbody id="rows"></tbody></table></div></div>
+    <div class="panel"><h3>전체 응답 (최근순)</h3><div class="tbl-wrap"><table><thead><tr><th>날짜</th><th>요일</th><th>시각</th><th>채널</th><th>내용</th><th></th></tr></thead><tbody id="rows"></tbody></table></div></div>
   </div>
 </section>
 
@@ -406,15 +408,35 @@
     bars($('#byDetail'),[...dm.entries()].sort((a,b)=>b[1]-a[1]),0);
     // rows
     const tb=$('#rows'); tb.innerHTML='';
-    if(!list.length){tb.innerHTML='<tr><td colspan="5" class="empty">아직 응답이 없어요</td></tr>'}
+    if(!list.length){tb.innerHTML='<tr><td colspan="6" class="empty">아직 응답이 없어요</td></tr>'}
     list.slice(0,300).forEach(i=>{
       const d=new Date(i.ts);
       const tr=document.createElement('tr');
-      tr.innerHTML='<td class="num">'+i.day.slice(5)+'</td><td>'+DOW[i.dow]+'</td><td class="num">'+pad(d.getHours())+':'+pad(d.getMinutes())+'</td><td><span class="tag'+(i.channel==='기타'?' etc':'')+'"></span></td><td class="txt"></td>';
+      tr.innerHTML='<td class="num">'+i.day.slice(5)+'</td><td>'+DOW[i.dow]+'</td><td class="num">'+pad(d.getHours())+':'+pad(d.getMinutes())+'</td><td><span class="tag'+(i.channel==='기타'?' etc':'')+'"></span></td><td class="txt"></td><td style="text-align:right"><button class="del" data-id="'+i.id+'">삭제</button></td>';
       tr.querySelector('.tag').textContent=i.channel; tr.querySelector('.txt').textContent=i.detail||'';
       tb.appendChild(tr);
     });
   }
+  // 한 건만 삭제 (테스트로 잘못 누른 응답 취소용)
+  $('#rows').addEventListener('click',async e=>{
+    const b=e.target.closest('.del'); if(!b)return;
+    const id=b.dataset.id, item=cache.find(x=>x.id===id); if(!item)return;
+    if(!confirm('이 응답 1건을 삭제할까요?\n'+item.day.slice(5)+' '+item.channel+(item.detail?' · '+item.detail:'')))return;
+    b.disabled=true;
+    saveLocal(loadLocal().filter(x=>x.id!==id));
+    if(db){
+      try{
+        const ref=db.doc('responses/'+item.day);
+        const snap=await ref.get();
+        if(snap.exists){
+          const items=(snap.data().items||[]).filter(x=>x&&x.id!==id);
+          if(items.length) await ref.set({day:item.day,items}); else await ref.delete();
+        }
+      }catch(err){}
+    }
+    cache=cache.filter(x=>x.id!==id); render();
+  });
+
   $('#csvBtn').addEventListener('click',async()=>{
     const list=filtered();
     const esc=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
