@@ -37,7 +37,7 @@
   .center{width:min(1040px,100%);flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,2.2vh,24px);z-index:1}
   h1{font-size:clamp(24px,4.2vw,44px);font-weight:700;line-height:1.24;text-align:center;margin:0;letter-spacing:-.01em;text-wrap:balance;color:#fff}
   h1 em{font-style:normal;color:#fff}
-  .lead{font-size:clamp(15px,1.9vw,21px);color:var(--b4);font-weight:700;text-align:center;margin:0;line-height:1.45;text-wrap:balance;max-width:34em;background:#fff;padding:9px 20px;border-radius:12px}
+  .lead{font-size:clamp(15px,1.9vw,21px);color:#fff;font-weight:700;text-align:center;margin:0;line-height:1.45;text-wrap:balance;max-width:34em;background:transparent;border:2px dashed rgba(255,255,255,.75);padding:9px 20px;border-radius:12px}
 
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(10px,1.4vw,16px);width:100%}
   .grid .opt:last-child{grid-column:1 / -1}
@@ -50,6 +50,8 @@
   .opt .app{width:clamp(28px,3.4vw,40px);height:auto;border-radius:22%;display:block;flex:0 0 auto}
   .opt .app.stroke{box-shadow:0 0 0 1px rgba(0,0,0,.12)}
   .opt:active{transform:scale(.96);background:var(--accent-soft);border-color:var(--b1)}
+  .opt.ghost{background:rgba(255,255,255,.22);border-color:transparent;color:#fff;box-shadow:none}
+  .opt.ghost:active{background:rgba(255,255,255,.35)}
 
   /* etc screen */
   .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%}
@@ -162,7 +164,7 @@
       </button>
       <button class="opt" data-ch="텔온 단골">텔온 때부터 단골
       </button>
-      <button class="opt" data-ch="기타">기타
+      <button class="opt ghost" data-ch="기타">기타
       </button>
     </div>
   </div>
@@ -262,7 +264,7 @@
 
   // ---- 자동 업데이트 (사장이 새로고침 안 해도 됨) ----
   // 2분마다 version.txt를 확인해서 값이 바뀌었으면, 홈 화면이고 손님이 안 만지는 동안에만 새로고침
-  const BUILD='20260915-105633';
+  const BUILD='20260918-100859';
   (function autoUpdate(){
     if(BUILD.indexOf('__')===0) return;              // 로컬/아티팩트에서 열었을 땐 동작 안 함
     let lastTouch=Date.now(), pending=null;
