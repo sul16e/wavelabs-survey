@@ -16,8 +16,8 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);
-  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",system-ui,sans-serif;
-  padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",system-ui,sans-serif;
+  padding-bottom:calc(32px + env(safe-area-inset-bottom))}
 
 /* ---------- 잠금 ---------- */
 #lock{position:fixed;inset:0;z-index:99;background:var(--navy);color:#fff;
@@ -34,63 +34,73 @@ body{margin:0;background:var(--bg);color:var(--ink);
 
 /* ---------- 헤더 ---------- */
 header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;
-  padding:calc(12px + env(safe-area-inset-top)) 16px 10px}
-.brand{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
-.brand b{font-size:19px;font-weight:700;letter-spacing:-.02em}
-.brand span{font-size:12px;color:#9EC3D6}
-#q{width:100%;border:0;border-radius:11px;padding:12px 14px;font-size:16px;
+  padding:calc(8px + env(safe-area-inset-top)) 12px 8px}
+.top{display:flex;align-items:center;gap:8px}
+.top b{font-size:16px;font-weight:700;letter-spacing:-.02em;flex:0 0 auto}
+#q{flex:1 1 auto;min-width:0;border:0;border-radius:10px;padding:9px 12px;font-size:15px;
   background:rgba(255,255,255,.15);color:#fff}
 #q::placeholder{color:#9EC3D6}
 #q:focus{outline:2px solid var(--sky)}
-nav{display:flex;gap:7px;overflow-x:auto;padding:10px 16px;background:var(--navy);
+#all{flex:0 0 auto;border:1px solid rgba(255,255,255,.3);background:transparent;color:#DCEAF2;
+  border-radius:10px;padding:8px 10px;font-size:13px;font-weight:700;min-height:36px}
+#all[aria-pressed="true"]{background:#fff;color:var(--navy);border-color:#fff}
+nav{display:flex;gap:6px;overflow-x:auto;padding:7px 12px;background:var(--navy);
   position:sticky;top:0;z-index:19;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
 nav button{flex:0 0 auto;border:1px solid rgba(255,255,255,.28);background:transparent;color:#DCEAF2;
-  border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;min-height:38px}
+  border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;min-height:32px}
 nav button[aria-pressed="true"]{background:#fff;color:var(--navy);border-color:#fff}
 
-/* ---------- 카드 ---------- */
-main{padding:14px 16px 0;max-width:720px;margin:0 auto}
-h2.grp{font-size:13px;font-weight:700;color:var(--dim);letter-spacing:.04em;
-  margin:20px 0 8px;text-transform:uppercase}
-h2.grp:first-child{margin-top:4px}
-details.m{background:var(--card);border:1px solid var(--line);border-radius:14px;
-  margin-bottom:8px;overflow:hidden}
+/* ---------- 목록 (격자) ---------- */
+main{padding:10px 12px 0;max-width:1180px;margin:0 auto;
+  display:grid;grid-template-columns:1fr;gap:6px;align-items:start}
+@media (min-width:560px){ main{grid-template-columns:1fr 1fr;gap:7px} }
+@media (min-width:900px){ main{grid-template-columns:1fr 1fr 1fr} }
+h2.grp,#empty{grid-column:1/-1}
+h2.grp{font-size:12px;font-weight:700;color:var(--dim);letter-spacing:.04em;margin:12px 0 2px}
+h2.grp:first-child{margin-top:0}
+
+details.m{background:var(--card);border:1px solid var(--line);border-radius:11px;overflow:hidden}
 details.m[open]{border-color:var(--wave);box-shadow:0 2px 10px rgba(11,95,132,.08)}
-summary{list-style:none;cursor:pointer;padding:14px 15px;display:flex;align-items:center;gap:10px;
-  min-height:52px;font-weight:600}
+summary{list-style:none;cursor:pointer;padding:7px 10px;display:flex;align-items:center;gap:8px;
+  min-height:46px;font-weight:600}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"";flex:0 0 auto;width:9px;height:9px;margin-left:auto;
+summary::after{content:"";flex:0 0 auto;width:8px;height:8px;margin-left:auto;
   border-right:2px solid var(--sky);border-bottom:2px solid var(--sky);
   transform:rotate(45deg) translateY(-2px);transition:transform .15s}
 details.m[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
-.nm{font-size:16px;letter-spacing:-.01em}
-.pr{flex:0 0 auto;font-size:13px;font-weight:700;color:var(--deep);
-  background:#EAF2F7;border-radius:7px;padding:3px 8px}
-.body{padding:0 15px 15px;border-top:1px solid var(--line);padding-top:13px}
-.lbl{font-size:12px;font-weight:700;color:var(--dim);letter-spacing:.04em;margin:0 0 6px}
-ul.ing{margin:0 0 14px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
-ul.ing li{background:#F0F5F8;border-radius:8px;padding:6px 10px;font-size:14.5px}
+.th{flex:0 0 auto;width:38px;height:38px;border-radius:8px;object-fit:cover;background:#EAF2F7}
+.nm{font-size:14.5px;letter-spacing:-.02em;line-height:1.25}
+.pr{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--deep);
+  background:#EAF2F7;border-radius:6px;padding:2px 6px;white-space:nowrap}
+.body{padding:9px 10px 11px;border-top:1px solid var(--line)}
+.big{display:block;width:100%;max-height:200px;object-fit:contain;background:#EAF2F7;
+  border-radius:9px;margin:0 0 9px}
+.lbl{font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.04em;margin:0 0 4px}
+ul.ing{margin:0 0 10px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:4px}
+ul.ing li{background:#F0F5F8;border-radius:7px;padding:4px 8px;font-size:13px}
 ul.ing li.w{background:var(--warn-bg);color:var(--warn-ink)}
 ol.st{margin:0;padding:0;list-style:none;counter-reset:s}
-ol.st li{counter-increment:s;position:relative;padding:0 0 9px 30px;font-size:15px}
-ol.st li::before{content:counter(s);position:absolute;left:0;top:1px;width:21px;height:21px;
-  border-radius:50%;background:var(--deep);color:#fff;font-size:12px;font-weight:700;
+ol.st li{counter-increment:s;position:relative;padding:0 0 6px 25px;font-size:13.5px;line-height:1.45}
+ol.st li::before{content:counter(s);position:absolute;left:0;top:1px;width:18px;height:18px;
+  border-radius:50%;background:var(--deep);color:#fff;font-size:11px;font-weight:700;
   display:flex;align-items:center;justify-content:center}
 ol.st li:last-child{padding-bottom:0}
-.tip{margin-top:12px;background:var(--warn-bg);border:1px solid var(--warn-line);
-  border-radius:10px;padding:10px 12px;font-size:14px;color:var(--warn-ink)}
-.tip b{display:block;font-size:11px;letter-spacing:.06em;margin-bottom:2px}
-.none{color:var(--dim);font-size:14px;font-style:normal}
+.tip{margin-top:9px;background:var(--warn-bg);border:1px solid var(--warn-line);
+  border-radius:9px;padding:8px 10px;font-size:13px;color:var(--warn-ink);line-height:1.45}
+.tip b{display:block;font-size:10px;letter-spacing:.06em;margin-bottom:1px}
+.none{color:var(--dim);font-size:13px;margin:0}
 #empty{display:none;text-align:center;color:var(--dim);padding:40px 0;font-size:15px}
-footer{max-width:720px;margin:0 auto;padding:26px 16px 10px;color:var(--dim);font-size:12.5px;line-height:1.7}
+footer{max-width:1180px;margin:0 auto;padding:22px 12px 10px;color:var(--dim);font-size:12px;line-height:1.65}
 
 @media (prefers-color-scheme:dark){
  :root:not([data-theme="light"]){
   --bg:#0E1A22; --card:#16252F; --ink:#E8F0F5; --dim:#8FA6B4; --line:#24373F;
   --warn-bg:#2E2412; --warn-ink:#F0CB84; --warn-line:#4A3A1C;
  }
- :root:not([data-theme="light"]) .pr{background:#1E3543}
+ :root:not([data-theme="light"]) .pr,
+ :root:not([data-theme="light"]) .th,
+ :root:not([data-theme="light"]) .big{background:#1E3543}
  :root:not([data-theme="light"]) ul.ing li{background:#1E2F3A}
 }
 </style>
@@ -106,8 +116,11 @@ footer{max-width:720px;margin:0 auto;padding:26px 16px 10px;color:var(--dim);fon
 </div>
 
 <header>
-  <div class="brand"><b>WaveLabs 레시피</b><span>37F</span></div>
-  <input id="q" type="search" placeholder="메뉴 검색 (예: 크로플, 흑임자)" autocomplete="off">
+  <div class="top">
+    <b>레시피</b>
+    <input id="q" type="search" placeholder="메뉴 검색" autocomplete="off">
+    <button id="all" aria-pressed="false">모두 펼치기</button>
+  </div>
 </header>
 <nav id="chips"></nav>
 
@@ -115,7 +128,7 @@ footer{max-width:720px;margin:0 auto;padding:26px 16px 10px;color:var(--dim);fon
 <h2 class="grp" data-g="커피">커피 <span style="font-weight:600">8</span></h2>
 <details class="m" data-g="커피" data-s="디카페인 아메리카노 커피"><summary><span class="nm">디카페인 아메리카노</span><span class="pr">6,000원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>디카페인 원두 2샷 20g</li></ul><p class="lbl">순서</p><ol class="st"><li>디카페인 샷 2개</li><li>물/얼음</li></ol></div></details>
 <details class="m" data-g="커피" data-s="아메리카노 커피"><summary><span class="nm">아메리카노</span><span class="pr">5,300원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>원두 2샷 20g</li></ul><p class="lbl">순서</p><ol class="st"><li>샷 2개</li><li>물/얼음</li></ol><div class="tip"><b>주의</b>HOT/ICE 옵션 확인</div></div></details>
-<details class="m" data-g="커피" data-s="아이스크림 라떼 (ice) 커피"><summary><span class="nm">아이스크림 라떼 (ICE)</span><span class="pr">7,500원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>바닐라빈 시럽 30ml</li><li>우유 120ml</li><li>샷 20g</li><li class="w">바닐라 아이스크림 52mm 1스쿱 70ml⚠️</li></ul><p class="lbl">순서</p><ol class="st"><li>바닐라빈 시럽 30ml</li><li>우유 120ml</li><li>얼음</li><li>샷 2개</li><li>나가기 직전에 아이스크림 52mm 1스쿱</li></ol><div class="tip"><b>주의</b>반드시 52mm 스쿱. 5호로 뜨면 원가가 2배</div></div></details>
+<details class="m" data-g="커피" data-s="아이스크림 라떼 (ice) 커피"><summary><span class="nm">아이스크림 라떼 (ICE)</span><span class="pr">7,500원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>바닐라빈 시럽 30ml</li><li>우유 120ml</li><li>샷 20g</li><li class="w">바닐라 아이스크림 52mm 1스쿱 70ml⚠️</li></ul><p class="lbl">순서</p><ol class="st"><li>바닐라빈 시럽 30ml</li><li>우유 120ml</li><li>얼음</li><li>샷 2개</li><li>나가기 직전에 아이스크림 52mm 1스쿱</li></ol><div class="tip"><b>주의</b>반드시 52mm 스쿱. 5호로 뜨면 양이 두 배라 안 된다</div></div></details>
 <details class="m" data-g="커피" data-s="아포가토 커피"><summary><span class="nm">아포가토</span><span class="pr">6,800원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>원두 2샷 20g</li><li>바닐라 아이스크림 52mm 1스쿱 70ml</li></ul><p class="lbl">순서</p><ol class="st"><li>잔에 아이스크림 52mm 1스쿱</li><li>주문 직전에 샷 2개 추출</li><li>손님 앞에서 아이스크림 위에 부어 드림</li></ol><div class="tip"><b>주의</b>미리 부어두면 녹은 채로 나간다. 반드시 주문 직전 추출</div></div></details>
 <details class="m" data-g="커피" data-s="카페라떼 커피"><summary><span class="nm">카페라떼</span><span class="pr">6,000원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>샷 20g</li><li>우유 200ml</li></ul><p class="lbl">순서</p><ol class="st"><li>샷 2개</li><li>우유</li></ol><div class="tip"><b>주의</b>HOT/ICE 옵션 확인</div></div></details>
 <details class="m" data-g="커피" data-s="콘파냐 커피"><summary><span class="nm">콘파냐</span><span class="pr">5,500원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>샷 20g</li></ul><p class="lbl">순서</p><ol class="st"><li>샷 2개</li><li>시그니처 크림 1스쿱</li></ol><div class="tip"><b>주의</b>HOT 전용</div></div></details>
@@ -152,12 +165,13 @@ footer{max-width:720px;margin:0 auto;padding:26px 16px 10px;color:var(--dim);fon
 <h2 class="grp" data-g="와인">와인 <span style="font-weight:600">2</span></h2>
 <details class="m" data-g="와인" data-s="레드 와인 (14%) 와인"><summary><span class="nm">레드 와인 (14%)</span><span class="pr">13,900원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>와인 120ml</li></ul><p class="lbl">순서</p><ol class="st"><li>냉장고에서 꺼내 바로</li><li>325ml 잔에 120ml</li><li>두 번에 나눠 따르기</li></ol><div class="tip"><b>주의</b>레드도 냉장 보관. 잔에서 5분이면 마시기 좋은 온도가 된다</div></div></details>
 <details class="m" data-g="와인" data-s="화이트 와인 (13%) 와인"><summary><span class="nm">화이트 와인 (13%)</span><span class="pr">12,900원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>와인 120ml</li></ul><p class="lbl">순서</p><ol class="st"><li>냉장고에서 꺼내 바로</li><li>325ml 잔에 120ml</li><li>두 번에 나눠 따르기</li></ol><div class="tip"><b>주의</b>한 번에 부으면 거품·유속 때문에 양을 못 맞춘다</div></div></details>
-<h2 class="grp" data-g="디저트">디저트 <span style="font-weight:600">11</span></h2>
+<h2 class="grp" data-g="디저트">디저트 <span style="font-weight:600">12</span></h2>
 <details class="m" data-g="디저트" data-s="누텔라 바나나 브륄레 크로플 디저트"><summary><span class="nm">누텔라 바나나 브륄레 크로플</span><span class="pr">14,800원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>생지 2개</li><li class="w">누텔라 20g ⚠️</li><li>화이트 크림 75g</li><li>바나나 1개</li><li class="w">백설탕 10g ⚠️</li><li class="w">초코 그래놀라 15g ⚠️</li></ul><p class="lbl">순서</p><ol class="st"><li>생지 2개 굽기</li><li>바나나 껍질째 세로로 반 갈라 설탕 뿌려 토치</li><li>화이트 크림 75g</li><li>누텔라 20g 드리즐</li><li>초코 그래놀라 흩뿌리기</li></ol><div class="tip"><b>주의</b>토치를 먼저. 아이스크림 안 들어감. 그래놀라는 눅눅해지니 나가기 직전에</div></div></details>
 <details class="m" data-g="디저트" data-s="베리 아이스크림 디저트"><summary><span class="nm">베리 아이스크림</span><span class="pr">7,000원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>바닐라 빙과 5호 스쿱 1개</li><li>믹스베리 콩포트 40g</li><li>마라시노 체리 1개</li></ul><p class="lbl">순서</p><ol class="st"><li>잔에 바닐라 아이스크림 5호 1스쿱</li><li>베리 콩포트 40g</li><li>마라시노 체리 1개</li></ol><div class="tip"><b>주의</b>콩포트는 프렙 참고</div></div></details>
 <details class="m" data-g="디저트" data-s="브라우니 &amp; 바닐라 아이스크림 디저트"><summary><span class="nm">브라우니 &amp; 바닐라 아이스크림</span><span class="pr">8,500원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>브라우니 1조각</li><li>바닐라 아이스크림 52mm 1스쿱</li><li>마라시노 체리 1개</li><li>로즈마리 1줄기</li></ul><p class="lbl">순서</p><ol class="st"><li>브라우니 전자레인지 10초</li><li>접시에 올리고 옆에 아이스크림 1스쿱</li><li>아이스크림 위에 체리 꼭지째</li><li>로즈마리는 아이스크림 옆에 눕혀 꽂기</li></ol><div class="tip"><b>주의</b>아이스크림은 브라우니 위가 아니라 옆에. 위에 올리면 밑면부터 녹아 흘러내린다</div></div></details>
 <details class="m" data-g="디저트" data-s="애플 시나몬 크로플 디저트"><summary><span class="nm">애플 시나몬 크로플</span><span class="pr">13,800원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>생지 2개</li><li class="w">사과파이필링 60g ⚠️</li><li>화이트 크림 75g</li><li>바닐라 빙과 52mm 스쿱 1개</li><li>로즈마리 생잎 1줄기 1.5g</li><li class="w">사과잼 드리즐 15g ⚠️</li><li class="w">시나몬 0.5g ⚠️</li><li class="w">아몬드 소보루 크럼블 30g⚠️</li></ul><p class="lbl">순서</p><ol class="st"><li>생지 2개 굽기</li><li>사과파이필링 60g</li><li>사과잼 드리즐 15g</li><li>화이트 크림 75g</li><li>시나몬 가루</li><li>아이스크림 52mm 1스쿱</li><li>로즈마리 1줄기 눕혀 꽂기</li></ol><div class="tip"><b>주의</b>로즈마리가 유일한 색 대비라 빼지 말 것</div></div></details>
 <details class="m" data-g="디저트" data-s="얼그레이 바스크 치즈케이크 디저트"><summary><span class="nm">얼그레이 바스크 치즈케이크</span><span class="pr">7,800원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>조각</li><li>화이트 크림 작은 1스쿱</li></ul><p class="lbl">순서</p><ol class="st"><li>냉장고에서 바로 꺼낸 차가운 조각</li><li>화이트 크림 작은 1스쿱 옆에</li></ol></div></details>
+<details class="m" data-g="디저트" data-s="오레오 아이스크림 디저트"><summary><span class="nm">오레오 아이스크림</span><span class="pr">7,200원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>바닐라 빙과 5호 스쿱 1개</li><li>오레오 1개</li><li>쿠키 크럼블 30g</li><li>초코 드리즐 15g</li></ul><p class="lbl">순서</p><ol class="st"><li>잔에 바닐라 아이스크림 5호 1스쿱</li><li>오레오 반개는 통째로 위에 얹기</li><li>남은 반개는 손으로 부숴서 뿌리기</li><li>쿠키 크럼블 30g</li><li>초코 드리즐 15g 뿌려 마무리</li></ol><div class="tip"><b>주의</b>오레오 1개 중 반은 통째로, 반은 부숴서. 통째로 얹은 게 보여야 오레오 아이스크림으로 보인다</div></div></details>
 <details class="m" data-g="디저트" data-s="오레오 크로플 디저트"><summary><span class="nm">오레오 크로플</span><span class="pr">13,400원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>생지 2개</li><li>화이트 크림 150g</li><li>초코소스 10g</li><li>오레오 3개</li><li>쿠키 크럼블 30g</li></ul><p class="lbl">순서</p><ol class="st"><li>생지 2개 굽기</li><li>화이트 크림 150g</li><li>쿠키 크럼블 30g</li><li>오레오 3개</li><li>초코소스 드리즐</li></ol><div class="tip"><b>주의</b>아이스크림 안 들어감 (크로플 5종 중 오레오·누텔라만 제외)</div></div></details>
 <details class="m" data-g="디저트" data-s="오리지널 바스크 치즈케이크 디저트"><summary><span class="nm">오리지널 바스크 치즈케이크</span><span class="pr">7,500원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>조각</li><li>시나몬 가루</li></ul><p class="lbl">순서</p><ol class="st"><li>냉장고에서 바로 꺼낸 차가운 조각</li><li>시나몬 가루 뿌리기</li></ol><div class="tip"><b>주의</b>화이트 크림은 기본 제공 안 함 (추가 옵션 300원)</div></div></details>
 <details class="m" data-g="디저트" data-s="오리지널 크로플 디저트"><summary><span class="nm">오리지널 크로플</span><span class="pr">12,800원</span></summary><div class="body"><p class="lbl">재료</p><ul class="ing"><li>생지 2개</li><li>바닐라 빙과 52mm 스쿱</li><li>화이트 크림 75g</li><li>아몬드 소보루 크럼블 30g</li><li class="w">시나몬 0.5g ⚠️</li></ul><p class="lbl">순서</p><ol class="st"><li>생지 2개 굽기</li><li>화이트 크림 75g</li><li>크럼블 30g</li><li>시나몬 가루</li><li>아이스크림 52mm 1스쿱</li></ol><div class="tip"><b>주의</b>시럽 없음. 원하시면 저당 메이플 시럽 추가 700원 옵션</div></div></details>
@@ -193,7 +207,7 @@ footer{max-width:720px;margin:0 auto;padding:26px 16px 10px;color:var(--dim);fon
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-19 10:28
+  갱신 2026-09-19 13:39
 </footer>
 
 <script>
@@ -209,10 +223,15 @@ footer{max-width:720px;margin:0 auto;padding:26px 16px 10px;color:var(--dim);fon
   pin.addEventListener('keydown',function(e){ if(e.key==='Enter') chk(); });
   pin.addEventListener('input',function(){ bad.textContent=""; if(pin.value.length===4) chk(); });
 
+  /* 사진 파일이 없으면 그 자리를 조용히 없앤다 */
+  [].forEach.call(document.querySelectorAll('img.th,img.big'),function(im){
+    im.addEventListener('error',function(){ im.remove(); });
+  });
+
   var cards=[].slice.call(document.querySelectorAll('details.m')),
       grps=[].slice.call(document.querySelectorAll('h2.grp')),
       q=document.getElementById('q'), empty=document.getElementById('empty'),
-      chips=document.getElementById('chips'), cur="전체";
+      chips=document.getElementById('chips'), allBtn=document.getElementById('all'), cur="전체";
 
   var names=["전체"]; grps.forEach(function(h){ if(names.indexOf(h.dataset.g)<0) names.push(h.dataset.g); });
   names.forEach(function(n){
@@ -225,6 +244,14 @@ footer{max-width:720px;margin:0 auto;padding:26px 16px 10px;color:var(--dim);fon
     chips.appendChild(b);
   });
 
+  var openAll=false;
+  allBtn.addEventListener('click',function(){
+    openAll=!openAll;
+    allBtn.setAttribute('aria-pressed',openAll?"true":"false");
+    allBtn.textContent=openAll?"모두 접기":"모두 펼치기";
+    cards.forEach(function(c){ if(c.style.display!=="none") c.open=openAll; });
+  });
+
   function apply(){
     var t=q.value.trim().toLowerCase(), hit=0;
     cards.forEach(function(c){
@@ -232,7 +259,7 @@ footer{max-width:720px;margin:0 auto;padding:26px 16px 10px;color:var(--dim);fon
           okQ = (!t || c.dataset.s.indexOf(t)>=0);
       var show = okG && okQ;
       c.style.display = show?"":"none";
-      if(show) hit++; else c.open=false;
+      if(show){ hit++; if(openAll) c.open=true; } else c.open=false;
     });
     grps.forEach(function(h){
       var n=h.nextElementSibling, any=false;
