@@ -86,11 +86,13 @@ footer{max-width:1180px;margin:0 auto;padding:22px 12px 10px;color:var(--dim);fo
 
 /* ---------- 탭 ---------- */
 .tabs{display:flex;gap:6px;margin-bottom:8px}
-.tabs button{flex:1 1 0;border:1px solid rgba(255,255,255,.3);background:transparent;color:#DCEAF2;
+.tabs button{flex:1 1 0;white-space:nowrap;border:1px solid rgba(255,255,255,.3);background:transparent;color:#DCEAF2;
   border-radius:10px;padding:9px 0;font-size:15px;font-weight:700;min-height:44px}
 .tabs button[aria-selected="true"]{background:#fff;color:var(--navy);border-color:#fff}
-body[data-tab="ops"] .top,body[data-tab="ops"] nav#chips,body[data-tab="ops"] main#list,body[data-tab="ops"] footer{display:none}
-body[data-tab="recipe"] #ops{display:none}
+body:not([data-tab="recipe"]) .top,body:not([data-tab="recipe"]) nav#chips,
+body:not([data-tab="recipe"]) main#list,body:not([data-tab="recipe"]) footer{display:none}
+body:not([data-tab="ops"]) #ops{display:none}
+body:not([data-tab="stock"]) #stock{display:none}
 
 /* ---------- 오픈 · 마감 ---------- */
 #ops{max-width:720px;margin:0 auto;padding:12px 12px 0}
@@ -129,6 +131,27 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
 .inv .cp{width:100%;border:0;border-radius:10px;background:var(--navy);color:#fff;font-size:16px;
   font-weight:700;padding:12px 0;min-height:48px}
 .inv .cp.ok{background:#1D6B42}
+ol.sub{margin:5px 0 0;padding:0 0 0 18px;color:var(--dim);font-size:13px;line-height:1.5}
+ol.sub li{padding:1px 0}
+label.ck.on ol.sub{opacity:.6}
+#stock{max-width:720px;margin:0 auto;padding:12px 12px 0}
+.upd{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:10px;
+  font-size:14px;color:var(--dim)}
+.upd b{color:var(--ink);font-size:15px}
+.upd.old{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn-ink)}
+.sv{display:flex;justify-content:space-between;align-items:baseline;padding:10px 12px;border-top:1px solid var(--line);font-size:15px}
+section.g h3+.sv{border-top:0}
+.sv b{font-size:16px;font-variant-numeric:tabular-nums}
+.sv b.empty{color:var(--dim);font-weight:500}
+.svnote{padding:10px 12px;border-top:1px solid var(--line);font-size:14px;color:var(--ink);white-space:pre-wrap}
+.svnote:empty{display:none}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.btns button{border:0;border-radius:10px;font-size:16px;font-weight:700;padding:12px 0;min-height:50px}
+.btns .pri{background:var(--navy);color:#fff}
+.btns .sec{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btns .ok{background:#1D6B42;color:#fff}
+.btns [hidden]{display:none}
+.here{font-size:12px;color:var(--dim);margin:10px 2px 0;line-height:1.5}
 
 @media (prefers-color-scheme:dark){
  :root:not([data-theme="light"]){
@@ -155,6 +178,7 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-tab="recipe">레시피</button>
     <button type="button" role="tab" data-tab="ops">오픈 · 마감</button>
+    <button type="button" role="tab" data-tab="stock">잔여 수량</button>
   </div>
   <div class="top">
     <b>레시피</b>
@@ -258,53 +282,39 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
 <label class="ck"><input type="checkbox" data-id="close:블라인드 내리기"><div><b>블라인드 내리기</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:전등 켜기"><div><b>전등 켜기</b></div></label>
 </section>
-<section class="g"><h3>2. 바닥 청소 (로봇 먼저 돌려두기) <span>0/3</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:미니 휴지통 꽉 찼으면 갈기"><div><b>미니 휴지통 꽉 찼으면 갈기</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기"><div><b>로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기</b><small>구석·테이블 다리 사이·창가 턱 → 먼지를 로봇이 가는 쪽으로 모으기</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:로봇청소기 걸레 부착 + 물 채우고 전원 버튼"><div><b>로봇청소기 걸레 부착 + 물 채우고 전원 버튼</b><small>자동으로 2회 청소 — 도는 동안 다음 일 하기</small></div></label>
-</section>
-<section class="g"><h3>3. 커피 머신 청소 <span>0/6</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:포터필터 바스켓을 청소용으로 교체"><div><b>포터필터 바스켓을 청소용으로 교체</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:머신에서 클리닝 모드 선택"><div><b>머신에서 클리닝 모드 선택</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:포터필터에 클리너 분말 넣고 머신에 결합"><div><b>포터필터에 클리너 분말 넣고 머신에 결합</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:브러시로 가스켓 닦기"><div><b>브러시로 가스켓 닦기</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:세척 끝나면 Home 모드로 복구"><div><b>세척 끝나면 Home 모드로 복구</b></div></label>
+<section class="g"><h3>2. 커피 머신 청소 <span>0/2</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:가스켓 청소"><div><b>가스켓 청소</b><ol class="sub"><li>포터필터 바스켓을 청소용으로 교체</li><li>머신에서 클리닝 모드 선택</li><li>포터필터에 클리너 분말 넣고 머신에 결합</li><li>브러시로 가스켓 닦기</li><li>세척 끝나면 Home 모드로 복구</li></ol></div></label>
 <label class="ck"><input type="checkbox" data-id="close:머신 바닥 트레이 빼서 설거지"><div><b>머신 바닥 트레이 빼서 설거지</b></div></label>
 </section>
-<section class="g"><h3>4. 설거지 <span>0/2</span></h3>
+<section class="g"><h3>3. 설거지 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기"><div><b>음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기</b><small>포터필터 · 에스프레소 계량컵 · 스쿱 · 머들러 · 스텐 통 · 물 주전자 등</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:유리컵 · 식기 물기 자국 없게 닦기"><div><b>유리컵 · 식기 물기 자국 없게 닦기</b><small>마른 행주로 — 자국 남으면 손님 눈에 제일 먼저 보인다</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:유리컵 · 식기 물기 자국 없게 닦기"><div><b>유리컵 · 식기 물기 자국 없게 닦기</b><small>마른 행주로</small></div></label>
 </section>
-<section class="g"><h3>5. 바 채우기 <span>0/5</span></h3>
+<section class="g"><h3>4. 바 채우기 <span>0/6</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:빈 재료 채워넣기"><div><b>빈 재료 채워넣기</b><small>시럽 · 소스통 · 컵 · 뚜껑</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:시럽 · 소스통 입구 잘 닦기"><div><b>시럽 · 소스통 입구 잘 닦기</b><small>입구에 굳은 게 남으면 다음 날 펌프가 막힌다</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:빨대 · 냅킨 확인"><div><b>빨대 · 냅킨 확인</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:로즈마리 다듬어 채우기"><div><b>로즈마리 다듬어 채우기</b><small>마른 키친타월에 · 곰팡이 하나라도 보이면 그 통 전체 버리기</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:레몬 슬라이스 채우기"><div><b>레몬 슬라이스 채우기</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:갈색 설탕 · 흰 설탕 · 크럼블 셋팅"><div><b>갈색 설탕 · 흰 설탕 · 크럼블 셋팅</b><small>비어 있으면 채우고, 크럼블 덩어리 크면 쪼개기</small></div></label>
 </section>
-<section class="g"><h3>6. 크림 · 냉장 · 냉동 <span>0/3</span></h3>
+<section class="g"><h3>5. 크림 · 아이스크림 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:시그니처 크림 · 화이트 크림 없으면 만들기"><div><b>시그니처 크림 · 화이트 크림 없으면 만들기</b><small>배합은 레시피 탭 → 프렙 · 보관</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:아이스크림 미리 셋팅해놓기"><div><b>아이스크림 미리 셋팅해놓기</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:버터 냉장고 넣기"><div><b>버터 냉장고 넣기</b></div></label>
 </section>
-<section class="g"><h3>7. 잔여 수량 카톡 보내기 <span>0/1</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:아래 칸에 숫자 넣고 [복사] → 카톡 010-8406-8985"><div><b>아래 칸에 숫자 넣고 [복사] → 카톡 010-8406-8985</b></div></label>
-<div class="inv" id="inv">
-<div class="row"><span>오리지널 바치케</span><input type="number" inputmode="numeric" min="0" data-n="오리지널 바치케" data-u="피스" placeholder="-"><em>피스</em></div>
-<div class="row"><span>흑임자 바치케</span><input type="number" inputmode="numeric" min="0" data-n="흑임자 바치케" data-u="피스" placeholder="-"><em>피스</em></div>
-<div class="row"><span>얼그레이 바치케</span><input type="number" inputmode="numeric" min="0" data-n="얼그레이 바치케" data-u="피스" placeholder="-"><em>피스</em></div>
-<div class="row"><span>브라우니</span><input type="number" inputmode="numeric" min="0" data-n="브라우니" data-u="피스" placeholder="-"><em>피스</em></div>
-<div class="row"><span>크로플 생지</span><input type="number" inputmode="numeric" min="0" data-n="크로플 생지" data-u="세트" placeholder="-"><em>세트</em></div>
-<div class="row"><span>수박주스 실온</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 실온" data-u="개" placeholder="-"><em>개</em></div>
-<div class="row"><span>수박주스 냉동</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 냉동" data-u="개" placeholder="-"><em>개</em></div>
-<textarea id="note" placeholder="특이사항 — 다 떨어져 가는 재료, 고장, 손님 메모 등"></textarea><pre id="pv"></pre><button type="button" class="cp" id="cp">카톡용으로 복사</button></div>
+<section class="g"><h3>6. 바닥 · 로봇청소기 <span>0/3</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:미니 휴지통 꽉 찼으면 갈기"><div><b>미니 휴지통 꽉 찼으면 갈기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기"><div><b>로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기</b><small>구석 · 테이블 다리 사이 · 창가 턱 — 먼지는 로봇이 가는 쪽으로 모으기</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로봇청소기 정비 (아침 7시 예약 청소용)"><div><b>로봇청소기 정비 (아침 7시 예약 청소용)</b><ol class="sub"><li>정수통 채우기 — 세척용액 한 컵 + 물</li><li>오수통 비우기</li><li>걸레 · 걸레 패드 더러우면 닦기</li></ol></div></label>
+</section>
+<section class="g"><h3>7. 잔여 수량 <span>0/1</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:재료 잔여 수량 탭에서 [수정하기] → 저장 → 카톡 보내기"><div><b>재료 잔여 수량 탭에서 [수정하기] → 저장 → 카톡 보내기</b><small>카톡 010-8406-8985</small></div></label>
 </section>
 <section class="g"><h3>8. 전원 · 충전 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:식기세척기 · 커피 머신 2개 · 크로플 기계 스위치 OFF"><div><b>식기세척기 · 커피 머신 2개 · 크로플 기계 스위치 OFF</b><small>식기세척기는 세척 끝난 뒤에</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:스탠드 전등 · 저울 충전선 연결"><div><b>스탠드 전등 · 저울 충전선 연결</b><small>안내받은 전용 충전선으로</small></div></label>
 </section>
-<section class="g"><h3>9. 마무리 · 문 닫기 <span>0/4</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:로봇청소기 걸레 떼어 세제로 빨고 말리기"><div><b>로봇청소기 걸레 떼어 세제로 빨고 말리기</b></div></label>
+<section class="g"><h3>9. 문 닫기 <span>0/3</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:Closed 간판"><div><b>Closed 간판</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:중문이 열린 채 고정돼 있으면 닫기"><div><b>중문이 열린 채 고정돼 있으면 닫기</b><small>Push 버튼 하단 스위치 조정</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:CAPS 카드 키 대고 문 닫기"><div><b>CAPS 카드 키 대고 문 닫기</b></div></label>
@@ -338,10 +348,33 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
 </div>
 </div>
 
+<div id="stock">
+  <div class="upd" id="upd">아직 기록 없음</div>
+  <section class="g" id="stView">
+    <h3>재료 잔여 수량</h3>
+    <div class="sv"><span>오리지널 바치케</span><b data-v="오리지널 바치케">-</b></div><div class="sv"><span>흑임자 바치케</span><b data-v="흑임자 바치케">-</b></div><div class="sv"><span>얼그레이 바치케</span><b data-v="얼그레이 바치케">-</b></div><div class="sv"><span>브라우니</span><b data-v="브라우니">-</b></div><div class="sv"><span>크로플 생지</span><b data-v="크로플 생지">-</b></div><div class="sv"><span>수박주스 실온</span><b data-v="수박주스 실온">-</b></div><div class="sv"><span>수박주스 냉동</span><b data-v="수박주스 냉동">-</b></div>
+    <div class="svnote" id="svNote"></div>
+  </section>
+  <section class="g" id="stEdit" hidden>
+    <h3>수정 중</h3>
+    <div class="inv">
+      <div class="row"><span>오리지널 바치케</span><input type="number" inputmode="numeric" min="0" data-n="오리지널 바치케" data-u="피스" placeholder="-"><em>피스</em></div><div class="row"><span>흑임자 바치케</span><input type="number" inputmode="numeric" min="0" data-n="흑임자 바치케" data-u="피스" placeholder="-"><em>피스</em></div><div class="row"><span>얼그레이 바치케</span><input type="number" inputmode="numeric" min="0" data-n="얼그레이 바치케" data-u="피스" placeholder="-"><em>피스</em></div><div class="row"><span>브라우니</span><input type="number" inputmode="numeric" min="0" data-n="브라우니" data-u="피스" placeholder="-"><em>피스</em></div><div class="row"><span>크로플 생지</span><input type="number" inputmode="numeric" min="0" data-n="크로플 생지" data-u="세트" placeholder="-"><em>세트</em></div><div class="row"><span>수박주스 실온</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 실온" data-u="개" placeholder="-"><em>개</em></div><div class="row"><span>수박주스 냉동</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 냉동" data-u="개" placeholder="-"><em>개</em></div>
+      <textarea id="note" placeholder="특이사항 — 다 떨어져 가는 재료, 고장, 손님 메모 등"></textarea>
+    </div>
+  </section>
+  <div class="btns">
+    <button type="button" class="pri" id="edit">수정하기</button>
+    <button type="button" class="sec" id="cp">카톡용으로 복사</button>
+    <button type="button" class="pri" id="save" hidden>저장</button>
+    <button type="button" class="sec" id="cancel" hidden>취소</button>
+  </div>
+  <p class="here">이 기기(폰·아이패드)에 저장됩니다. 저장 후 [카톡용으로 복사] → 사장님께 카톡 010-8406-8985</p>
+</div>
+
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-21 13:59
+  갱신 2026-09-21 14:10
 </footer>
 
 <script>
@@ -460,45 +493,71 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
   var sm='close'; try{sm=localStorage.getItem('wl-mode')||'close'}catch(e){}
   setMode(sm);
 
-  /* ---------- 잔여 수량 → 카톡용 복사 ---------- */
-  var inv=document.getElementById('inv');
-  if(inv){
-    var IK='wl-inv-'+day, ins=[].slice.call(inv.querySelectorAll('input[data-n]')),
-        note=document.getElementById('note'), pv=document.getElementById('pv'), cp=document.getElementById('cp');
-    var sv={}; try{sv=JSON.parse(localStorage.getItem(IK)||'{}')}catch(e){}
-    ins.forEach(function(x){if(sv[x.dataset.n]!=null) x.value=sv[x.dataset.n]});
-    if(sv._note) note.value=sv._note;
-    function text(){
-      var L=['['+day+'] 잔여 수량'], wm={};
-      ins.forEach(function(x){
-        var v=x.value.trim(); if(v==='') return;
-        var n=x.dataset.n;
-        if(n.indexOf('수박주스')===0){ wm[n.replace('수박주스 ','')]=v+x.dataset.u; return; }
-        L.push('• '+n+' '+v+x.dataset.u);
-      });
-      if(wm['실온']||wm['냉동']) L.push('• 수박주스 실온 '+(wm['실온']||'0개')+' / 냉동 '+(wm['냉동']||'0개'));
-      if(note.value.trim()) L.push('• 특이사항: '+note.value.trim());
-      return L.join('\n');
-    }
-    function refresh(){
-      var o={}; ins.forEach(function(x){o[x.dataset.n]=x.value}); o._note=note.value;
-      try{localStorage.setItem(IK,JSON.stringify(o))}catch(e){}
-      pv.textContent=text(); cp.classList.remove('ok'); cp.textContent='카톡용으로 복사';
-    }
-    inv.addEventListener('input',refresh); refresh();
-    function copied(){cp.classList.add('ok'); cp.textContent='복사됨 — 카톡에 붙여넣기';}
-    function fallback(t){
-      var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
-      document.body.appendChild(ta); ta.select();
-      try{document.execCommand('copy'); copied();}catch(e){alert(t);}
-      ta.remove();
-    }
-    cp.addEventListener('click',function(){
-      var t=text();
-      if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(copied,function(){fallback(t)});
-      else fallback(t);
+  /* ---------- 재료 잔여 수량 (보기 / 수정하기) ---------- */
+  var SK='wl-stock', S={};
+  try{S=JSON.parse(localStorage.getItem(SK)||'{}')}catch(e){}
+  S.v=S.v||{};
+  var ins=[].slice.call(document.querySelectorAll('#stEdit input[data-n]')),
+      note=document.getElementById('note'), upd=document.getElementById('upd'),
+      stView=document.getElementById('stView'), stEdit=document.getElementById('stEdit'),
+      bEdit=document.getElementById('edit'), bSave=document.getElementById('save'),
+      bCancel=document.getElementById('cancel'), bCp=document.getElementById('cp');
+  var unit={}; ins.forEach(function(x){unit[x.dataset.n]=x.dataset.u});
+  function two(n){return ('0'+n).slice(-2)}
+  function fmt(ms){var d=new Date(ms), W='일월화수목금토'; return (d.getMonth()+1)+'월 '+d.getDate()+'일 ('+W[d.getDay()]+') '+two(d.getHours())+':'+two(d.getMinutes());}
+  function ago(ms){var m=Math.round((Date.now()-ms)/60000); if(m<1)return'방금'; if(m<60)return m+'분 전'; var h=Math.round(m/60); if(h<24)return h+'시간 전'; return Math.round(h/24)+'일 전';}
+  function ymd(ms){var d=new Date(ms); if(d.getHours()<5) d.setDate(d.getDate()-1); return String(d.getFullYear()).slice(2)+two(d.getMonth()+1)+two(d.getDate());}
+  function render(){
+    if(S.at){
+      upd.innerHTML='최근 업데이트 <b>'+fmt(S.at)+'</b> · '+ago(S.at);
+      upd.classList.toggle('old', Date.now()-S.at > 30*3600*1000);   // 하루 넘게 안 고쳤으면 주황
+    } else { upd.textContent='아직 기록 없음 — [수정하기]로 처음 입력해 주세요'; upd.classList.remove('old'); }
+    [].forEach.call(document.querySelectorAll('.sv b[data-v]'),function(b){
+      var v=S.v[b.dataset.v]; var has=(v!=null&&v!=='');
+      b.textContent=has? v+unit[b.dataset.v] : '-'; b.classList.toggle('empty',!has);
     });
+    document.getElementById('svNote').textContent=S.note?('특이사항: '+S.note):'';
   }
+  function editing(on){
+    stView.hidden=on; stEdit.hidden=!on;
+    bEdit.hidden=on; bCp.hidden=on; bSave.hidden=!on; bCancel.hidden=!on;
+    if(on){ ins.forEach(function(x){x.value=(S.v[x.dataset.n]!=null)?S.v[x.dataset.n]:''}); note.value=S.note||''; }
+    window.scrollTo(0,0);
+  }
+  bEdit.addEventListener('click',function(){editing(true)});
+  bCancel.addEventListener('click',function(){editing(false)});
+  bSave.addEventListener('click',function(){
+    var v={}; ins.forEach(function(x){ if(x.value.trim()!=='') v[x.dataset.n]=x.value.trim(); });
+    S={v:v, note:note.value.trim(), at:Date.now()};
+    try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}
+    editing(false); render();
+    bCp.classList.remove('ok'); bCp.textContent='카톡용으로 복사';
+  });
+  function text(){
+    var L=['['+(S.at?ymd(S.at):ymd(Date.now()))+'] 잔여 수량'], wm={};
+    ins.forEach(function(x){
+      var n=x.dataset.n, v=S.v[n]; if(v==null||v==='') return;
+      if(n.indexOf('수박주스')===0){ wm[n.replace('수박주스 ','')]=v+x.dataset.u; return; }
+      L.push('• '+n+' '+v+x.dataset.u);
+    });
+    if(wm['실온']||wm['냉동']) L.push('• 수박주스 실온 '+(wm['실온']||'0개')+' / 냉동 '+(wm['냉동']||'0개'));
+    if(S.note) L.push('• 특이사항: '+S.note);
+    return L.join('\n');
+  }
+  function copied(){bCp.classList.remove('sec'); bCp.classList.add('ok'); bCp.textContent='복사됨 — 카톡에 붙여넣기';}
+  function fallback(t){
+    var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy'); copied();}catch(e){alert(t);}
+    ta.remove();
+  }
+  bCp.addEventListener('click',function(){
+    if(!S.at){ alert('먼저 [수정하기]로 수량을 입력해 주세요'); return; }
+    var t=text();
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(copied,function(){fallback(t)});
+    else fallback(t);
+  });
+  render();
 })();
 </script>
 </body>
