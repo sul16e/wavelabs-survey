@@ -153,6 +153,13 @@ section.g h3+.sv{border-top:0}
 .btns .ok{background:#1D6B42;color:#fff}
 .btns [hidden]{display:none}
 .btns #edit{grid-column:1/-1}
+h4.sg{margin:0;padding:8px 12px 4px;font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.05em;border-top:1px solid var(--line)}
+section.g h3+h4.sg,.inv h4.sg:first-child{border-top:0}
+.inv h4.sg{padding-left:0;padding-right:0;margin-top:6px}
+.inv .stp{flex:0 0 40px;height:40px;border:1px solid var(--line);background:var(--card);color:var(--navy);
+  border-radius:9px;font-size:22px;font-weight:700;line-height:1;padding:0}
+.inv .stp:active{background:var(--line)}
+.inv .row input{width:58px}
 .here{font-size:12px;color:var(--dim);margin:10px 2px 0;line-height:1.5}
 
 @media (prefers-color-scheme:dark){
@@ -355,13 +362,13 @@ section.g h3+.sv{border-top:0}
   <div class="upd" id="upd">아직 기록 없음</div>
   <section class="g" id="stView">
     <h3>재료 잔여 수량</h3>
-    <div class="sv"><span>오리지널 바치케</span><b data-v="오리지널 바치케">-</b></div><div class="sv"><span>흑임자 바치케</span><b data-v="흑임자 바치케">-</b></div><div class="sv"><span>얼그레이 바치케</span><b data-v="얼그레이 바치케">-</b></div><div class="sv"><span>브라우니</span><b data-v="브라우니">-</b></div><div class="sv"><span>크로플 생지</span><b data-v="크로플 생지">-</b></div><div class="sv"><span>수박주스 실온</span><b data-v="수박주스 실온">-</b></div><div class="sv"><span>수박주스 냉동</span><b data-v="수박주스 냉동">-</b></div>
+    <h4 class="sg">디저트</h4><div class="sv"><span>오리지널 바치케</span><b data-v="오리지널 바치케">-</b></div><div class="sv"><span>흑임자 바치케</span><b data-v="흑임자 바치케">-</b></div><div class="sv"><span>얼그레이 바치케</span><b data-v="얼그레이 바치케">-</b></div><div class="sv"><span>브라우니</span><b data-v="브라우니">-</b></div><div class="sv"><span>크로플 생지 (냉장)</span><b data-v="크로플 생지 (냉장)">-</b></div><div class="sv"><span>크로플 생지 (냉동)</span><b data-v="크로플 생지 (냉동)">-</b></div><h4 class="sg">음료</h4><div class="sv"><span>수박주스 (실온)</span><b data-v="수박주스 (실온)">-</b></div><div class="sv"><span>수박주스 (냉동)</span><b data-v="수박주스 (냉동)">-</b></div><div class="sv"><span>오렌지 주스</span><b data-v="오렌지 주스">-</b></div><div class="sv"><span>우유</span><b data-v="우유">-</b></div><div class="sv"><span>오트밀크</span><b data-v="오트밀크">-</b></div><div class="sv"><span>탄산수</span><b data-v="탄산수">-</b></div><h4 class="sg">신선</h4><div class="sv"><span>바나나</span><b data-v="바나나">-</b></div><div class="sv"><span>토마토</span><b data-v="토마토">-</b></div><div class="sv"><span>계란</span><b data-v="계란">-</b></div>
     <div class="svnote" id="svNote"></div>
   </section>
   <section class="g" id="stEdit" hidden>
     <h3>수정 중</h3>
     <div class="inv">
-      <div class="row"><span>오리지널 바치케</span><input type="number" inputmode="numeric" min="0" data-n="오리지널 바치케" data-u="피스" placeholder="-"><em>피스</em></div><div class="row"><span>흑임자 바치케</span><input type="number" inputmode="numeric" min="0" data-n="흑임자 바치케" data-u="피스" placeholder="-"><em>피스</em></div><div class="row"><span>얼그레이 바치케</span><input type="number" inputmode="numeric" min="0" data-n="얼그레이 바치케" data-u="피스" placeholder="-"><em>피스</em></div><div class="row"><span>브라우니</span><input type="number" inputmode="numeric" min="0" data-n="브라우니" data-u="피스" placeholder="-"><em>피스</em></div><div class="row"><span>크로플 생지</span><input type="number" inputmode="numeric" min="0" data-n="크로플 생지" data-u="세트" placeholder="-"><em>세트</em></div><div class="row"><span>수박주스 실온</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 실온" data-u="개" placeholder="-"><em>개</em></div><div class="row"><span>수박주스 냉동</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 냉동" data-u="개" placeholder="-"><em>개</em></div>
+      <h4 class="sg">디저트</h4><div class="row"><span>오리지널 바치케</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="오리지널 바치케" data-u="피스" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>피스</em></div><div class="row"><span>흑임자 바치케</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="흑임자 바치케" data-u="피스" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>피스</em></div><div class="row"><span>얼그레이 바치케</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="얼그레이 바치케" data-u="피스" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>피스</em></div><div class="row"><span>브라우니</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="브라우니" data-u="피스" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>피스</em></div><div class="row"><span>크로플 생지 (냉장)</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="크로플 생지 (냉장)" data-u="세트" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>세트</em></div><div class="row"><span>크로플 생지 (냉동)</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="크로플 생지 (냉동)" data-u="세트" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>세트</em></div><h4 class="sg">음료</h4><div class="row"><span>수박주스 (실온)</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="수박주스 (실온)" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>수박주스 (냉동)</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="수박주스 (냉동)" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>오렌지 주스</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="오렌지 주스" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>우유</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="우유" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>오트밀크</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="오트밀크" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>탄산수</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="탄산수" data-u="병" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>병</em></div><h4 class="sg">신선</h4><div class="row"><span>바나나</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="바나나" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>토마토</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="토마토" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>계란</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="계란" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div>
       <textarea id="note" placeholder="특이사항 — 다 떨어져 가는 재료, 고장, 손님 메모 등"></textarea>
     </div>
   </section>
@@ -376,7 +383,7 @@ section.g h3+.sv{border-top:0}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-21 15:15
+  갱신 2026-09-21 15:18
 </footer>
 
 <script>
@@ -526,6 +533,12 @@ section.g h3+.sv{border-top:0}
     if(on){ ins.forEach(function(x){x.value=(S.v[x.dataset.n]!=null)?S.v[x.dataset.n]:''}); note.value=S.note||''; }
     window.scrollTo(0,0);
   }
+  stEdit.addEventListener('click',function(e){
+    var b=e.target.closest('.stp'); if(!b) return;
+    var x=b.parentNode.querySelector('input'), v=parseInt(x.value,10);
+    if(isNaN(v)) v=0;
+    x.value=String(Math.max(0, v + (+b.dataset.d)));
+  });
   bEdit.addEventListener('click',function(){editing(true)});
   bCancel.addEventListener('click',function(){editing(false)});
   bSave.addEventListener('click',function(){
@@ -535,16 +548,18 @@ section.g h3+.sv{border-top:0}
     editing(false); render();
   });
   function text(){
-    var L=['['+(S.at?ymd(S.at):ymd(Date.now()))+'] 잔여 수량'], wm={};
+    var L=['['+(S.at?ymd(S.at):ymd(Date.now()))+'] 잔여 수량'], seen={};
     ins.forEach(function(x){
       var n=x.dataset.n, v=S.v[n]; if(v==null||v==='') return;
-      if(n.indexOf('수박주스')===0){ wm[n.replace('수박주스 ','')]=v+x.dataset.u; return; }
+      var m=n.match(/^(.*) \((.+)\)$/);          // "크로플 생지 (냉장)" → 같은 이름끼리 한 줄로
+      if(m){ (seen[m[1]]=seen[m[1]]||[]).push(m[2]+' '+v+x.dataset.u); if(seen[m[1]].length===1) L.push({k:m[1]}); return; }
       L.push('• '+n+' '+v+x.dataset.u);
     });
-    if(wm['실온']||wm['냉동']) L.push('• 수박주스 실온 '+(wm['실온']||'0개')+' / 냉동 '+(wm['냉동']||'0개'));
+    L=L.map(function(l){return typeof l==='string'?l:'• '+l.k+' '+seen[l.k].join(' / ');});
     if(S.note) L.push('• 특이사항: '+S.note);
     return L.join('\n');
   }
+
   render();
 })();
 </script>
