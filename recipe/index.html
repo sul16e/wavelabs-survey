@@ -133,6 +133,7 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
 .inv .cp.ok{background:#1D6B42}
 ol.sub{margin:5px 0 0;padding:0 0 0 18px;color:var(--dim);font-size:13px;line-height:1.5}
 ol.sub li{padding:1px 0}
+ol.sub li.w{list-style:none;margin-left:-18px;background:var(--warn-bg);color:var(--warn-ink);border:1px solid var(--warn-line);border-radius:7px;padding:5px 8px;margin-top:3px;margin-bottom:3px}
 label.ck.on ol.sub{opacity:.6}
 #stock{max-width:720px;margin:0 auto;padding:12px 12px 0}
 .upd{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:10px;
@@ -151,6 +152,7 @@ section.g h3+.sv{border-top:0}
 .btns .sec{background:var(--card);color:var(--ink);border:1px solid var(--line)}
 .btns .ok{background:#1D6B42;color:#fff}
 .btns [hidden]{display:none}
+.btns #edit{grid-column:1/-1}
 .here{font-size:12px;color:var(--dim);margin:10px 2px 0;line-height:1.5}
 
 @media (prefers-color-scheme:dark){
@@ -290,36 +292,35 @@ section.g h3+.sv{border-top:0}
 <label class="ck"><input type="checkbox" data-id="close:음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기"><div><b>음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기</b><small>포터필터 · 스쿱 · 머들러 · 스텐 통 · 물 주전자 등</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:유리컵 · 식기 물기 자국 없게 닦기"><div><b>유리컵 · 식기 물기 자국 없게 닦기</b><small>마른 행주로</small></div></label>
 </section>
-<section class="g"><h3>4. 바 채우기 <span>0/6</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:빈 재료 채워넣기"><div><b>빈 재료 채워넣기</b><small>시럽 · 소스통 · 컵 · 뚜껑</small></div></label>
+<section class="g"><h3>4. 바 채우기 <span>0/5</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:빈 재료 채워넣기"><div><b>빈 재료 채워넣기</b><small>시럽 · 소스통 · 컵 · 뚜껑 · 갈색 설탕 · 흰 설탕 · 크럼블 — 크럼블 덩어리 크면 쪼개기</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:시럽 · 소스통 입구 잘 닦기"><div><b>시럽 · 소스통 입구 잘 닦기</b><small>입구에 굳은 게 남으면 다음 날 펌프가 막힌다</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:빨대 · 냅킨 확인"><div><b>빨대 · 냅킨 확인</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:로즈마리 다듬어 채우기"><div><b>로즈마리 다듬어 채우기</b><small>마른 키친타월에 · 곰팡이 하나라도 보이면 그 통 전체 버리기</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:레몬 슬라이스 채우기"><div><b>레몬 슬라이스 채우기</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:갈색 설탕 · 흰 설탕 · 크럼블 셋팅"><div><b>갈색 설탕 · 흰 설탕 · 크럼블 셋팅</b><small>비어 있으면 채우고, 크럼블 덩어리 크면 쪼개기</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로즈마리 다듬어 채우기 (최소 5줄기)"><div><b>로즈마리 다듬어 채우기 (최소 5줄기)</b><small>마른 키친타월에 · 곰팡이 하나라도 보이면 그 통 전체 버리기</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:레몬 슬라이스 채우기 (최소 5장)"><div><b>레몬 슬라이스 채우기 (최소 5장)</b></div></label>
 </section>
 <section class="g"><h3>5. 냉장 · 냉동 <span>0/3</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:시그니처 크림 · 화이트 크림 없으면 만들기"><div><b>시그니처 크림 · 화이트 크림 없으면 만들기</b><small>배합은 레시피 탭 → 프렙 · 보관</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:아이스크림 미리 셋팅해놓기"><div><b>아이스크림 미리 셋팅해놓기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:아이스크림 미리 떠두기"><div><b>아이스크림 미리 떠두기</b><small>52mm 스쿱으로 동그랗게 떠서 냉동실에 — 주문 들어오면 바로 올리기</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:냉장고로 옮기기"><div><b>냉장고로 옮기기</b><ol class="sub"><li>바닐라빈 시럽</li><li>연유</li><li>흑임자 페이스트 (음료용)</li></ol></div></label>
 </section>
 <section class="g"><h3>6. 청소 · 로봇청소기 <span>0/4</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:블라인드 · 벽에 음료 튄 거 닦기"><div><b>블라인드 · 벽에 음료 튄 거 닦기</b><small>위에서 아래로 — 벽 먼저, 바닥은 나중에</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:미니 휴지통 꽉 찼으면 갈기"><div><b>미니 휴지통 꽉 찼으면 갈기</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기"><div><b>로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기</b><small>구석 · 테이블 다리 사이 · 창가 턱 — 먼지는 로봇이 가는 쪽으로 모으기</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:로봇청소기 정비 (아침 7시 예약 청소용)"><div><b>로봇청소기 정비 (아침 7시 예약 청소용)</b><ol class="sub"><li>정수통 채우기 — 세척용액 한 컵 + 물</li><li>오수통 비우기</li><li>걸레 · 걸레 패드 더러우면 닦기</li></ol></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로봇청소기 정비 (아침 7시 예약 청소용)"><div><b>로봇청소기 정비 (아침 7시 예약 청소용)</b><ol class="sub"><li>정수통 채우기 — 세척용액 한 컵 + 물</li><li class="w">⚠️ 정수통 넣을 때 본체 안 고무 마개가 빠지지 않았는지 확인 — 빠지면 본체 입구가 안 닫힌다</li><li>오수통 비우기</li><li>걸레 · 걸레 패드 더러우면 닦기</li></ol></div></label>
 </section>
 <section class="g"><h3>7. 잔여 수량 <span>0/1</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:재료 잔여 수량 탭에서 [수정하기] → 저장 → 카톡 보내기"><div><b>재료 잔여 수량 탭에서 [수정하기] → 저장 → 카톡 보내기</b><small>카톡 010-8406-8985</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:잔여 수량 탭에서 [수정하기] → 저장"><div><b>잔여 수량 탭에서 [수정하기] → 저장</b></div></label>
 </section>
 <section class="g"><h3>8. 전원 · 충전 <span>0/2</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:전원 OFF"><div><b>전원 OFF</b><ol class="sub"><li>에어컨 3개</li><li>선풍기 2개 (켜져 있으면)</li><li>커피 머신 2개</li><li>식기세척기 (세척 끝난 뒤에)</li><li>크로플 기계</li></ol></div></label>
-<label class="ck"><input type="checkbox" data-id="close:스탠드 전등 · 저울 충전선 연결"><div><b>스탠드 전등 · 저울 충전선 연결</b><small>안내받은 전용 충전선으로</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:전원 끄기"><div><b>전원 끄기</b><ol class="sub"><li>에어컨 3개 OFF</li><li>선풍기 2개 OFF (켜져 있으면)</li><li>일반 커피 머신 OFF</li><li>디카페인 커피 머신 OFF</li><li>식기세척기 OFF — 버튼 2번 눌러야 꺼짐 (세척 끝난 뒤에)</li><li>크로플 기계 OFF</li><li>스피커 OFF — 재생/일시정지 버튼 한 번만</li></ol></div></label>
+<label class="ck"><input type="checkbox" data-id="close:스탠드 전등 OFF 한 뒤 충전선 연결 · 저울 충전선 연결"><div><b>스탠드 전등 OFF 한 뒤 충전선 연결 · 저울 충전선 연결</b><small>잘못 부딪혀 켜지지 않게 꺼진 상태로 충전 · 안내받은 전용 충전선으로</small></div></label>
 </section>
 <section class="g"><h3>9. 문 닫기 <span>0/3</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:여닫이 문 열림 고정 상태 확인"><div><b>여닫이 문 열림 고정 상태 확인</b><small>여닫이 문은 항상 열린 채로 고정돼 있어야 한다</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:밖에 나가 비밀번호 눌러 문 닫기"><div><b>밖에 나가 비밀번호 눌러 문 닫기</b><small>비밀번호를 누르면 알아서 닫힌다</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:Closed 간판"><div><b>Closed 간판</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:중문이 열린 채 고정돼 있으면 닫기"><div><b>중문이 열린 채 고정돼 있으면 닫기</b><small>Push 버튼 하단 스위치 조정</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:CAPS 카드 키 대고 문 닫기"><div><b>CAPS 카드 키 대고 문 닫기</b></div></label>
 </section>
 </div>
 <div class="ckl" data-mode="open">
@@ -366,17 +367,16 @@ section.g h3+.sv{border-top:0}
   </section>
   <div class="btns">
     <button type="button" class="pri" id="edit">수정하기</button>
-    <button type="button" class="sec" id="cp">카톡용으로 복사</button>
     <button type="button" class="pri" id="save" hidden>저장</button>
     <button type="button" class="sec" id="cancel" hidden>취소</button>
   </div>
-  <p class="here">이 기기(폰·아이패드)에 저장됩니다. 저장 후 [카톡용으로 복사] → 사장님께 카톡 010-8406-8985</p>
+  <p class="here">이 기기(폰·아이패드)에 저장됩니다.</p>
 </div>
 
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-21 15:10
+  갱신 2026-09-21 15:15
 </footer>
 
 <script>
@@ -503,7 +503,7 @@ section.g h3+.sv{border-top:0}
       note=document.getElementById('note'), upd=document.getElementById('upd'),
       stView=document.getElementById('stView'), stEdit=document.getElementById('stEdit'),
       bEdit=document.getElementById('edit'), bSave=document.getElementById('save'),
-      bCancel=document.getElementById('cancel'), bCp=document.getElementById('cp');
+      bCancel=document.getElementById('cancel');
   var unit={}; ins.forEach(function(x){unit[x.dataset.n]=x.dataset.u});
   function two(n){return ('0'+n).slice(-2)}
   function fmt(ms){var d=new Date(ms), W='일월화수목금토'; return (d.getMonth()+1)+'월 '+d.getDate()+'일 ('+W[d.getDay()]+') '+two(d.getHours())+':'+two(d.getMinutes());}
@@ -522,7 +522,7 @@ section.g h3+.sv{border-top:0}
   }
   function editing(on){
     stView.hidden=on; stEdit.hidden=!on;
-    bEdit.hidden=on; bCp.hidden=on; bSave.hidden=!on; bCancel.hidden=!on;
+    bEdit.hidden=on; bSave.hidden=!on; bCancel.hidden=!on;
     if(on){ ins.forEach(function(x){x.value=(S.v[x.dataset.n]!=null)?S.v[x.dataset.n]:''}); note.value=S.note||''; }
     window.scrollTo(0,0);
   }
@@ -533,7 +533,6 @@ section.g h3+.sv{border-top:0}
     S={v:v, note:note.value.trim(), at:Date.now()};
     try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}
     editing(false); render();
-    bCp.classList.remove('ok'); bCp.textContent='카톡용으로 복사';
   });
   function text(){
     var L=['['+(S.at?ymd(S.at):ymd(Date.now()))+'] 잔여 수량'], wm={};
@@ -546,19 +545,6 @@ section.g h3+.sv{border-top:0}
     if(S.note) L.push('• 특이사항: '+S.note);
     return L.join('\n');
   }
-  function copied(){bCp.classList.remove('sec'); bCp.classList.add('ok'); bCp.textContent='복사됨 — 카톡에 붙여넣기';}
-  function fallback(t){
-    var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.select();
-    try{document.execCommand('copy'); copied();}catch(e){alert(t);}
-    ta.remove();
-  }
-  bCp.addEventListener('click',function(){
-    if(!S.at){ alert('먼저 [수정하기]로 수량을 입력해 주세요'); return; }
-    var t=text();
-    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(copied,function(){fallback(t)});
-    else fallback(t);
-  });
   render();
 })();
 </script>
