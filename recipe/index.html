@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0B5F84">
 <meta name="robots" content="noindex,nofollow">
-<title>WaveLabs 레시피</title>
+<title>WaveLabs 매장</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B5F84'/%3E%3Ctext x='32' y='42' font-size='28' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E37F%3C/text%3E%3C/svg%3E">
 <style>
 :root{
@@ -84,6 +84,52 @@ ol.st li:last-child{padding-bottom:0}
 #empty{display:none;text-align:center;color:var(--dim);padding:40px 0;font-size:15px}
 footer{max-width:1180px;margin:0 auto;padding:22px 12px 10px;color:var(--dim);font-size:12px;line-height:1.65}
 
+/* ---------- 탭 ---------- */
+.tabs{display:flex;gap:6px;margin-bottom:8px}
+.tabs button{flex:1 1 0;border:1px solid rgba(255,255,255,.3);background:transparent;color:#DCEAF2;
+  border-radius:10px;padding:9px 0;font-size:15px;font-weight:700;min-height:44px}
+.tabs button[aria-selected="true"]{background:#fff;color:var(--navy);border-color:#fff}
+body[data-tab="ops"] .top,body[data-tab="ops"] nav#chips,body[data-tab="ops"] main#list,body[data-tab="ops"] footer{display:none}
+body[data-tab="recipe"] #ops{display:none}
+
+/* ---------- 오픈 · 마감 ---------- */
+#ops{max-width:720px;margin:0 auto;padding:12px 12px 0}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:3px;margin-bottom:10px}
+.seg button{flex:1 1 0;border:0;background:transparent;color:var(--dim);border-radius:8px;
+  padding:9px 0;font-size:15px;font-weight:700;min-height:42px}
+.seg button[aria-selected="true"]{background:var(--navy);color:#fff}
+.prog{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);margin:0 2px 10px}
+.pbar{flex:1 1 auto;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--deep);width:0;transition:width .2s}
+.prog button{border:1px solid var(--line);background:var(--card);color:var(--dim);border-radius:8px;font-size:12px;padding:5px 9px}
+.done{display:none;background:#E6F4EC;color:#1D6B42;border:1px solid #BFE3CD;border-radius:10px;
+  padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:10px;text-align:center}
+.done.on{display:block}
+section.g{background:var(--card);border:1px solid var(--line);border-radius:11px;margin-bottom:8px;overflow:hidden}
+section.g h3{margin:0;padding:9px 12px;font-size:14px;font-weight:700;display:flex;justify-content:space-between;gap:8px;
+  background:rgba(11,95,132,.05);border-bottom:1px solid var(--line)}
+section.g h3 span{color:var(--dim);font-weight:600;font-size:12px;flex:0 0 auto}
+section.g.all h3 span{color:#1D6B42}
+label.ck{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-top:1px solid var(--line);cursor:pointer;min-height:48px}
+section.g h3+label.ck{border-top:0}
+label.ck input{flex:0 0 auto;width:22px;height:22px;margin:1px 0 0;accent-color:var(--deep)}
+label.ck b{display:block;font-weight:600;font-size:15px;line-height:1.35}
+label.ck small{display:block;color:var(--dim);font-size:12.5px;line-height:1.4;margin-top:2px}
+label.ck.on b{color:var(--dim);text-decoration:line-through}
+.inv{padding:10px 12px;border-top:1px solid var(--line)}
+.inv .row{display:flex;align-items:center;gap:8px;padding:5px 0}
+.inv .row span{flex:1 1 auto;font-size:14.5px}
+.inv .row input{width:72px;text-align:right;font-size:16px;padding:7px 9px;border:1px solid var(--line);
+  border-radius:8px;background:var(--bg);color:var(--ink)}
+.inv .row em{flex:0 0 28px;font-style:normal;color:var(--dim);font-size:13px}
+.inv textarea{width:100%;margin-top:6px;font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line);
+  border-radius:8px;background:var(--bg);color:var(--ink);min-height:60px;resize:vertical}
+.inv pre{white-space:pre-wrap;background:var(--bg);border:1px dashed var(--line);border-radius:8px;
+  padding:9px 10px;font-size:13px;line-height:1.55;font-family:inherit;margin:8px 0}
+.inv .cp{width:100%;border:0;border-radius:10px;background:var(--navy);color:#fff;font-size:16px;
+  font-weight:700;padding:12px 0;min-height:48px}
+.inv .cp.ok{background:#1D6B42}
+
 @media (prefers-color-scheme:dark){
  :root:not([data-theme="light"]){
   --bg:#0E1A22; --card:#16252F; --ink:#E8F0F5; --dim:#8FA6B4; --line:#24373F;
@@ -95,10 +141,10 @@ footer{max-width:1180px;margin:0 auto;padding:22px 12px 10px;color:var(--dim);fo
 }
 </style>
 </head>
-<body>
+<body data-tab="recipe">
 
 <div id="lock">
-  <h1>WaveLabs 레시피</h1>
+  <h1>WaveLabs 매장</h1>
   <p>매장 비밀번호를 입력해 주세요</p>
   <input id="pin" type="tel" inputmode="numeric" maxlength="4" placeholder="••••">
   <button id="go">열기</button>
@@ -106,6 +152,10 @@ footer{max-width:1180px;margin:0 auto;padding:22px 12px 10px;color:var(--dim);fo
 </div>
 
 <header>
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" data-tab="recipe">레시피</button>
+    <button type="button" role="tab" data-tab="ops">오픈 · 마감</button>
+  </div>
   <div class="top">
     <b>레시피</b>
     <input id="q" type="search" placeholder="메뉴 검색" autocomplete="off">
@@ -196,10 +246,95 @@ footer{max-width:1180px;margin:0 auto;padding:22px 12px 10px;color:var(--dim);fo
 <div id="empty">찾는 메뉴가 없어요</div>
 </main>
 
+<div id="ops">
+  <div class="seg" role="tablist">
+    <button type="button" data-mode="close">마감</button>
+    <button type="button" data-mode="open">오픈</button>
+  </div>
+  <div class="prog"><span id="pc">0 / 0</span><div class="pbar"><i id="pb"></i></div><button type="button" id="reset">처음부터</button></div>
+  <div class="done" id="done">마감 끝! 수고하셨어요 🙌</div>
+<div class="ckl" data-mode="close">
+<section class="g"><h3>1. 마감 시작 <span>0/2</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:블라인드 내리기"><div><b>블라인드 내리기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:전등 켜기"><div><b>전등 켜기</b></div></label>
+</section>
+<section class="g"><h3>2. 바닥 청소 (로봇 먼저 돌려두기) <span>0/3</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:미니 휴지통 꽉 찼으면 갈기"><div><b>미니 휴지통 꽉 찼으면 갈기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기"><div><b>로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기</b><small>구석·테이블 다리 사이·창가 턱 → 먼지를 로봇이 가는 쪽으로 모으기</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로봇청소기 걸레 부착 + 물 채우고 전원 버튼"><div><b>로봇청소기 걸레 부착 + 물 채우고 전원 버튼</b><small>자동으로 2회 청소 — 도는 동안 다음 일 하기</small></div></label>
+</section>
+<section class="g"><h3>3. 커피 머신 청소 <span>0/6</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:포터필터 바스켓을 청소용으로 교체"><div><b>포터필터 바스켓을 청소용으로 교체</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:머신에서 클리닝 모드 선택"><div><b>머신에서 클리닝 모드 선택</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:포터필터에 클리너 분말 넣고 머신에 결합"><div><b>포터필터에 클리너 분말 넣고 머신에 결합</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:브러시로 가스켓 닦기"><div><b>브러시로 가스켓 닦기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:세척 끝나면 Home 모드로 복구"><div><b>세척 끝나면 Home 모드로 복구</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:머신 바닥 트레이 빼서 설거지"><div><b>머신 바닥 트레이 빼서 설거지</b></div></label>
+</section>
+<section class="g"><h3>4. 설거지 <span>0/1</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기"><div><b>음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기</b><small>포터필터 · 에스프레소 계량컵 · 스쿱 · 머들러 · 스텐 통 · 물 주전자 등</small></div></label>
+</section>
+<section class="g"><h3>5. 내일 준비 <span>0/4</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:빈 재료 채워넣기"><div><b>빈 재료 채워넣기</b><small>시럽 · 소스통 · 컵 · 빨대 · 뚜껑</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:시그니처 크림 · 화이트 크림 없으면 만들기"><div><b>시그니처 크림 · 화이트 크림 없으면 만들기</b><small>배합은 레시피 탭 → 프렙 · 보관</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:아이스크림 미리 셋팅해놓기"><div><b>아이스크림 미리 셋팅해놓기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:버터 냉장고 넣기"><div><b>버터 냉장고 넣기</b></div></label>
+</section>
+<section class="g"><h3>6. 잔여 수량 카톡 보내기 <span>0/1</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:아래 칸에 숫자 넣고 [복사] → 카톡 010-8406-8985"><div><b>아래 칸에 숫자 넣고 [복사] → 카톡 010-8406-8985</b></div></label>
+<div class="inv" id="inv">
+<div class="row"><span>오리지널 바치케</span><input type="number" inputmode="numeric" min="0" data-n="오리지널 바치케" data-u="피스" placeholder="-"><em>피스</em></div>
+<div class="row"><span>흑임자 바치케</span><input type="number" inputmode="numeric" min="0" data-n="흑임자 바치케" data-u="피스" placeholder="-"><em>피스</em></div>
+<div class="row"><span>얼그레이 바치케</span><input type="number" inputmode="numeric" min="0" data-n="얼그레이 바치케" data-u="피스" placeholder="-"><em>피스</em></div>
+<div class="row"><span>브라우니</span><input type="number" inputmode="numeric" min="0" data-n="브라우니" data-u="피스" placeholder="-"><em>피스</em></div>
+<div class="row"><span>크로플 생지</span><input type="number" inputmode="numeric" min="0" data-n="크로플 생지" data-u="세트" placeholder="-"><em>세트</em></div>
+<div class="row"><span>수박주스 실온</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 실온" data-u="개" placeholder="-"><em>개</em></div>
+<div class="row"><span>수박주스 냉동</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 냉동" data-u="개" placeholder="-"><em>개</em></div>
+<textarea id="note" placeholder="특이사항 — 다 떨어져 가는 재료, 고장, 손님 메모 등"></textarea><pre id="pv"></pre><button type="button" class="cp" id="cp">카톡용으로 복사</button></div>
+</section>
+<section class="g"><h3>7. 전원 · 충전 <span>0/2</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:식기세척기 · 커피 머신 2개 · 크로플 기계 스위치 OFF"><div><b>식기세척기 · 커피 머신 2개 · 크로플 기계 스위치 OFF</b><small>식기세척기는 세척 끝난 뒤에</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:스탠드 전등 · 저울 충전선 연결"><div><b>스탠드 전등 · 저울 충전선 연결</b><small>안내받은 전용 충전선으로</small></div></label>
+</section>
+<section class="g"><h3>8. 마무리 · 문 닫기 <span>0/4</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:로봇청소기 걸레 떼어 세제로 빨고 말리기"><div><b>로봇청소기 걸레 떼어 세제로 빨고 말리기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:Closed 간판"><div><b>Closed 간판</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:중문이 열린 채 고정돼 있으면 닫기"><div><b>중문이 열린 채 고정돼 있으면 닫기</b><small>Push 버튼 하단 스위치 조정</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:CAPS 카드 키 대고 문 닫기"><div><b>CAPS 카드 키 대고 문 닫기</b></div></label>
+</section>
+</div>
+<div class="ckl" data-mode="open">
+<section class="g"><h3>커피 <span>0/8</span></h3>
+<label class="ck"><input type="checkbox" data-id="open:전등 ON"><div><b>전등 ON</b><small>문 밖 스위치 &amp; 문 밖 조명 &amp; 입구쪽 상단 콘센트 전원 버튼</small></div></label>
+<label class="ck"><input type="checkbox" data-id="open:커피 그라인더 스위치 ON"><div><b>커피 그라인더 스위치 ON</b><small>카페인 · 디카페인 모두</small></div></label>
+<label class="ck"><input type="checkbox" data-id="open:연유 상온 이동"><div><b>연유 상온 이동</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:SONOS 음악 켜기"><div><b>SONOS 음악 켜기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:커피 머신 셋팅 &amp; 물 흘리기"><div><b>커피 머신 셋팅 &amp; 물 흘리기</b><small>세 번째 버튼</small></div></label>
+<label class="ck"><input type="checkbox" data-id="open:행주 셋팅"><div><b>행주 셋팅</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:디저트 잔여 수량 확인"><div><b>디저트 잔여 수량 확인</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:에어컨"><div><b>에어컨</b></div></label>
+</section>
+<section class="g"><h3>주방 내부 <span>0/5</span></h3>
+<label class="ck"><input type="checkbox" data-id="open:식기 세척기 ON"><div><b>식기 세척기 ON</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:크로플 기계 ON"><div><b>크로플 기계 ON</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:버터 꺼내기"><div><b>버터 꺼내기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:행주 셋팅"><div><b>행주 셋팅</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:싱크대 거름망 확인"><div><b>싱크대 거름망 확인</b></div></label>
+</section>
+<section class="g"><h3>이외 <span>0/5</span></h3>
+<label class="ck"><input type="checkbox" data-id="open:셀프바 확인"><div><b>셀프바 확인</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:에어컨 날개 방향 확인"><div><b>에어컨 날개 방향 확인</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:음악 · 조명 ON"><div><b>음악 · 조명 ON</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:블라인드 오픈"><div><b>블라인드 오픈</b></div></label>
+<label class="ck"><input type="checkbox" data-id="open:OPEN 간판"><div><b>OPEN 간판</b></div></label>
+</section>
+</div>
+</div>
+
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-21 01:27
+  갱신 2026-09-21 13:53
 </footer>
 
 <script>
@@ -255,6 +390,108 @@ footer{max-width:1180px;margin:0 auto;padding:22px 12px 10px;color:var(--dim);fo
     empty.style.display = hit?"none":"block";
   }
   q.addEventListener('input',apply);
+
+  /* ---------- 탭 (레시피 / 오픈·마감) ---------- */
+  var tabBtns=[].slice.call(document.querySelectorAll('.tabs button'));
+  function setTab(t){
+    document.body.dataset.tab=t;
+    tabBtns.forEach(function(b){b.setAttribute('aria-selected',b.dataset.tab===t?'true':'false')});
+    try{localStorage.setItem('wl-tab',t)}catch(e){}
+    window.scrollTo(0,0);
+  }
+  tabBtns.forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.tab)})});
+  var st='recipe'; try{st=localStorage.getItem('wl-tab')||'recipe'}catch(e){}
+  setTab(st);
+
+  /* 영업일 — 새벽 5시 전은 전날로 친다 (자정 넘어 마감해도 체크가 안 날아가게) */
+  var now=new Date(); if(now.getHours()<5) now.setDate(now.getDate()-1);
+  var day=String(now.getFullYear()).slice(2)+('0'+(now.getMonth()+1)).slice(-2)+('0'+now.getDate()).slice(-2);
+
+  /* ---------- 체크리스트 ---------- */
+  var mode='close', segBtns=[].slice.call(document.querySelectorAll('.seg button'));
+  function ckKey(){return 'wl-chk-'+day+'-'+mode}
+  function ckLoad(){try{return JSON.parse(localStorage.getItem(ckKey())||'{}')}catch(e){return{}}}
+  function ckSave(o){try{localStorage.setItem(ckKey(),JSON.stringify(o))}catch(e){}}
+  function box(){return document.querySelector('.ckl[data-mode="'+mode+'"]')}
+  function upd(){
+    var b=box(); if(!b) return;
+    var all=b.querySelectorAll('input[type=checkbox]'), n=0;
+    [].forEach.call(all,function(c){if(c.checked)n++});
+    document.getElementById('pc').textContent=n+' / '+all.length;
+    document.getElementById('pb').style.width=(all.length?n/all.length*100:0)+'%';
+    [].forEach.call(b.querySelectorAll('section.g'),function(g){
+      var cs=g.querySelectorAll('input[type=checkbox]'), k=0;
+      [].forEach.call(cs,function(c){if(c.checked)k++});
+      var sp=g.querySelector('h3 span'); if(sp) sp.textContent=k+'/'+cs.length;
+      g.classList.toggle('all',!!cs.length&&k===cs.length);
+    });
+    var d=document.getElementById('done');
+    d.textContent=mode==='close'?'마감 끝! 수고하셨어요 🙌':'오픈 준비 끝!';
+    d.classList.toggle('on',!!all.length&&n===all.length);
+  }
+  function setMode(m){
+    mode=m;
+    segBtns.forEach(function(b){b.setAttribute('aria-selected',b.dataset.mode===m?'true':'false')});
+    [].forEach.call(document.querySelectorAll('.ckl'),function(el){el.style.display=el.dataset.mode===m?'':'none'});
+    var o=ckLoad();
+    [].forEach.call(box().querySelectorAll('input[type=checkbox]'),function(c){
+      c.checked=!!o[c.dataset.id]; c.closest('label').classList.toggle('on',c.checked);
+    });
+    upd();
+    try{localStorage.setItem('wl-mode',m)}catch(e){}
+  }
+  document.getElementById('ops').addEventListener('change',function(e){
+    var c=e.target; if(c.type!=='checkbox') return;
+    var o=ckLoad(); o[c.dataset.id]=c.checked; ckSave(o);
+    c.closest('label').classList.toggle('on',c.checked); upd();
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    if(!confirm('체크를 모두 지울까요?')) return;
+    ckSave({}); setMode(mode);
+  });
+  segBtns.forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.mode)})});
+  var sm='close'; try{sm=localStorage.getItem('wl-mode')||'close'}catch(e){}
+  setMode(sm);
+
+  /* ---------- 잔여 수량 → 카톡용 복사 ---------- */
+  var inv=document.getElementById('inv');
+  if(inv){
+    var IK='wl-inv-'+day, ins=[].slice.call(inv.querySelectorAll('input[data-n]')),
+        note=document.getElementById('note'), pv=document.getElementById('pv'), cp=document.getElementById('cp');
+    var sv={}; try{sv=JSON.parse(localStorage.getItem(IK)||'{}')}catch(e){}
+    ins.forEach(function(x){if(sv[x.dataset.n]!=null) x.value=sv[x.dataset.n]});
+    if(sv._note) note.value=sv._note;
+    function text(){
+      var L=['['+day+'] 잔여 수량'], wm={};
+      ins.forEach(function(x){
+        var v=x.value.trim(); if(v==='') return;
+        var n=x.dataset.n;
+        if(n.indexOf('수박주스')===0){ wm[n.replace('수박주스 ','')]=v+x.dataset.u; return; }
+        L.push('• '+n+' '+v+x.dataset.u);
+      });
+      if(wm['실온']||wm['냉동']) L.push('• 수박주스 실온 '+(wm['실온']||'0개')+' / 냉동 '+(wm['냉동']||'0개'));
+      if(note.value.trim()) L.push('• 특이사항: '+note.value.trim());
+      return L.join('\n');
+    }
+    function refresh(){
+      var o={}; ins.forEach(function(x){o[x.dataset.n]=x.value}); o._note=note.value;
+      try{localStorage.setItem(IK,JSON.stringify(o))}catch(e){}
+      pv.textContent=text(); cp.classList.remove('ok'); cp.textContent='카톡용으로 복사';
+    }
+    inv.addEventListener('input',refresh); refresh();
+    function copied(){cp.classList.add('ok'); cp.textContent='복사됨 — 카톡에 붙여넣기';}
+    function fallback(t){
+      var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{document.execCommand('copy'); copied();}catch(e){alert(t);}
+      ta.remove();
+    }
+    cp.addEventListener('click',function(){
+      var t=text();
+      if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(copied,function(){fallback(t)});
+      else fallback(t);
+    });
+  }
 })();
 </script>
 </body>
