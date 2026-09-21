@@ -271,16 +271,23 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
 <label class="ck"><input type="checkbox" data-id="close:세척 끝나면 Home 모드로 복구"><div><b>세척 끝나면 Home 모드로 복구</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:머신 바닥 트레이 빼서 설거지"><div><b>머신 바닥 트레이 빼서 설거지</b></div></label>
 </section>
-<section class="g"><h3>4. 설거지 <span>0/1</span></h3>
+<section class="g"><h3>4. 설거지 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기"><div><b>음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기</b><small>포터필터 · 에스프레소 계량컵 · 스쿱 · 머들러 · 스텐 통 · 물 주전자 등</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:유리컵 · 식기 물기 자국 없게 닦기"><div><b>유리컵 · 식기 물기 자국 없게 닦기</b><small>마른 행주로 — 자국 남으면 손님 눈에 제일 먼저 보인다</small></div></label>
 </section>
-<section class="g"><h3>5. 내일 준비 <span>0/4</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:빈 재료 채워넣기"><div><b>빈 재료 채워넣기</b><small>시럽 · 소스통 · 컵 · 빨대 · 뚜껑</small></div></label>
+<section class="g"><h3>5. 바 채우기 <span>0/5</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:빈 재료 채워넣기"><div><b>빈 재료 채워넣기</b><small>시럽 · 소스통 · 컵 · 뚜껑</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:빨대 · 냅킨 확인"><div><b>빨대 · 냅킨 확인</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로즈마리 다듬어 채우기"><div><b>로즈마리 다듬어 채우기</b><small>마른 키친타월에 · 곰팡이 하나라도 보이면 그 통 전체 버리기</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:레몬 슬라이스 채우기"><div><b>레몬 슬라이스 채우기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:갈색 설탕 · 흰 설탕 · 크럼블 셋팅"><div><b>갈색 설탕 · 흰 설탕 · 크럼블 셋팅</b><small>비어 있으면 채우고, 크럼블 덩어리 크면 쪼개기</small></div></label>
+</section>
+<section class="g"><h3>6. 크림 · 냉장 · 냉동 <span>0/3</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:시그니처 크림 · 화이트 크림 없으면 만들기"><div><b>시그니처 크림 · 화이트 크림 없으면 만들기</b><small>배합은 레시피 탭 → 프렙 · 보관</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:아이스크림 미리 셋팅해놓기"><div><b>아이스크림 미리 셋팅해놓기</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:버터 냉장고 넣기"><div><b>버터 냉장고 넣기</b></div></label>
 </section>
-<section class="g"><h3>6. 잔여 수량 카톡 보내기 <span>0/1</span></h3>
+<section class="g"><h3>7. 잔여 수량 카톡 보내기 <span>0/1</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:아래 칸에 숫자 넣고 [복사] → 카톡 010-8406-8985"><div><b>아래 칸에 숫자 넣고 [복사] → 카톡 010-8406-8985</b></div></label>
 <div class="inv" id="inv">
 <div class="row"><span>오리지널 바치케</span><input type="number" inputmode="numeric" min="0" data-n="오리지널 바치케" data-u="피스" placeholder="-"><em>피스</em></div>
@@ -292,11 +299,11 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
 <div class="row"><span>수박주스 냉동</span><input type="number" inputmode="numeric" min="0" data-n="수박주스 냉동" data-u="개" placeholder="-"><em>개</em></div>
 <textarea id="note" placeholder="특이사항 — 다 떨어져 가는 재료, 고장, 손님 메모 등"></textarea><pre id="pv"></pre><button type="button" class="cp" id="cp">카톡용으로 복사</button></div>
 </section>
-<section class="g"><h3>7. 전원 · 충전 <span>0/2</span></h3>
+<section class="g"><h3>8. 전원 · 충전 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:식기세척기 · 커피 머신 2개 · 크로플 기계 스위치 OFF"><div><b>식기세척기 · 커피 머신 2개 · 크로플 기계 스위치 OFF</b><small>식기세척기는 세척 끝난 뒤에</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:스탠드 전등 · 저울 충전선 연결"><div><b>스탠드 전등 · 저울 충전선 연결</b><small>안내받은 전용 충전선으로</small></div></label>
 </section>
-<section class="g"><h3>8. 마무리 · 문 닫기 <span>0/4</span></h3>
+<section class="g"><h3>9. 마무리 · 문 닫기 <span>0/4</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:로봇청소기 걸레 떼어 세제로 빨고 말리기"><div><b>로봇청소기 걸레 떼어 세제로 빨고 말리기</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:Closed 간판"><div><b>Closed 간판</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:중문이 열린 채 고정돼 있으면 닫기"><div><b>중문이 열린 채 고정돼 있으면 닫기</b><small>Push 버튼 하단 스위치 조정</small></div></label>
@@ -334,7 +341,7 @@ label.ck.on b{color:var(--dim);text-decoration:line-through}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-21 13:53
+  갱신 2026-09-21 13:59
 </footer>
 
 <script>
