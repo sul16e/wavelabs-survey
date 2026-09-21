@@ -165,6 +165,13 @@ section.g h3+h4.sg,.inv h4.sg:first-child{border-top:0}
 .inv .row{gap:6px}
 .inv .row span{line-height:1.25;font-size:14px}
 .inv .row em{flex:0 0 24px}
+.fbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 14px rgba(19,36,48,.07)}
+.fbar button{display:block;width:100%;max-width:720px;margin:0 auto;border:0;border-radius:11px;background:var(--navy);
+  color:#fff;font-size:17px;font-weight:700;min-height:52px}
+.fbar button.ok{background:#1D6B42}
+body:not([data-tab="stock"]) .fbar{display:none}
+body[data-tab="stock"]{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
 .here{font-size:12px;color:var(--dim);margin:10px 2px 0;line-height:1.5}
 
 </style>
@@ -314,7 +321,7 @@ section.g h3+h4.sg,.inv h4.sg:first-child{border-top:0}
 <label class="ck"><input type="checkbox" data-id="close:로봇청소기 정비 (아침 7시 예약 청소용)"><div><b>로봇청소기 정비 (아침 7시 예약 청소용)</b><ol class="sub"><li>정수통 채우기 — 세척용액 한 컵 + 물</li><li class="w">⚠️ 정수통 넣을 때 본체 안 고무 마개가 빠지지 않았는지 확인 — 빠지면 본체 입구가 안 닫힌다</li><li>오수통 비우기</li><li>걸레 · 걸레 패드 더러우면 닦기</li></ol></div></label>
 </section>
 <section class="g"><h3>7. 잔여 수량 <span>0/1</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:잔여 수량 탭에서 [수정하기] → 저장"><div><b>잔여 수량 탭에서 [수정하기] → 저장</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:잔여 수량 탭에서 수량 고치고 [수정 반영하기]"><div><b>잔여 수량 탭에서 수량 고치고 [수정 반영하기]</b></div></label>
 </section>
 <section class="g"><h3>8. 전원 · 충전 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:전원 끄기"><div><b>전원 끄기</b><ol class="sub"><li>에어컨 3개 OFF</li><li>선풍기 2개 OFF (켜져 있으면)</li><li>일반 커피 머신 OFF</li><li>디카페인 커피 머신 OFF</li><li>식기세척기 OFF — 버튼 2번 눌러야 꺼짐 (세척 끝난 뒤에)</li><li>크로플 기계 OFF</li><li>스피커 OFF — 재생/일시정지 버튼 한 번만</li></ol></div></label>
@@ -356,30 +363,20 @@ section.g h3+h4.sg,.inv h4.sg:first-child{border-top:0}
 
 <div id="stock">
   <div class="upd" id="upd">아직 기록 없음</div>
-  <section class="g" id="stView">
+  <section class="g" id="stEdit">
     <h3>재료 잔여 수량</h3>
-    <h4 class="sg">디저트</h4><div class="sv"><span>오리지널 바치케</span><b data-v="오리지널 바치케">-</b></div><div class="sv"><span>흑임자 바치케</span><b data-v="흑임자 바치케">-</b></div><div class="sv"><span>얼그레이 바치케</span><b data-v="얼그레이 바치케">-</b></div><div class="sv"><span>브라우니</span><b data-v="브라우니">-</b></div><div class="sv"><span>크로플 생지 (냉장)</span><b data-v="크로플 생지 (냉장)">-</b></div><div class="sv"><span>크로플 생지 (냉동)</span><b data-v="크로플 생지 (냉동)">-</b></div><h4 class="sg">음료</h4><div class="sv"><span>수박주스 (실온)</span><b data-v="수박주스 (실온)">-</b></div><div class="sv"><span>수박주스 (냉동)</span><b data-v="수박주스 (냉동)">-</b></div><div class="sv"><span>오렌지 주스</span><b data-v="오렌지 주스">-</b></div><div class="sv"><span>우유</span><b data-v="우유">-</b></div><div class="sv"><span>오트밀크</span><b data-v="오트밀크">-</b></div><div class="sv"><span>탄산수</span><b data-v="탄산수">-</b></div><h4 class="sg">신선</h4><div class="sv"><span>바나나</span><b data-v="바나나">-</b></div><div class="sv"><span>토마토</span><b data-v="토마토">-</b></div><div class="sv"><span>계란</span><b data-v="계란">-</b></div>
-    <div class="svnote" id="svNote"></div>
-  </section>
-  <section class="g" id="stEdit" hidden>
-    <h3>수정 중</h3>
     <div class="inv">
       <h4 class="sg">디저트</h4><div class="row"><span>오리지널 바치케</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="오리지널 바치케" data-u="피스" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>피스</em></div><div class="row"><span>흑임자 바치케</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="흑임자 바치케" data-u="피스" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>피스</em></div><div class="row"><span>얼그레이 바치케</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="얼그레이 바치케" data-u="피스" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>피스</em></div><div class="row"><span>브라우니</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="브라우니" data-u="피스" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>피스</em></div><div class="row"><span>크로플 생지 (냉장)</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="크로플 생지 (냉장)" data-u="세트" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>세트</em></div><div class="row"><span>크로플 생지 (냉동)</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="크로플 생지 (냉동)" data-u="세트" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>세트</em></div><h4 class="sg">음료</h4><div class="row"><span>수박주스 (실온)</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="수박주스 (실온)" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>수박주스 (냉동)</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="수박주스 (냉동)" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>오렌지 주스</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="오렌지 주스" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>우유</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="우유" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>오트밀크</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="오트밀크" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>탄산수</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="탄산수" data-u="병" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>병</em></div><h4 class="sg">신선</h4><div class="row"><span>바나나</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="바나나" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>토마토</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="토마토" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div><div class="row"><span>계란</span><button type="button" class="stp" data-d="-1" aria-label="빼기">−</button><input type="number" inputmode="numeric" min="0" data-n="계란" data-u="개" placeholder="-"><button type="button" class="stp" data-d="1" aria-label="더하기">+</button><em>개</em></div>
       <textarea id="note" placeholder="특이사항 — 다 떨어져 가는 재료, 고장, 손님 메모 등"></textarea>
     </div>
   </section>
-  <div class="btns">
-    <button type="button" class="pri" id="edit">수정하기</button>
-    <button type="button" class="pri" id="save" hidden>저장</button>
-    <button type="button" class="sec" id="cancel" hidden>취소</button>
-  </div>
-  <p class="here">이 기기(폰·아이패드)에 저장됩니다.</p>
 </div>
+<div class="fbar"><button type="button" id="save">수정 반영하기</button></div>
 
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-21 15:21
+  갱신 2026-09-21 15:26
 </footer>
 
 <script>
@@ -498,56 +495,47 @@ section.g h3+h4.sg,.inv h4.sg:first-child{border-top:0}
   var sm='close'; try{sm=localStorage.getItem('wl-mode')||'close'}catch(e){}
   setMode(sm);
 
-  /* ---------- 재료 잔여 수량 (보기 / 수정하기) ---------- */
+  /* ---------- 재료 잔여 수량 — 바로 고치고 [수정 반영하기] ---------- */
   var SK='wl-stock', S={};
   try{S=JSON.parse(localStorage.getItem(SK)||'{}')}catch(e){}
   S.v=S.v||{};
   var ins=[].slice.call(document.querySelectorAll('#stEdit input[data-n]')),
       note=document.getElementById('note'), upd=document.getElementById('upd'),
-      stView=document.getElementById('stView'), stEdit=document.getElementById('stEdit'),
-      bEdit=document.getElementById('edit'), bSave=document.getElementById('save'),
-      bCancel=document.getElementById('cancel');
-  var unit={}; ins.forEach(function(x){unit[x.dataset.n]=x.dataset.u});
+      stEdit=document.getElementById('stEdit'), bSave=document.getElementById('save');
   function two(n){return ('0'+n).slice(-2)}
   function fmt(ms){var d=new Date(ms), W='일월화수목금토'; return (d.getMonth()+1)+'월 '+d.getDate()+'일 ('+W[d.getDay()]+') '+two(d.getHours())+':'+two(d.getMinutes());}
   function ago(ms){var m=Math.round((Date.now()-ms)/60000); if(m<1)return'방금'; if(m<60)return m+'분 전'; var h=Math.round(m/60); if(h<24)return h+'시간 전'; return Math.round(h/24)+'일 전';}
   function ymd(ms){var d=new Date(ms); if(d.getHours()<5) d.setDate(d.getDate()-1); return String(d.getFullYear()).slice(2)+two(d.getMonth()+1)+two(d.getDate());}
-  function render(){
+  function renderUpd(){
     if(S.at){
       upd.innerHTML='최근 업데이트 <b>'+fmt(S.at)+'</b> · '+ago(S.at);
       upd.classList.toggle('old', Date.now()-S.at > 30*3600*1000);   // 하루 넘게 안 고쳤으면 주황
-    } else { upd.textContent='아직 기록 없음 — [수정하기]로 처음 입력해 주세요'; upd.classList.remove('old'); }
-    [].forEach.call(document.querySelectorAll('.sv b[data-v]'),function(b){
-      var v=S.v[b.dataset.v]; var has=(v!=null&&v!=='');
-      b.textContent=has? v+unit[b.dataset.v] : '-'; b.classList.toggle('empty',!has);
-    });
-    document.getElementById('svNote').textContent=S.note?('특이사항: '+S.note):'';
+    } else { upd.textContent='아직 기록 없음'; upd.classList.remove('old'); }
   }
-  function editing(on){
-    stView.hidden=on; stEdit.hidden=!on;
-    bEdit.hidden=on; bSave.hidden=!on; bCancel.hidden=!on;
-    if(on){ ins.forEach(function(x){x.value=(S.v[x.dataset.n]!=null)?S.v[x.dataset.n]:''}); note.value=S.note||''; }
-    window.scrollTo(0,0);
-  }
+  ins.forEach(function(x){x.value=(S.v[x.dataset.n]!=null)?S.v[x.dataset.n]:''});
+  note.value=S.note||'';
+  function touched(){bSave.classList.remove('ok'); bSave.textContent='수정 반영하기';}
   stEdit.addEventListener('click',function(e){
     var b=e.target.closest('.stp'); if(!b) return;
     var x=b.parentNode.querySelector('input'), v=parseInt(x.value,10);
     if(isNaN(v)) v=0;
     x.value=String(Math.max(0, v + (+b.dataset.d)));
+    touched();
   });
-  bEdit.addEventListener('click',function(){editing(true)});
-  bCancel.addEventListener('click',function(){editing(false)});
+  stEdit.addEventListener('input',touched);
   bSave.addEventListener('click',function(){
     var v={}; ins.forEach(function(x){ if(x.value.trim()!=='') v[x.dataset.n]=x.value.trim(); });
     S={v:v, note:note.value.trim(), at:Date.now()};
     try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}
-    editing(false); render();
+    renderUpd();
+    bSave.classList.add('ok'); bSave.textContent='반영됐어요 ✓';
   });
+  /* 알림용 문장 (아직 안 씀) — (냉장)/(냉동)처럼 같은 이름은 한 줄로 */
   function text(){
-    var L=['['+(S.at?ymd(S.at):ymd(Date.now()))+'] 잔여 수량'], seen={};
+    var L=['['+ymd(S.at||Date.now())+'] 잔여 수량'], seen={};
     ins.forEach(function(x){
       var n=x.dataset.n, v=S.v[n]; if(v==null||v==='') return;
-      var m=n.match(/^(.*) \((.+)\)$/);          // "크로플 생지 (냉장)" → 같은 이름끼리 한 줄로
+      var m=n.match(/^(.*) \((.+)\)$/);
       if(m){ (seen[m[1]]=seen[m[1]]||[]).push(m[2]+' '+v+x.dataset.u); if(seen[m[1]].length===1) L.push({k:m[1]}); return; }
       L.push('• '+n+' '+v+x.dataset.u);
     });
@@ -555,8 +543,7 @@ section.g h3+h4.sg,.inv h4.sg:first-child{border-top:0}
     if(S.note) L.push('• 특이사항: '+S.note);
     return L.join('\n');
   }
-
-  render();
+  renderUpd();
 })();
 </script>
 </body>
