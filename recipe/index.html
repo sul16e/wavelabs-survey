@@ -203,6 +203,11 @@ ol.sub{margin-top:3px;font-size:12.5px;line-height:1.4}
 body[data-tab="stock"]{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
 .inv .row .ic{flex:0 0 32px;width:32px;height:32px;border-radius:7px;object-fit:cover;background:#fff;
   display:flex;align-items:center;justify-content:center;font-size:26px;line-height:1;overflow:hidden}
+
+/* 폰에서 버튼 연타·입력 시 화면 확대 방지 — iOS는 16px 미만 입력칸을 누르면 자동 확대한다 */
+button,input,textarea,label{touch-action:manipulation}
+#q,.inv .row input,.inv textarea{font-size:16px}
+#q{padding-left:36px;background:rgba(255,255,255,.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23BBD4E2' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='16.5' y1='16.5' x2='21' y2='21'/%3E%3C/svg%3E") no-repeat 11px center}
 </style>
 </head>
 <body data-tab="recipe">
@@ -222,7 +227,6 @@ body[data-tab="stock"]{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
     <button type="button" role="tab" data-tab="stock">잔여 수량</button>
   </div>
   <div class="top">
-    <b>레시피</b>
     <input id="q" type="search" placeholder="메뉴 검색" autocomplete="off">
   </div>
 </header>
@@ -325,7 +329,7 @@ body[data-tab="stock"]{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
 </section>
 <section class="g"><h3>2. 커피 머신 청소 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:가스켓 청소"><div><b>가스켓 청소</b><ol class="sub"><li>포터필터 바스켓을 청소용으로 교체</li><li>포터필터에 클리너 분말 넣고 머신에 결합</li><li>클리닝 모드 선택 후 깜빡이는 세 번째 버튼 클릭</li><li>브러시로 가스켓 닦기</li><li>세척 끝나면 Home 모드로 복구</li></ol></div></label>
-<label class="ck"><input type="checkbox" data-id="close:머신 바닥 트레이 &amp; 에스프레소 계량컵, 받침대 빼서 설거지"><div><b>머신 바닥 트레이 &amp; 에스프레소 계량컵, 받침대 빼서 설거지</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:머신 트레이 · 계량컵 · 받침대 빼서 설거지"><div><b>머신 트레이 · 계량컵 · 받침대 빼서 설거지</b></div></label>
 </section>
 <section class="g"><h3>3. 설거지 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기"><div><b>음료·디저트 닿은 집기 설거지 &amp; 식기세척기 돌리기</b><small>포터필터 · 스쿱 · 머들러 · 스텐 통 · 물 주전자 등</small></div></label>
@@ -339,26 +343,26 @@ body[data-tab="stock"]{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
 <label class="ck"><input type="checkbox" data-id="close:레몬 슬라이스 채우기 (최소 5장)"><div><b>레몬 슬라이스 채우기 (최소 5장)</b></div></label>
 </section>
 <section class="g"><h3>5. 냉장 · 냉동 <span>0/3</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:시그니처 크림 · 화이트 크림 없으면 만들기"><div><b>시그니처 크림 · 화이트 크림 없으면 만들기</b><small>배합은 레시피 탭 → 프렙 · 보관</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:크림 부족하면 만들기"><div><b>크림 부족하면 만들기</b><small>시그니처 크림 · 화이트 크림 — 배합은 레시피 탭 → 프렙 · 보관</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:아이스크림 미리 떠두기"><div><b>아이스크림 미리 떠두기</b><small>52mm 스쿱으로 동그랗게 떠서 냉동실에 — 주문 들어오면 바로 올리기</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:냉장고로 옮기기"><div><b>냉장고로 옮기기</b><ol class="sub"><li>바닐라빈 시럽</li><li>연유</li><li>흑임자 페이스트 (음료용)</li></ol></div></label>
 </section>
 <section class="g"><h3>6. 청소 · 로봇청소기 <span>0/4</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:블라인드 · 벽에 음료 튄 거 닦기"><div><b>블라인드 · 벽에 음료 튄 거 닦기</b><small>위에서 아래로 — 벽 먼저, 바닥은 나중에</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:미니 휴지통 꽉 찼으면 갈기"><div><b>미니 휴지통 꽉 찼으면 갈기</b></div></label>
-<label class="ck"><input type="checkbox" data-id="close:로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기"><div><b>로봇청소기가 못 가는 곳 청소기 + 물티슈로 닦기</b><small>구석 · 테이블 다리 사이 · 창가 턱 — 먼지는 로봇이 가는 쪽으로 모으기</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:로봇청소기 정비 (아침 7시 예약 청소용)"><div><b>로봇청소기 정비 (아침 7시 예약 청소용)</b><ol class="sub"><li>정수통 채우기 — 세척용액 한 컵 + 물</li><li class="w">⚠️ 정수통 넣을 때 본체 안 고무 마개가 빠지지 않았는지 확인 — 빠지면 본체 입구가 안 닫힌다</li><li>오수통 비우기</li><li>걸레 · 걸레 패드 더러우면 닦기</li></ol></div></label>
+<label class="ck"><input type="checkbox" data-id="close:블라인드 · 벽에 튄 음료 자국 닦기"><div><b>블라인드 · 벽에 튄 음료 자국 닦기</b><small>위에서 아래로 — 벽 먼저, 바닥은 나중에</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:미니 휴지통 비우기"><div><b>미니 휴지통 비우기</b><small>꽉 찼으면 봉투 교체</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로봇청소기가 못 가는 곳 청소"><div><b>로봇청소기가 못 가는 곳 청소</b><small>청소기로 먼지 빨아들이고 물티슈로 닦기 · 구석, 테이블 다리 사이, 창가 턱</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:로봇청소기 정비"><div><b>로봇청소기 정비</b><ol class="sub"><li>정수통 채우기 — 세척용액 한 컵 + 물</li><li class="w">⚠️ 정수통 끼울 때 본체 안 고무 마개가 빠지지 않았는지 확인 — 빠지면 뚜껑이 안 닫힌다</li><li>오수통 비우기</li><li>걸레 · 걸레 패드 더러우면 닦기</li><li>내일 아침 7시에 자동으로 청소가 돌아간다</li></ol></div></label>
 </section>
 <section class="g"><h3>7. 잔여 수량 <span>0/1</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:잔여 수량 탭에서 수량 고치고 [수정 반영하기]"><div><b>잔여 수량 탭에서 수량 고치고 [수정 반영하기]</b></div></label>
 </section>
 <section class="g"><h3>8. 전원 · 충전 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:전원 끄기"><div><b>전원 끄기</b><ol class="sub"><li>에어컨 3개 OFF</li><li>선풍기 2개 OFF (켜져 있으면)</li><li>일반 커피 머신 OFF</li><li>디카페인 커피 머신 OFF</li><li>식기세척기 OFF — 버튼 2번 눌러야 꺼짐 (세척 끝난 뒤에)</li><li>크로플 기계 OFF</li><li>스피커 OFF — 재생/일시정지 버튼 한 번만</li></ol></div></label>
-<label class="ck"><input type="checkbox" data-id="close:스탠드 전등 OFF 한 뒤 충전선 연결 · 저울 충전선 연결"><div><b>스탠드 전등 OFF 한 뒤 충전선 연결 · 저울 충전선 연결</b><small>잘못 부딪혀 켜지지 않게 꺼진 상태로 충전 · 안내받은 전용 충전선으로</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:스탠드 전등 · 저울 충전"><div><b>스탠드 전등 · 저울 충전</b><small>스탠드 전등은 꼭 끈 채로 꽂기 (부딪혀 켜지지 않게) · 전용 충전선으로</small></div></label>
 </section>
 <section class="g"><h3>9. 문 닫기 <span>0/3</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:여닫이 문 열림 고정 상태 확인"><div><b>여닫이 문 열림 고정 상태 확인</b><small>여닫이 문은 항상 열린 채로 고정돼 있어야 한다</small></div></label>
-<label class="ck"><input type="checkbox" data-id="close:밖에 나가 비밀번호 눌러 문 닫기"><div><b>밖에 나가 비밀번호 눌러 문 닫기</b><small>비밀번호를 누르면 알아서 닫힌다</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:여닫이 문 열림 고정 확인"><div><b>여닫이 문 열림 고정 확인</b><small>항상 열린 채로 고정</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:밖에서 비밀번호 눌러 문 닫기"><div><b>밖에서 비밀번호 눌러 문 닫기</b><small>누르면 자동으로 닫힌다</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:Closed 간판"><div><b>Closed 간판</b></div></label>
 </section>
 </div>
@@ -404,7 +408,7 @@ body[data-tab="stock"]{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-21 16:02
+  갱신 2026-09-21 17:30
 </footer>
 
 <script>
