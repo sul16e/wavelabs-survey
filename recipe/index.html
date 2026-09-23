@@ -211,9 +211,9 @@ label.ck.on ol.sub{opacity:.6}
 .stp{flex:0 0 34px;width:34px;height:34px;border:1px solid var(--line);background:var(--card);color:var(--dim);
   border-radius:8px;font-size:18px;line-height:1;padding:0;touch-action:manipulation}
 .stp:active{background:var(--line)}
-.inv{padding:4px 12px 10px}
+.inv{padding:4px 12px 16px}
 @media(min-width:680px){
-  .inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(368px,1fr));gap:0 20px;align-items:start}
+  .inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:0 18px;align-items:start}
   .inv h4.sg,.inv textarea{grid-column:1/-1}
 }
 .inv .row{display:flex;align-items:center;gap:8px;padding:2px 0}
@@ -227,20 +227,20 @@ label.ck.on ol.sub{opacity:.6}
 .inv textarea{width:100%;margin-top:6px;min-height:42px;padding:6px 9px;border:1px solid var(--line);
   border-radius:8px;background:var(--bg);color:var(--ink);resize:vertical}
 .inv h4.sg{margin:2px 0 0;padding:6px 0 1px;font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.05em}
-.inv .row span.ic{flex:0 0 32px;width:32px;height:32px;border-radius:7px;object-fit:cover;background:#fff;
-  display:flex;align-items:center;justify-content:center;font-size:26px;line-height:1;overflow:hidden}
+.inv .row .ic{flex:0 0 28px!important;width:28px;height:28px;border-radius:6px;object-fit:cover;background:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;overflow:hidden}
 .upd{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 10px;margin-bottom:6px;font-size:13px;color:var(--dim)}
 .upd b{color:var(--ink);font-size:14px}
 .upd.old{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn-ink)}
 .stickybtn{position:sticky;bottom:calc(10px + env(safe-area-inset-bottom));z-index:12;margin-top:12px;
   box-shadow:0 4px 16px rgba(19,36,48,.18)}
-.fbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);
-  padding:6px 10px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 14px rgba(19,36,48,.07);display:none}
-.fbar button{display:block;width:100%;max-width:calc(var(--wrap) - var(--pad)*2);margin:0 auto;border:0;border-radius:10px;background:var(--brand);
-  color:#fff;font-size:16px;font-weight:700;min-height:46px}
+.fbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:transparent;
+  padding:10px var(--pad) calc(16px + env(safe-area-inset-bottom));display:none;pointer-events:none}
+.fbar button{display:block;width:100%;max-width:calc(var(--wrap) - var(--pad)*2);margin:0 auto;border:0;border-radius:12px;background:var(--brand);
+  color:#fff;font-size:16px;font-weight:700;min-height:48px;pointer-events:auto;box-shadow:0 6px 20px rgba(19,36,48,.22)}
 .fbar button.ok{background:var(--ok-ink)}
 body[data-tab="ops"][data-seg="stock"] .fbar{display:block}
-body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
 
 /* ---------- 선결제 ---------- */
 .pc{background:var(--card);border:1px solid var(--line);border-radius:11px;margin-bottom:8px;overflow:hidden}
@@ -265,6 +265,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
   background:var(--bg);color:var(--ink);font-size:16px;font-weight:700;padding:0;-moz-appearance:textfield}
 .pc .it .qi::-webkit-outer-spin-button,.pc .it .qi::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .pc .it.on .qi{color:var(--dim)}
+.pc .it .stp[disabled],.pc .it .qi[disabled]{opacity:.45}
 .pc .it .tot{font-size:12px;color:var(--dim);min-width:30px}
 .pc .it .xit{flex:0 0 auto;border:0;background:transparent;color:var(--dim);font-size:17px;line-height:1;
   padding:4px 6px;min-height:32px;opacity:.5;touch-action:manipulation}
@@ -684,8 +685,8 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
   </div>
   <h2 class="lbl" style="margin:10px 2px 6px">이번 주</h2>
   <div id="noteList"></div>
-  <button type="button" class="lnk wide" id="noteToggleOld">지난 주 보기</button>
-  <div id="noteOld" hidden></div>
+  <h2 class="lbl donelbl" id="noteOldLbl" hidden style="margin:14px 2px 6px">지난 주</h2>
+  <div id="noteOld"></div>
   <button type="button" class="pri wide stickybtn" id="noteNew">+ 전달사항 남기기</button>
 </section>
 
@@ -715,7 +716,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-23 17:54
+  갱신 2026-09-23 18:05
 </footer>
 
 <script>
@@ -846,7 +847,18 @@ function setTab(t){
   if(t==='pre'){ if(tPre.dataset.pv==='cust')drawPre(); else {tPre.dataset.pv='list';drawCust();} }
   if(t==='note')drawNote(); if(t==='insight')drawIns();
 }
-tabBtns.forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.tab);});});
+function ownerOK(){
+  if(document.body.dataset.owner==='1')return true;
+  var v=prompt('사장 비밀번호');
+  if(v===null)return false;
+  if(v!==CFG.pinOwner){alert('비밀번호가 달라요');return false;}
+  setOwner(true); return true;
+}
+tabBtns.forEach(function(b){b.addEventListener('click',function(){
+  var t=b.dataset.tab;
+  if(t==='insight'&&!ownerOK())return;
+  setTab(t);
+});});
 
 /* ===== 레시피 검색 ===== */
 function dropImg(im){var s=document.createElement('span');s.className=im.className;im.replaceWith(s);}
@@ -993,7 +1005,9 @@ function drawCust(){
         if(row.data.cid!==c.id)return;
         cnt++;
         (row.data.items||[]).forEach(function(it){
-          (it.d||[]).forEach(function(x){ if(x||row.data.closed)done++; else left++; });
+          var arr=it.d||[],out=0;
+          arr.forEach(function(x){ if(x)out++; });
+          if(row.data.closed||out>=arr.length)done++; else left++;
         });
       });
       var sum=cnt?('완료 '+done+' · '+(left?'<em>잔여 '+left+'</em>':'잔여 0')):'아직 선결제 없음';
@@ -1033,15 +1047,22 @@ function preCard(row){
   var items=(d.items||[]).map(function(it,ix){
     var arr=it.d||[],tot=arr.length,out=0,last=0;
     arr.forEach(function(t){ if(t){out++; if(t>last)last=t;} });
-    var rem=tot-out;
+    return {it:it,ix:ix,tot:tot,rem:tot-out,last:last};
+  }).sort(function(a,b){
+    var ad=a.rem===0?1:0,bd=b.rem===0?1:0;
+    if(ad!==bd)return ad-bd;
+    return a.ix-b.ix;
+  }).map(function(q){
+    var it=q.it,ix=q.ix,tot=q.tot,last=q.last;
+    var rem=d.closed?0:q.rem, dis=d.closed?' disabled':'';
     return '<div class="it'+(rem===0?' on':'')+'">'
       +'<span class="tick">\u2713</span>'
       +'<div class="nm"><b>'+E(it.n)+'</b>'+(it.o?'<em>'+E(it.o)+'</em>':'')
       +(last?'<small>마지막 '+E(fmt(last))+'</small>':'')+'</div>'
       +'<div class="ct">'
-      +'<button type="button" class="stp" data-pact="rm1" data-id="'+E(row.id)+'" data-ix="'+ix+'" aria-label="하나 나감">\u2212</button>'
-      +'<input type="number" class="qi" min="0" max="'+tot+'" inputmode="numeric" value="'+rem+'" data-pact="qset" data-id="'+E(row.id)+'" data-ix="'+ix+'">'
-      +'<button type="button" class="stp" data-pact="rp1" data-id="'+E(row.id)+'" data-ix="'+ix+'" aria-label="하나 되돌리기">+</button>'
+      +'<button type="button" class="stp" data-pact="rm1" data-id="'+E(row.id)+'" data-ix="'+ix+'"'+dis+' aria-label="하나 나감">\u2212</button>'
+      +'<input type="number" class="qi" min="0" max="'+tot+'" inputmode="numeric" value="'+rem+'" data-pact="qset" data-id="'+E(row.id)+'" data-ix="'+ix+'"'+dis+'>'
+      +'<button type="button" class="stp" data-pact="rp1" data-id="'+E(row.id)+'" data-ix="'+ix+'"'+dis+' aria-label="하나 되돌리기">+</button>'
       +'<span class="tot">/ '+tot+'</span></div>'
       +'<button type="button" class="xit" data-pact="ditem" data-id="'+E(row.id)+'" data-ix="'+ix+'">\u00d7</button></div>';
   }).join('');
@@ -1310,13 +1331,10 @@ function drawNote(){
     rows.forEach(function(r){ (new Date(r.at).getTime()>=thisWeek?now:old).push(r); });
     document.getElementById('noteList').innerHTML=now.length?now.map(noteCard).join('')
       :'<div class="empty">이번 주 전달사항이 없어요.</div>';
-    document.getElementById('noteOld').innerHTML=old.map(noteCard).join('')||'<div class="empty">지난 기록이 없어요.</div>';
+    document.getElementById('noteOld').innerHTML=old.map(noteCard).join('');
+    document.getElementById('noteOldLbl').hidden=!old.length;
   });
 }
-document.getElementById('noteToggleOld').addEventListener('click',function(){
-  var el=document.getElementById('noteOld'); el.hidden=!el.hidden;
-  this.textContent=el.hidden?'지난 주 보기':'지난 기록 접기';
-});
 var noteForm=document.getElementById('noteForm');
 document.getElementById('noteNew').addEventListener('click',function(){noteForm.classList.toggle('on');});
 document.getElementById('nf-cancel').addEventListener('click',function(){noteForm.classList.remove('on');});
@@ -1416,7 +1434,9 @@ resetForm();
 /* ===== 시작 ===== */
 banners();
 setSeg(LSget('wl-seg','close'));
-setTab(LSget('wl-tab','recipe'));
+(function(){var t=LSget('wl-tab','recipe');
+  if(t==='insight'&&document.body.dataset.owner!=='1')t='recipe';
+  setTab(t);})();
 apply();
 drawStock();
 })();
