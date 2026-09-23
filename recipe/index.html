@@ -22,7 +22,7 @@
   /* ↓ 공통 UI (고정) */
   --bg:#F4F6F8; --card:#fff; --ink:#15212B; --dim:#63737F; --line:#E4E9ED;
   --tint:#F1F4F6; --chip:#EAEEF1; --on-brand:#fff;
-  --head:#EDEFF2; --off-ink:rgba(21,33,43,.38); --pad:16px;
+  --head:#EDEFF2; --off-ink:rgba(21,33,43,.38); --pad:16px; --wrap:900px;
   --warn-bg:#FFF6E6; --warn-ink:#8A5A00; --warn-line:#F0D9A8;
   --ok-bg:#E9F5EE; --ok-ink:#1D6B42; --ok-line:#C2E2D1;
   --bad:#B3261E; --bad-bg:#FDECEA;
@@ -53,7 +53,8 @@ input,textarea,select{font:inherit;font-size:16px}
 
 /* ---------- 헤더 · 탭 ---------- */
 header{position:sticky;top:0;z-index:20;background:var(--head);color:var(--ink);
-  padding:calc(8px + env(safe-area-inset-top)) var(--pad) 8px;border-bottom:1px solid var(--line)}
+  padding:calc(8px + env(safe-area-inset-top)) 0 8px;border-bottom:1px solid var(--line)}
+.hw{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad)}
 .tabs{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:0 0 auto;white-space:nowrap;border:0;background:transparent;
@@ -68,7 +69,7 @@ header{position:sticky;top:0;z-index:20;background:var(--head);color:var(--ink);
   border-radius:10px;font-size:13px;font-weight:700;padding:0 11px;min-height:38px}
 body[data-owner="1"] #ownBtn{background:var(--brand);color:#fff;border-color:var(--brand)}
 nav#chips{display:flex;gap:6px;overflow-x:auto;padding:8px var(--pad);background:var(--head);
-  border-bottom:1px solid var(--line);scrollbar-width:none}
+  border-bottom:1px solid var(--line);scrollbar-width:none;max-width:var(--wrap);margin:0 auto}
 nav#chips::-webkit-scrollbar{display:none}
 nav#chips button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--dim);
   border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;min-height:32px}
@@ -81,8 +82,8 @@ body:not([data-tab="ops"]) #tOps{display:none}
 body:not([data-tab="pre"]) #tPre{display:none}
 body:not([data-tab="note"]) #tNote{display:none}
 body:not([data-tab="insight"]) #tInsight{display:none}
-.pane{max-width:760px;margin:0 auto;padding:var(--pad) var(--pad) 0}
-main#list{padding:var(--pad) var(--pad) 0;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:6px;align-items:start}
+.pane{max-width:var(--wrap);margin:0 auto;padding:var(--pad) var(--pad) 0}
+main#list{padding:var(--pad) var(--pad) 0;max-width:var(--wrap);margin:0 auto;display:grid;grid-template-columns:1fr;gap:6px;align-items:start}
 @media (min-width:560px){ main#list{grid-template-columns:1fr 1fr;gap:7px} }
 @media (min-width:900px){ main#list{grid-template-columns:1fr 1fr 1fr} }
 @media (min-width:1280px){ main#list{grid-template-columns:1fr 1fr 1fr 1fr} }
@@ -149,7 +150,7 @@ ol.st li::before{content:counter(s);position:absolute;left:0;top:1px;width:18px;
 ol.st li:last-child{padding-bottom:0}
 .none{color:var(--dim);font-size:13px;margin:0}
 #empty{display:none}
-footer{max-width:1180px;margin:0 auto;padding:22px 12px 10px;color:var(--dim);font-size:12px;line-height:1.65}
+footer{max-width:var(--wrap);margin:0 auto;padding:22px var(--pad) 10px;color:var(--dim);font-size:12px;line-height:1.65}
 
 /* 사장 모드 전용 */
 .own{display:none}
@@ -210,7 +211,7 @@ label.ck.on ol.sub{opacity:.6}
 .upd.old{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn-ink)}
 .fbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);
   padding:6px 10px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 14px rgba(19,36,48,.07);display:none}
-.fbar button{display:block;width:100%;max-width:720px;margin:0 auto;border:0;border-radius:10px;background:var(--brand);
+.fbar button{display:block;width:100%;max-width:calc(var(--wrap) - var(--pad)*2);margin:0 auto;border:0;border-radius:10px;background:var(--brand);
   color:#fff;font-size:16px;font-weight:700;min-height:46px}
 .fbar button.ok{background:var(--ok-ink)}
 body[data-tab="ops"][data-seg="stock"] .fbar{display:block}
@@ -231,6 +232,12 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 .pc .it.on span{color:var(--dim);text-decoration:line-through}
 .pc .ft{display:flex;gap:6px;padding:7px 8px;border-top:1px solid var(--line);align-items:center;flex-wrap:wrap}
 .pc .ft .grow{flex:1 1 auto}
+.whenbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;background:var(--warn-bg);
+  border-bottom:1px solid var(--warn-line)}
+.whenbar span{font-size:12.5px;font-weight:700;color:var(--warn-ink);flex:1 1 100%}
+.whenbar input{flex:1 1 auto;min-width:150px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;
+  background:var(--card);color:var(--ink);font-size:16px}
+.whenbar .pri,.whenbar .sec{min-height:38px}
 .memos{padding:0 10px 6px}
 .memos div{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:8px;
   padding:6px 9px;font-size:13px;line-height:1.45;margin-top:5px}
@@ -292,15 +299,10 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 .ic2 .t{display:flex;align-items:center;gap:6px;margin-bottom:5px}
 .ic2 .t b{flex:1 1 auto;font-size:15px;line-height:1.3}
 .ic2 p{margin:0;font-size:14px;line-height:1.5;white-space:pre-wrap;color:var(--ink)}
-.ic2 .metric{margin-top:8px;background:var(--tint);border-radius:9px;padding:8px 10px}
-.ic2 .metric .mt{display:flex;justify-content:space-between;font-size:12.5px;color:var(--dim);margin-bottom:5px}
-.ic2 .metric .mt b{color:var(--ink);font-variant-numeric:tabular-nums}
-.ic2 .metric .ed{display:flex;gap:6px;margin-top:7px;align-items:center}
-.ic2 .metric .ed input{width:90px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
 .ic2 .acts{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .st-chip{font-size:11.5px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap}
 .qf{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px;margin-bottom:10px}
-.qf textarea{width:100%;min-height:76px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
+.qf textarea{width:100%;min-height:118px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
   background:var(--bg);color:var(--ink);font-size:16px;line-height:1.5;resize:vertical}
 .qf input[type="text"],.qf input[type="number"],.qf input[type="datetime-local"]{width:100%;padding:10px 12px;
   border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-size:16px;margin-top:7px}
@@ -308,18 +310,17 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 .qf .chips button{font-size:12.5px;padding:6px 11px;border:1px solid var(--line);border-radius:999px;
   background:var(--bg);color:var(--dim);white-space:nowrap}
 .qf .chips button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
-.whenrow{display:flex;gap:7px;align-items:center;margin-top:8px}
+.whenrow{display:flex;gap:8px;align-items:center;margin-bottom:8px}
 .whenrow input{flex:1 1 auto;margin-top:0!important}
-.whenbadge{flex:0 0 auto;font-size:11.5px;font-weight:700;color:var(--brand2);background:var(--tint);
+.wd{flex:0 0 auto;font-size:13px;font-weight:800;color:var(--brand2);background:var(--tint);
   border-radius:7px;padding:6px 8px;white-space:nowrap}
-.qf .more{margin-top:9px;border-top:1px dashed var(--line);padding-top:9px;display:none}
-.qf.open .more{display:block}
-.qf .morebtn{background:none;border:0;color:var(--brand2);font-size:13px;font-weight:700;padding:7px 0;margin-top:6px}
+.qf .sub{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.qf .sub .sl{font-size:12px;font-weight:800;color:var(--dim);margin-bottom:8px}
+.qf .sub .chips{margin-top:0;margin-bottom:8px}
 .qf .go{width:100%;margin-top:9px;min-height:48px;font-size:16px}
 .ic2 .meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:6px}
 .ic2 .meta .mb{font-size:11px;font-weight:700;color:var(--brand2);background:var(--tint);border-radius:6px;padding:2px 7px}
 .ic2 .note{margin-top:7px;background:var(--tint);border-radius:8px;padding:7px 9px;font-size:13px;color:var(--dim);line-height:1.45}
-.ic2 img.shot{width:100%;max-height:220px;object-fit:cover;border-radius:9px;margin-top:8px;border:1px solid var(--line)}
 .st-할것{background:var(--chip);color:var(--brand2)}
 .st-진행{background:var(--warn-bg);color:var(--warn-ink)}
 .st-완료{background:var(--ok-bg);color:var(--ok-ink)}
@@ -337,6 +338,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 </div>
 
 <header>
+ <div class="hw">
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-tab="recipe">레시피</button>
     <button type="button" role="tab" data-tab="ops">오픈·마감</button>
@@ -348,6 +350,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
     <input id="q" type="search" placeholder="메뉴 검색" autocomplete="off">
     <button type="button" id="ownBtn">사장</button>
   </div>
+ </div>
 </header>
 <nav id="chips"></nav>
 
@@ -637,38 +640,29 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
   <div class="off" id="offIns"></div>
 
   <div class="qf" id="insForm">
-    <textarea id="if-b" placeholder="지금 떠오른 것을 그대로 적으세요"></textarea>
-    <div class="chips" id="if-kinds"></div>
-    <input type="text" id="if-note" placeholder="인구통계학 정보 (예: 20대 여성 2인 · 근처 직장인)">
     <div class="whenrow">
       <input type="datetime-local" id="if-at">
-      <span class="whenbadge" id="if-when"></span>
+      <span class="wd" id="if-wd"></span>
     </div>
-    <div class="chips" id="if-weather"></div>
-    <button type="button" class="morebtn" id="if-more">＋ 제목 · 사진 · 지표 넣기</button>
-    <div class="more">
-      <input type="text" id="if-t" placeholder="제목 (안 적으면 내용 첫 줄이 제목이 돼요)">
-      <input type="file" id="if-img" accept="image/*" style="margin-top:7px">
-      <img class="thumb" id="if-prev" hidden alt="">
-      <input type="text" id="if-m" placeholder="측정할 지표 (예: 하루 HOT 음료 잔 수)">
-      <div class="row2">
-        <div><label>목표</label><input type="number" id="if-goal" inputmode="decimal" placeholder="10"></div>
-        <div><label>지금</label><input type="number" id="if-cur" inputmode="decimal" placeholder="3"></div>
-      </div>
+    <textarea id="if-b" placeholder="지금 떠오른 것을 그대로 적으세요"></textarea>
+
+    <div class="sub">
+      <div class="sl">부가 정보</div>
+      <div class="chips" id="if-kinds"></div>
+      <div class="chips" id="if-weather"></div>
+      <input type="text" id="if-note" placeholder="인구통계학 정보 (예: 20대 여성 2인 · 근처 직장인)">
     </div>
+
     <button type="button" class="pri go" id="if-ok">기록하기</button>
   </div>
 
-  <input type="search" class="srch" id="insSearch" placeholder="적어둔 것 찾기">
-  <div class="pick" id="insFilter" style="margin-bottom:6px"></div>
-  <div class="pick" id="insSlot" style="margin-bottom:8px"></div>
   <div id="insList"></div>
 </section>
 
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-23 17:24
+  갱신 2026-09-23 17:31
 </footer>
 
 <script>
@@ -922,8 +916,10 @@ bSave.addEventListener('click',function(){
 });
 
 /* ===== 선결제 ===== */
-var MENUS=[{"n": "아포가토", "g": "커피"}, {"n": "아메리카노", "g": "커피"}, {"n": "디카페인 아메리카노", "g": "커피"}, {"n": "카페라떼", "g": "커피"}, {"n": "허니라떼", "g": "커피"}, {"n": "콘파냐", "g": "커피"}, {"n": "오렌지 블랙", "g": "커피"}, {"n": "피스타치오 라떼", "g": "커피"}, {"n": "흑임자 카페라떼 (ICE)", "g": "커피"}, {"n": "시그니처 바닐라", "g": "커피"}, {"n": "제로 아이스티", "g": "논커피"}, {"n": "피치 블랙티", "g": "논커피"}, {"n": "허니 카모마일", "g": "논커피"}, {"n": "유자 릴렉서", "g": "논커피"}, {"n": "레몬 페퍼민트", "g": "논커피"}, {"n": "허니자몽블랙티", "g": "논커피"}, {"n": "피치 블루레몬 릴렉서", "g": "논커피"}, {"n": "초코라떼", "g": "논커피"}, {"n": "말차라떼", "g": "논커피"}, {"n": "쑥라떼", "g": "논커피"}, {"n": "딸기에이드", "g": "논커피"}, {"n": "딸기라떼", "g": "논커피"}, {"n": "흑임자 라떼 (ICE)", "g": "논커피"}, {"n": "얼그레이 밀크티", "g": "논커피"}, {"n": "얼그레이 레몬에이드", "g": "시그니처"}, {"n": "피치 릴렉서", "g": "시그니처"}, {"n": "수박주스", "g": "시그니처"}, {"n": "시그니처 바닐라 위스키 (ICE)", "g": "시그니처"}, {"n": "바나나 브륄레와 아이스크림", "g": "안주"}, {"n": "옥수수 크림치즈 & 아이스크림과 크래커", "g": "안주"}, {"n": "와인 플래터", "g": "안주"}, {"n": "레드 와인 (14%)", "g": "와인"}, {"n": "화이트 와인 (13%)", "g": "와인"}, {"n": "하이네켄 (5.0%)", "g": "주류"}, {"n": "크로넨버그 1664 블랑 (5.0%)", "g": "주류"}, {"n": "기네스 드래프트 (4.2%)", "g": "주류"}, {"n": "크로플 하프 (평일 ~17시)", "g": "디저트"}, {"n": "오레오 아이스크림", "g": "디저트"}, {"n": "오리지널 크로플", "g": "디저트"}, {"n": "누텔라 바나나 브륄레 크로플", "g": "디저트"}, {"n": "옥수수 크로플 (시즌)", "g": "디저트"}, {"n": "오레오 크로플", "g": "디저트"}, {"n": "애플 시나몬 크로플", "g": "디저트"}, {"n": "흑임자 바스크 치즈케이크 (신규)", "g": "디저트"}, {"n": "오리지널 바스크 치즈케이크", "g": "디저트"}, {"n": "얼그레이 바스크 치즈케이크", "g": "디저트"}, {"n": "베리 아이스크림", "g": "디저트"}, {"n": "브라우니 & 바닐라 아이스크림", "g": "디저트"}, {"n": "브런치 플레이트", "g": "브런치"}, {"n": "흑임자 바치케 + 아메리카노 세트", "g": "세트"}, {"n": "오리지널 바치케 + 아메리카노 세트", "g": "세트"}, {"n": "얼그레이 바치케 + 아메리카노 세트", "g": "세트"}];
-var OPTS=['HOT','ICE','디카페인','샷 추가','오트 변경','아이스크림 추가','화이트 크림 추가','헤이즐넛 시럽','저당 메이플 시럽','계란 추가'];
+var MENUS=[{"n": "아포가토", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "아메리카노", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "디카페인 아메리카노", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "카페라떼", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "허니라떼", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "콘파냐", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "오렌지 블랙", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "피스타치오 라떼", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "흑임자 카페라떼 (ICE)", "g": "커피", "o": ["디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "시그니처 바닐라", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "제로 아이스티", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "피치 블랙티", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "허니 카모마일", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "유자 릴렉서", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "레몬 페퍼민트", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "허니자몽블랙티", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "피치 블루레몬 릴렉서", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "초코라떼", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "말차라떼", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "쑥라떼", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "딸기에이드", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "딸기라떼", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "흑임자 라떼 (ICE)", "g": "논커피", "o": ["오트 변경"]}, {"n": "얼그레이 밀크티", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "얼그레이 레몬에이드", "g": "시그니처", "o": ["HOT", "ICE"]}, {"n": "피치 릴렉서", "g": "시그니처", "o": ["HOT", "ICE"]}, {"n": "수박주스", "g": "시그니처", "o": ["HOT", "ICE"]}, {"n": "시그니처 바닐라 위스키 (ICE)", "g": "시그니처", "o": []}, {"n": "바나나 브륄레와 아이스크림", "g": "안주", "o": []}, {"n": "옥수수 크림치즈 & 아이스크림과 크래커", "g": "안주", "o": []}, {"n": "와인 플래터", "g": "안주", "o": []}, {"n": "레드 와인 (14%)", "g": "와인", "o": []}, {"n": "화이트 와인 (13%)", "g": "와인", "o": []}, {"n": "하이네켄 (5.0%)", "g": "주류", "o": []}, {"n": "크로넨버그 1664 블랑 (5.0%)", "g": "주류", "o": []}, {"n": "기네스 드래프트 (4.2%)", "g": "주류", "o": []}, {"n": "크로플 하프 (평일 ~17시)", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "오레오 아이스크림", "g": "디저트", "o": []}, {"n": "오리지널 크로플", "g": "디저트", "o": ["아이스크림 추가", "저당 메이플 시럽"]}, {"n": "누텔라 바나나 브륄레 크로플", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "옥수수 크로플 (시즌)", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "오레오 크로플", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "애플 시나몬 크로플", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "흑임자 바스크 치즈케이크 (신규)", "g": "디저트", "o": ["화이트 크림 추가"]}, {"n": "오리지널 바스크 치즈케이크", "g": "디저트", "o": ["화이트 크림 추가"]}, {"n": "얼그레이 바스크 치즈케이크", "g": "디저트", "o": ["화이트 크림 추가"]}, {"n": "베리 아이스크림", "g": "디저트", "o": []}, {"n": "브라우니 & 바닐라 아이스크림", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "브런치 플레이트", "g": "브런치", "o": ["계란 추가"]}, {"n": "흑임자 바치케 + 아메리카노 세트", "g": "세트", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽", "화이트 크림 추가"]}, {"n": "오리지널 바치케 + 아메리카노 세트", "g": "세트", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽", "화이트 크림 추가"]}, {"n": "얼그레이 바치케 + 아메리카노 세트", "g": "세트", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽", "화이트 크림 추가"]}];
+var MENUOPT={};MENUS.forEach(function(m){MENUOPT[m.n]=m.o||[];});
+function optsOf(n){return MENUOPT[n]||[];}
+var pend=null;
 var custRows=[],preRows=[],curCust=null,edit=null,mCat='전체',mQ='';
 var tPre=document.getElementById('tPre');
 function pv(v){tPre.dataset.pv=v;}
@@ -982,9 +978,17 @@ function preCard(row){
     }).join('');
   }).join('');
   var memos=(d.memos||[]).map(function(m){return '<div>'+E(m.t)+'<small>'+E(fmt(m.at))+'</small></div>';}).join('');
+  var bar='';
+  if(pend&&pend.id===row.id){
+    bar='<div class="whenbar"><span>'+(pend.all?'남은 것 전부 나간 날짜':'나간 날짜')+'</span>'
+      +'<input type="datetime-local" id="whenIn" value="'+E(dtl(Date.now()))+'">'
+      +'<button type="button" class="sec" data-pact="wcancel">취소</button>'
+      +'<button type="button" class="pri" data-pact="wok" data-id="'+E(row.id)+'">확인</button></div>';
+  }
   return '<article class="pc'+(cl?' closed':'')+'" data-id="'+E(row.id)+'">'
     +'<div class="ph"><b>'+E(ymd(d.at||row.at))+' 선결제</b>'
     +'<span class="badge'+(cl?' ok':'')+'">'+(cl?'다 나감':'남은 '+left+'개')+'</span></div>'
+    +bar
     +'<div class="items">'+(items||'<div class="empty">담긴 메뉴가 없어요</div>')+'</div>'
     +(memos?'<div class="memos">'+memos+'</div>':'')
     +'<div class="addmemo"><input type="text" placeholder="메모 (예: 아메리카노 → 디카페인으로 나감)" data-memo="'+E(row.id)+'">'
@@ -1035,15 +1039,16 @@ function drawMenuGrid(){
 }
 function drawEdItems(){
   document.getElementById('edItems').innerHTML=edit.items.length?edit.items.map(function(it,ix){
-    var chips=OPTS.map(function(o){
+    var av=optsOf(it.n);
+    var chips=av.length?'<div class="ocs">'+av.map(function(o){
       return '<button type="button" class="oc'+(it.o.indexOf(o)>=0?' on':'')+'" data-pact="opt" data-ix="'+ix+'" data-o="'+E(o)+'">'+E(o)+'</button>';
-    }).join('');
+    }).join('')+'</div>':'';
     return '<div class="ei"><div class="r1"><b>'+E(it.n)+'</b>'
       +'<button type="button" class="stp" data-pact="qm" data-ix="'+ix+'">−</button>'
       +'<span class="q">'+it.q+'</span>'
       +'<button type="button" class="stp" data-pact="qp" data-ix="'+ix+'">+</button>'
       +'<button type="button" class="lnk" data-pact="rm" data-ix="'+ix+'">삭제</button></div>'
-      +'<div class="ocs">'+chips+'</div></div>';
+      +chips+'</div>';
   }).join(''):'<div class="empty">위에서 메뉴를 눌러 담아 주세요</div>';
 }
 function startEdit(o){
@@ -1136,13 +1141,29 @@ tPre.addEventListener('click',function(e){
 
   if(!row)return;
   var d=row.data;
-  if(act==='item'){ d.items[ix].d[+b.dataset.k]=b.checked?Date.now():0; DB.set('prepay',row.id,d).then(drawPre); return; }
+  if(act==='item'){
+    var k=+b.dataset.k;
+    if(!b.checked){ d.items[ix].d[k]=0; DB.set('prepay',row.id,d).then(drawPre); return; }
+    b.checked=false; pend={id:row.id,ix:ix,k:k,all:false}; drawPre(); return;
+  }
+  if(act==='wcancel'){ pend=null; drawPre(); return; }
+  if(act==='wok'){
+    var iv=document.getElementById('whenIn').value;
+    if(!iv){alert('나간 날짜를 정해 주세요');return;}
+    var ts=new Date(iv).getTime();
+    if(pend.all){ d.items.forEach(function(it){ it.d=it.d.map(function(x){return x||ts;}); }); d.closed=true; }
+    else d.items[pend.ix].d[pend.k]=ts;
+    pend=null; DB.set('prepay',row.id,d).then(drawPre); return;
+  }
   if(act==='memo'){
     var inp=document.querySelector('[data-memo="'+row.id+'"]'),t=inp.value.trim();
     if(!t)return; d.memos=d.memos||[]; d.memos.push({t:t,at:Date.now()});
     DB.set('prepay',row.id,d).then(drawPre); return;
   }
-  if(act==='close'){ d.closed=!d.closed; DB.set('prepay',row.id,d).then(drawPre); return; }
+  if(act==='close'){
+    if(d.closed){ d.closed=false; DB.set('prepay',row.id,d).then(drawPre); return; }
+    pend={id:row.id,all:true}; drawPre(); return;
+  }
   if(act==='img'){ window.open(d.img,'_blank'); return; }
   if(act==='edit'){ editRow(row); return; }
   if(act==='del'){ if(confirm('이 선결제 기록을 지울까요?')) DB.del('prepay',row.id).then(drawPre); }
@@ -1206,13 +1227,13 @@ document.getElementById('tNote').addEventListener('click',function(e){
 });
 
 /* ===== 인사이트 ===== */
-var insRows=[],insF='전체',insSlotF='전체',insQ='',insKind='관찰',insW='',insFile=null;
+var insRows=[],insKind='관찰',insW='';
 var KINDS=['관찰','아이디어','실험','손님','메뉴','운영'],WEATHER=['맑음','흐림','비','눈'];
 var WD=['일','월','화','수','목','금','토'],ST=['할것','진행','완료','보류'];
-function slot(h){return h<12?'오전':h<17?'낮':h<21?'저녁':'밤';}
 function dtl(ms){var d=new Date(ms),p=function(n){return ('0'+n).slice(-2);};
   return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
-function whenTxt(ms){var d=new Date(ms);return WD[d.getDay()]+'요일 · '+d.getHours()+'시 · '+slot(d.getHours());}
+function whenTxt(ms){var d=new Date(ms),p=function(n){return ('0'+n).slice(-2);};
+  return (d.getMonth()+1)+'월 '+d.getDate()+'일 ('+WD[d.getDay()]+') '+p(d.getHours())+':'+p(d.getMinutes());}
 
 function chipRow(el,arr,cur,cb){
   el.innerHTML=arr.map(function(x){
@@ -1225,90 +1246,48 @@ function drawKinds(){chipRow(document.getElementById('if-kinds'),KINDS,insKind,f
 function drawWeather(){chipRow(document.getElementById('if-weather'),WEATHER,insW,function(v){insW=v;drawWeather();});}
 function syncWhen(){
   var v=document.getElementById('if-at').value;
-  document.getElementById('if-when').textContent=v?whenTxt(new Date(v).getTime()):'';
+  document.getElementById('if-wd').textContent=v?WD[new Date(v).getDay()]+'요일':'';
 }
 function resetForm(){
   document.getElementById('if-b').value='';document.getElementById('if-note').value='';
-  document.getElementById('if-t').value='';document.getElementById('if-m').value='';
-  document.getElementById('if-goal').value='';document.getElementById('if-cur').value='';
-  document.getElementById('if-img').value='';document.getElementById('if-prev').hidden=true;
-  insFile=null; insKind='관찰'; insW='';
+  insKind='관찰'; insW='';
   document.getElementById('if-at').value=dtl(Date.now());
-  document.getElementById('insForm').classList.remove('open');
   drawKinds(); drawWeather(); syncWhen();
 }
 document.getElementById('if-at').addEventListener('change',syncWhen);
-document.getElementById('if-more').addEventListener('click',function(){
-  document.getElementById('insForm').classList.toggle('open');});
-document.getElementById('if-img').addEventListener('change',function(e){
-  insFile=e.target.files[0]||null;
-  var pv=document.getElementById('if-prev');
-  if(insFile){pv.src=URL.createObjectURL(insFile);pv.hidden=false;}else{pv.hidden=true;}
-});
 document.getElementById('if-ok').addEventListener('click',function(){
   var body=document.getElementById('if-b').value.trim();
   if(!body){document.getElementById('if-b').focus();return;}
-  var t=document.getElementById('if-t').value.trim()||body.split(/\n/)[0].slice(0,40),
-      av=document.getElementById('if-at').value,
-      at=av?new Date(av).getTime():Date.now(),
-      cur=document.getElementById('if-cur').value.trim(),btn=this;
+  var av=document.getElementById('if-at').value,
+      at=av?new Date(av).getTime():Date.now(),btn=this;
   btn.disabled=true; btn.textContent='저장 중…';
-  (insFile?DB.upload(insFile):Promise.resolve('')).then(function(url){
-    return DB.add('insight',{t:t,k:insKind,st:'할것',body:body,
-      note:document.getElementById('if-note').value.trim(),at:at,w:insW,img:url,
-      metric:document.getElementById('if-m').value.trim(),
-      goal:document.getElementById('if-goal').value.trim(),cur:cur,
-      hist:cur!==''?[{v:cur,at:Date.now()}]:[]});
-  }).then(function(){resetForm();drawIns();})
+  DB.add('insight',{k:insKind,st:'할것',body:body,
+    note:document.getElementById('if-note').value.trim(),at:at,w:insW})
+    .then(function(){resetForm();drawIns();})
     .catch(function(){alert('저장에 실패했어요');})
     .then(function(){btn.disabled=false;btn.textContent='기록하기';});
 });
 
-var insFilter=document.getElementById('insFilter'),insSlotEl=document.getElementById('insSlot');
-function drawFilters(){
-  chipRow(insFilter,['전체'].concat(ST),insF,function(v){insF=v||'전체';drawFilters();drawIns();});
-  chipRow(insSlotEl,['전체','오전','낮','저녁','밤'],insSlotF,function(v){insSlotF=v||'전체';drawFilters();drawIns();});
-}
-document.getElementById('insSearch').addEventListener('input',function(){insQ=this.value.trim();drawIns();});
-
 function insCard(row){
-  var d=row.data,at=d.at||new Date(row.at).getTime(),m='';
-  if(d.metric){
-    var goal=parseFloat(d.goal),cur=parseFloat(d.cur),
-        pct=(isFinite(goal)&&goal>0&&isFinite(cur))?Math.max(0,Math.min(100,cur/goal*100)):0;
-    m='<div class="metric"><div class="mt"><span>'+E(d.metric)+'</span><span>'
-      +'<b>'+E(isFinite(cur)?cur:'-')+'</b> / '+E(isFinite(goal)?goal:'-')+'</span></div>'
-      +'<div class="bar"><i style="width:'+pct.toFixed(0)+'%"></i></div>'
-      +'<div class="ed"><input type="number" inputmode="decimal" placeholder="지금 값" data-cur="'+E(row.id)+'">'
-      +'<button type="button" class="sec" data-act="cur" data-id="'+E(row.id)+'">기록</button>'
-      +'<span class="muted">'+(d.hist&&d.hist.length?E(d.hist.length)+'번 기록됨':'')+'</span></div></div>';
-  }
+  var d=row.data,at=d.at||new Date(row.at).getTime();
   return '<article class="ic2" data-id="'+E(row.id)+'">'
     +'<div class="meta"><span class="mb">'+E(whenTxt(at))+'</span>'
     +(d.w?'<span class="mb">'+E(d.w)+'</span>':'')
     +'<span class="badge">'+E(d.k||'관찰')+'</span>'
     +'<span class="st-chip st-'+E(d.st||'할것')+'">'+E(d.st||'할것')+'</span></div>'
-    +'<div class="t"><b>'+E(d.t)+'</b></div>'
-    +(d.body&&d.body!==d.t?'<p>'+E(d.body)+'</p>':'')
+    +'<p>'+E(d.body||d.t||'')+'</p>'
     +(d.note?'<div class="note">'+E(d.note)+'</div>':'')
-    +(d.img?'<img class="shot" src="'+E(d.img)+'" alt="" loading="lazy">':'')+m
-    +'<div class="acts"><span class="muted">'+E(fmt(at))+'</span><span style="flex:1 1 auto"></span>'
+    +'<div class="acts"><span style="flex:1 1 auto"></span>'
     +'<button type="button" class="sec" data-act="st" data-id="'+E(row.id)+'">상태 바꾸기</button>'
     +'<button type="button" class="lnk" data-act="del" data-id="'+E(row.id)+'">지우기</button></div></article>';
 }
 function drawIns(){
   DB.list('insight').then(function(rows){
     insRows=rows;
-    var q=insQ.replace(/\s/g,'');
-    var v=rows.filter(function(r){
-      var d=r.data,at=d.at||new Date(r.at).getTime();
-      if(insF!=='전체'&&(d.st||'할것')!==insF)return false;
-      if(insSlotF!=='전체'&&slot(new Date(at).getHours())!==insSlotF)return false;
-      if(q&&((d.t||'')+(d.body||'')+(d.note||'')+(d.metric||'')).replace(/\s/g,'').indexOf(q)<0)return false;
-      return true;
-    }).sort(function(x,y){return (y.data.at||new Date(y.at).getTime())-(x.data.at||new Date(x.at).getTime());});
+    var v=rows.slice().sort(function(x,y){
+      return (y.data.at||new Date(y.at).getTime())-(x.data.at||new Date(x.at).getTime());});
     document.getElementById('insList').innerHTML=v.length?v.map(insCard).join('')
-      :'<div class="empty">'+(rows.length?'조건에 맞는 기록이 없어요.':'기록이 없어요.<br>위에 바로 적고 [기록하기]를 누르세요.')+'</div>';
+      :'<div class="empty">기록이 없어요.<br>위에 바로 적고 [기록하기]를 누르세요.</div>';
   });
 }
 document.getElementById('tInsight').addEventListener('click',function(e){
@@ -1319,15 +1298,9 @@ document.getElementById('tInsight').addEventListener('click',function(e){
     row.data.st=ST[(ST.indexOf(row.data.st||'할것')+1)%ST.length];
     DB.set('insight',id,row.data).then(drawIns);
   }
-  if(b.dataset.act==='cur'){
-    var inp=document.querySelector('[data-cur="'+id+'"]'),v=inp.value.trim();
-    if(v===''){inp.focus();return;}
-    row.data.cur=v; row.data.hist=(row.data.hist||[]).concat([{v:v,at:Date.now()}]);
-    DB.set('insight',id,row.data).then(drawIns);
-  }
   if(b.dataset.act==='del'){ if(confirm('지울까요?')) DB.del('insight',id).then(drawIns); }
 });
-resetForm(); drawFilters();
+resetForm();
 
 /* ===== 시작 ===== */
 banners();
