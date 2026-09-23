@@ -711,7 +711,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-23 23:11
+  갱신 2026-09-23 23:17
 </footer>
 
 <script>
@@ -1289,7 +1289,7 @@ tPre.addEventListener('click',function(e){
 
 /* ===== 전달사항 ===== */
 function monday(ms){var d=bizDate(ms);var w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);d.setHours(0,0,0,0);return d;}
-var thisWeek=monday().getTime(), lastWeek=thisWeek-7*864e5, noteRows=[], noteWho='전체';
+var thisWeek=monday().getTime(), lastWeek=thisWeek-7*864e5, noteRows=[], noteWho='전체', noteEdit=null, noteEditWho='전체';
 var whoPick=document.getElementById('nf-who');
 ['전체'].concat(CFG.people).forEach(function(p){
   var b=document.createElement('button');b.type='button';b.textContent=p;
@@ -1305,13 +1305,27 @@ function whoColor(n){
 }
 function noteCard(row){
   var d=row.data,at=new Date(row.at).getTime();
+  if(noteEdit===row.id){
+    var whos=['전체'].concat(CFG.people), cur=noteEditWho;
+    var custom=whos.indexOf(cur)<0?cur:'';
+    return '<article class="nc" data-id="'+E(row.id)+'"><div class="form on" style="margin:0;border:0;padding:0">'
+      +'<label>누구에게</label><div class="pick">'
+      +whos.map(function(p){return '<button type="button" data-act="ewho" data-v="'+E(p)+'" data-id="'+E(row.id)+'" aria-pressed="'+(p===cur?'true':'false')+'">'+E(p)+'</button>';}).join('')
+      +'</div><input type="text" class="ne-who2" placeholder="직접 입력 (선택)" value="'+E(custom)+'" style="margin-top:6px">'
+      +'<label>내용</label><textarea class="ne-b">'+E(d.body)+'</textarea>'
+      +'<div class="acts"><button type="button" class="sec" data-act="ecancel" data-id="'+E(row.id)+'">취소</button>'
+      +'<button type="button" class="pri" data-act="esave" data-id="'+E(row.id)+'">저장</button></div>'
+      +'</div></article>';
+  }
   return '<article class="nc'+(d.ack?' done':'')+'" data-id="'+E(row.id)+'">'
     +'<div class="who"><span class="chip '+whoColor(d.who||'전체')+'">'+E(d.who||'전체')+'</span>'
     +(d.ack?'<span class="ack">✓ 확인</span>':'')
-    +'<span class="dt">'+E(fmt(at))+'</span></div>'
+    +'<span class="dt">'+E(fmt(at))+(d.edited?' · 수정됨':'')+'</span></div>'
     +'<p>'+E(d.body)+'</p>'
     +'<div class="acts"><button type="button" class="sec" data-act="ack" data-id="'+E(row.id)+'">'
     +(d.ack?'확인 취소':'확인했어요')+'</button>'
+    +'<button type="button" class="sec" data-act="edit" data-id="'+E(row.id)+'">수정</button>'
+    +'<button type="button" class="sec" data-act="del" data-id="'+E(row.id)+'" style="margin-left:auto;color:var(--dim)">삭제</button>'
     +'</div></article>';
 }
 function drawNote(){
@@ -1342,7 +1356,23 @@ document.getElementById('tNote').addEventListener('click',function(e){
   var id=b.dataset.id,row=null;
   noteRows.forEach(function(r){if(r.id===id)row=r;}); if(!row)return;
   if(b.dataset.act==='ack'){ row.data.ack=row.data.ack?0:Date.now(); DB.set('note',id,row.data).then(drawNote); }
-  if(b.dataset.act==='del'){ if(confirm('지울까요?')) DB.del('note',id).then(drawNote); }
+  if(b.dataset.act==='del'){ if(confirm('이 전달사항을 지울까요?')) DB.del('note',id).then(drawNote); }
+  if(b.dataset.act==='edit'){ noteEdit=id; noteEditWho=row.data.who||'전체'; drawNote(); }
+  if(b.dataset.act==='ecancel'){ noteEdit=null; drawNote(); }
+  if(b.dataset.act==='ewho'){
+    noteEditWho=b.dataset.v;
+    [].forEach.call(b.parentNode.children,function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    var ci=b.closest('.nc').querySelector('.ne-who2'); if(ci)ci.value='';
+  }
+  if(b.dataset.act==='esave'){
+    var card=b.closest('.nc'), body=card.querySelector('.ne-b').value.trim(),
+        w2=card.querySelector('.ne-who2').value.trim();
+    if(!body){alert('내용을 적어 주세요');return;}
+    var nd=Object.assign({},row.data), changed=(nd.body!==body);
+    nd.body=body; nd.who=w2||noteEditWho; nd.edited=Date.now();
+    if(changed) nd.ack=0;   // 내용이 바뀌면 다시 확인받는다
+    DB.set('note',id,nd).then(function(){noteEdit=null;drawNote();});
+  }
 });
 
 /* ===== 인사이트 ===== */
