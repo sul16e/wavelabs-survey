@@ -233,6 +233,43 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 .memos div small{display:block;opacity:.75;font-size:11px;margin-top:2px}
 .addmemo{display:flex;gap:6px;padding:0 10px 9px}
 .addmemo input{flex:1 1 auto;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink)}
+/* 선결제 — 고객 / 상세 / 편집 3화면 */
+.pv{display:none}
+#tPre[data-pv="list"] .pv[data-pv="list"],
+#tPre[data-pv="cust"] .pv[data-pv="cust"],
+#tPre[data-pv="edit"] .pv[data-pv="edit"]{display:block}
+.srch{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);
+  color:var(--ink);font-size:16px;margin-bottom:8px}
+.cc{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);
+  border-radius:11px;padding:10px 12px;margin-bottom:7px;cursor:pointer;min-height:52px}
+.cc b{font-size:15.5px}
+.cc .ph2{font-size:12.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+.cc .grow{flex:1 1 auto}
+.cc .arw{color:var(--dim);font-size:16px}
+.back{display:inline-block;margin-bottom:8px}
+.chead{display:flex;align-items:center;gap:9px;background:var(--tint);border:1px solid var(--line);
+  border-radius:11px;padding:10px 12px;margin-bottom:9px;flex-wrap:wrap}
+.chead b{font-size:16px}
+.chead span{font-size:13px;color:var(--dim);font-variant-numeric:tabular-nums;flex:1 1 auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.two>*{margin:0}
+.btnlike{display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;
+  border-radius:10px;font-size:15px;font-weight:700;min-height:46px;padding:0 10px}
+.step{font-size:13px;color:var(--brand2);font-weight:700;margin-bottom:7px}
+.fl{display:block;font-size:12.5px;color:var(--dim);font-weight:700;margin:11px 0 5px}
+.menugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:5px;
+  max-height:196px;overflow:auto;padding:2px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.menugrid button{padding:8px 7px;border:1px solid var(--line);border-radius:8px;background:var(--card);
+  color:var(--ink);font-size:13px;line-height:1.3;text-align:left;min-height:38px}
+.menugrid button:active{background:var(--tint)}
+.ei{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:6px}
+.ei .r1{display:flex;align-items:center;gap:7px}
+.ei .r1 b{flex:1 1 auto;font-size:14.5px}
+.ei .q{min-width:22px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.ei .ocs{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.oc{font-size:11.5px;padding:4px 8px;border:1px solid var(--line);border-radius:999px;
+  background:var(--bg);color:var(--dim);white-space:nowrap}
+.oc.on{background:var(--brand);border-color:var(--brand);color:#fff}
 
 /* ---------- 전달사항 ---------- */
 .nc{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin-bottom:7px;
@@ -497,27 +534,58 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 </section>
 <div class="fbar"><button type="button" id="save">수정 반영하기</button></div>
 
-<section id="tPre" class="pane">
+<section id="tPre" class="pane" data-pv="list">
   <div class="off" id="offPre"></div>
-  <button type="button" class="pri wide" id="preNew">+ 선결제 등록</button>
-  <div class="form" id="preForm">
-    <label>손님</label>
-    <input type="text" id="pf-c" placeholder="예: 김OO 님 / 단골 아저씨">
-    <label>결제한 메뉴 — 한 줄에 하나씩, 뒤에 개수</label>
-    <textarea id="pf-i" placeholder="아메리카노 2&#10;오리지널 크로플 1&#10;와인 플래터"></textarea>
-    <label>메모 (선택)</label>
-    <input type="text" id="pf-m" placeholder="예: 아메리카노는 디카페인으로">
-    <label>영수증 사진 (선택)</label>
-    <input type="file" id="pf-p" accept="image/*">
-    <img class="thumb" id="pf-prev" hidden alt="">
+
+  <div class="pv" data-pv="list">
+    <button type="button" class="pri wide" id="custNew">+ 신규 고객님 등록</button>
+    <div class="form" id="custForm">
+      <label>성함</label>
+      <input type="text" id="cf-n" placeholder="예: 김민수 님">
+      <label>전화번호</label>
+      <input type="tel" id="cf-p" inputmode="numeric" placeholder="010-0000-0000">
+      <div class="acts">
+        <button type="button" class="sec" id="cf-cancel">취소</button>
+        <button type="button" class="pri" id="cf-ok">등록</button>
+      </div>
+    </div>
+    <input type="search" class="srch" id="custSearch" placeholder="성함 · 전화번호로 찾기">
+    <div id="custList"></div>
+  </div>
+
+  <div class="pv" data-pv="cust">
+    <button type="button" class="lnk back" data-pact="back">← 고객 목록</button>
+    <div class="chead"><b id="cuName"></b><span id="cuPhone"></span>
+      <button type="button" class="lnk" data-pact="cdel">고객 삭제</button></div>
+    <div class="two">
+      <label class="pri btnlike" for="rcpt">영수증 사진 올리기</label>
+      <input type="file" id="rcpt" accept="image/*" multiple hidden>
+      <button type="button" class="sec btnlike" data-pact="manual">직접 입력</button>
+    </div>
+    <div id="preList"></div>
+    <button type="button" class="lnk wide" id="preToggleDone">완료된 건 보기</button>
+    <div id="preDone" hidden></div>
+  </div>
+
+  <div class="pv" data-pv="edit">
+    <button type="button" class="lnk back" data-pact="ecancel">← 취소</button>
+    <div class="step" id="edStep"></div>
+    <img class="thumb" id="edImg" hidden alt="">
+    <label class="fl">선결제 날짜</label>
+    <input type="date" id="edDate">
+    <label class="fl">메뉴 고르기 — 누르면 아래에 담겨요</label>
+    <input type="search" class="srch" id="menuSearch" placeholder="메뉴 검색">
+    <nav class="pick" id="menuCats"></nav>
+    <div class="menugrid" id="menuGrid"></div>
+    <label class="fl">담은 메뉴</label>
+    <div id="edItems"></div>
+    <label class="fl">메모</label>
+    <input type="text" id="edMemo" placeholder="예: 아메리카노 한 잔은 디카페인으로">
     <div class="acts">
-      <button type="button" class="sec" id="pf-cancel">취소</button>
-      <button type="button" class="pri" id="pf-ok">등록</button>
+      <button type="button" class="sec" data-pact="ecancel">취소</button>
+      <button type="button" class="pri" data-pact="esave">저장</button>
     </div>
   </div>
-  <div id="preList"></div>
-  <button type="button" class="lnk wide" id="preToggleDone">완료된 건 보기</button>
-  <div id="preDone" hidden></div>
 </section>
 
 <section id="tNote" class="pane">
@@ -570,7 +638,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-23 15:48
+  갱신 2026-09-23 17:02
 </footer>
 
 <script>
@@ -697,7 +765,8 @@ function setTab(t){
   document.body.dataset.tab=t;
   tabBtns.forEach(function(b){b.setAttribute('aria-selected',b.dataset.tab===t?'true':'false');});
   LSset('wl-tab',t); window.scrollTo(0,0);
-  if(t==='pre')drawPre(); if(t==='note')drawNote(); if(t==='insight')drawIns();
+  if(t==='pre'){ if(tPre.dataset.pv==='cust')drawPre(); else {tPre.dataset.pv='list';drawCust();} }
+  if(t==='note')drawNote(); if(t==='insight')drawIns();
 }
 tabBtns.forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.tab);});});
 
@@ -822,48 +891,87 @@ bSave.addEventListener('click',function(){
 });
 
 /* ===== 선결제 ===== */
-var preRows=[];
-function parseItems(txt){
-  var out=[];
-  txt.split(/\n+/).forEach(function(l){
-    l=l.trim(); if(!l)return;
-    var m=l.match(/^(.+?)\s*[x×*]?\s*(\d{1,2})\s*(?:잔|개|접시|병|인분|piece)?$/i),n=l,qy=1;
-    if(m&&m[1].trim()){n=m[1].trim().replace(/[\s,·]+$/,'');qy=Math.min(40,parseInt(m[2],10)||1);}
-    for(var i=0;i<qy;i++) out.push({n:n,q:qy,i:i+1,d:0});
+var MENUS=[{"n": "아포가토", "g": "커피"}, {"n": "아메리카노", "g": "커피"}, {"n": "디카페인 아메리카노", "g": "커피"}, {"n": "카페라떼", "g": "커피"}, {"n": "허니라떼", "g": "커피"}, {"n": "콘파냐", "g": "커피"}, {"n": "오렌지 블랙", "g": "커피"}, {"n": "피스타치오 라떼", "g": "커피"}, {"n": "흑임자 카페라떼 (ICE)", "g": "커피"}, {"n": "시그니처 바닐라", "g": "커피"}, {"n": "제로 아이스티", "g": "논커피"}, {"n": "피치 블랙티", "g": "논커피"}, {"n": "허니 카모마일", "g": "논커피"}, {"n": "유자 릴렉서", "g": "논커피"}, {"n": "레몬 페퍼민트", "g": "논커피"}, {"n": "허니자몽블랙티", "g": "논커피"}, {"n": "피치 블루레몬 릴렉서", "g": "논커피"}, {"n": "초코라떼", "g": "논커피"}, {"n": "말차라떼", "g": "논커피"}, {"n": "쑥라떼", "g": "논커피"}, {"n": "딸기에이드", "g": "논커피"}, {"n": "딸기라떼", "g": "논커피"}, {"n": "흑임자 라떼 (ICE)", "g": "논커피"}, {"n": "얼그레이 밀크티", "g": "논커피"}, {"n": "얼그레이 레몬에이드", "g": "시그니처"}, {"n": "피치 릴렉서", "g": "시그니처"}, {"n": "수박주스", "g": "시그니처"}, {"n": "시그니처 바닐라 위스키 (ICE)", "g": "시그니처"}, {"n": "바나나 브륄레와 아이스크림", "g": "안주"}, {"n": "옥수수 크림치즈 & 아이스크림과 크래커", "g": "안주"}, {"n": "와인 플래터", "g": "안주"}, {"n": "레드 와인 (14%)", "g": "와인"}, {"n": "화이트 와인 (13%)", "g": "와인"}, {"n": "하이네켄 (5.0%)", "g": "주류"}, {"n": "크로넨버그 1664 블랑 (5.0%)", "g": "주류"}, {"n": "기네스 드래프트 (4.2%)", "g": "주류"}, {"n": "크로플 하프 (평일 ~17시)", "g": "디저트"}, {"n": "오레오 아이스크림", "g": "디저트"}, {"n": "오리지널 크로플", "g": "디저트"}, {"n": "누텔라 바나나 브륄레 크로플", "g": "디저트"}, {"n": "옥수수 크로플 (시즌)", "g": "디저트"}, {"n": "오레오 크로플", "g": "디저트"}, {"n": "애플 시나몬 크로플", "g": "디저트"}, {"n": "흑임자 바스크 치즈케이크 (신규)", "g": "디저트"}, {"n": "오리지널 바스크 치즈케이크", "g": "디저트"}, {"n": "얼그레이 바스크 치즈케이크", "g": "디저트"}, {"n": "베리 아이스크림", "g": "디저트"}, {"n": "브라우니 & 바닐라 아이스크림", "g": "디저트"}, {"n": "브런치 플레이트", "g": "브런치"}, {"n": "흑임자 바치케 + 아메리카노 세트", "g": "세트"}, {"n": "오리지널 바치케 + 아메리카노 세트", "g": "세트"}, {"n": "얼그레이 바치케 + 아메리카노 세트", "g": "세트"}];
+var OPTS=['HOT','ICE','디카페인','샷 추가','오트 변경','아이스크림 추가','화이트 크림 추가','헤이즐넛 시럽','저당 메이플 시럽','계란 추가'];
+var custRows=[],preRows=[],curCust=null,edit=null,mCat='전체',mQ='';
+var tPre=document.getElementById('tPre');
+function pv(v){tPre.dataset.pv=v;}
+function ymd(ms){var d=new Date(ms);return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function leftOf(row){var n=0;(row.data.items||[]).forEach(function(it){(it.d||[]).forEach(function(x){if(!x)n++;});});return n;}
+
+/* ---- 고객 목록 ---- */
+function drawCust(){
+  return Promise.all([DB.list('cust'),DB.list('prepay')]).then(function(r){
+    custRows=r[0]; preRows=r[1];
+    var q=(document.getElementById('custSearch').value||'').replace(/[\s-]/g,'');
+    var html=custRows.filter(function(c){
+      if(!q)return true;
+      return ((c.data.n||'')+(c.data.p||'').replace(/[\s-]/g,'')).indexOf(q)>=0;
+    }).map(function(c){
+      var left=0,cnt=0;
+      preRows.forEach(function(row){ if(row.data.cid===c.id&&!row.data.closed){cnt++;left+=leftOf(row);} });
+      return '<div class="cc" data-pact="open" data-id="'+E(c.id)+'">'
+        +'<b>'+E(c.data.n||'손님')+'</b><span class="ph2">'+E(c.data.p||'')+'</span>'
+        +'<span class="grow"></span>'
+        +(left?'<span class="badge">남은 '+left+'개</span>':(cnt?'<span class="badge ok">다 나감</span>':''))
+        +'<span class="arw">›</span></div>';
+    }).join('');
+    document.getElementById('custList').innerHTML=html||'<div class="empty">등록된 고객님이 없어요.<br>위 버튼으로 등록해 주세요.</div>';
   });
-  return out;
+}
+document.getElementById('custSearch').addEventListener('input',drawCust);
+var custForm=document.getElementById('custForm');
+document.getElementById('custNew').addEventListener('click',function(){custForm.classList.toggle('on');});
+document.getElementById('cf-cancel').addEventListener('click',function(){custForm.classList.remove('on');});
+document.getElementById('cf-ok').addEventListener('click',function(){
+  var n=document.getElementById('cf-n').value.trim(),ph=document.getElementById('cf-p').value.trim();
+  if(!n){alert('성함을 적어 주세요');return;}
+  DB.add('cust',{n:n,p:ph}).then(function(){
+    document.getElementById('cf-n').value='';document.getElementById('cf-p').value='';
+    custForm.classList.remove('on'); drawCust();
+  });
+});
+
+/* ---- 고객 상세 ---- */
+function openCust(id){
+  curCust=null;
+  for(var i=0;i<custRows.length;i++) if(custRows[i].id===id) curCust=custRows[i];
+  if(!curCust)return;
+  document.getElementById('cuName').textContent=curCust.data.n||'손님';
+  document.getElementById('cuPhone').textContent=curCust.data.p||'';
+  pv('cust'); drawPre();
 }
 function preCard(row){
-  var d=row.data,left=d.items.filter(function(x){return !x.d;}).length,
-      cl=left===0, at=new Date(row.at).getTime();
-  var items=d.items.map(function(it,ix){
-    return '<label class="it'+(it.d?' on':'')+'"><input type="checkbox" data-act="item" data-id="'+E(row.id)+'" data-ix="'+ix+'"'+(it.d?' checked':'')+'>'
-      +'<span>'+E(it.n)+(it.q>1?' <em>'+it.i+'/'+it.q+'</em>':'')+'</span>'
-      +(it.d?'<em>'+E(fmt(it.d))+'</em>':'')+'</label>';
+  var d=row.data,left=leftOf(row),cl=d.closed||left===0;
+  var items=(d.items||[]).map(function(it,ix){
+    return (it.d||[]).map(function(t,k){
+      return '<label class="it'+(t?' on':'')+'"><input type="checkbox" data-pact="item" data-id="'+E(row.id)+'" data-ix="'+ix+'" data-k="'+k+'"'+(t?' checked':'')+'>'
+        +'<span>'+E(it.n)+(it.o?' <em>'+E(it.o)+'</em>':'')+(it.q>1?' <em>'+(k+1)+'/'+it.q+'</em>':'')+'</span>'
+        +(t?'<em>'+E(fmt(t))+'</em>':'')+'</label>';
+    }).join('');
   }).join('');
-  var memos=(d.memos||[]).map(function(m){
-    return '<div>'+E(m.t)+'<small>'+E(fmt(m.at))+'</small></div>';}).join('');
+  var memos=(d.memos||[]).map(function(m){return '<div>'+E(m.t)+'<small>'+E(fmt(m.at))+'</small></div>';}).join('');
   return '<article class="pc'+(cl?' closed':'')+'" data-id="'+E(row.id)+'">'
-    +'<div class="ph"><b>'+E(d.c||'손님')+'</b>'
-    +'<span class="badge'+(cl?' ok':'')+'">'+(cl?'다 나감':'남은 '+left+'개')+'</span>'
-    +'<span class="dt">'+E(fmt(at))+'</span></div>'
-    +'<div class="items">'+items+'</div>'
+    +'<div class="ph"><b>'+E(ymd(d.at||row.at))+' 선결제</b>'
+    +'<span class="badge'+(cl?' ok':'')+'">'+(cl?'다 나감':'남은 '+left+'개')+'</span></div>'
+    +'<div class="items">'+(items||'<div class="empty">담긴 메뉴가 없어요</div>')+'</div>'
     +(memos?'<div class="memos">'+memos+'</div>':'')
     +'<div class="addmemo"><input type="text" placeholder="메모 (예: 아메리카노 → 디카페인으로 나감)" data-memo="'+E(row.id)+'">'
-    +'<button type="button" class="sec" data-act="memo" data-id="'+E(row.id)+'">추가</button></div>'
-    +'<div class="ft">'+(d.img?'<button type="button" class="sec" data-act="img" data-id="'+E(row.id)+'">영수증 보기</button>':'')
+    +'<button type="button" class="sec" data-pact="memo" data-id="'+E(row.id)+'">추가</button></div>'
+    +'<div class="ft">'+(d.img?'<button type="button" class="sec" data-pact="img" data-id="'+E(row.id)+'">영수증 보기</button>':'')
+    +'<button type="button" class="sec" data-pact="edit" data-id="'+E(row.id)+'">고치기</button>'
     +'<span class="grow"></span>'
-    +'<button type="button" class="lnk" data-act="del" data-id="'+E(row.id)+'">지우기</button>'
-    +'<button type="button" class="sec" data-act="close" data-id="'+E(row.id)+'">'+(d.closed?'되돌리기':'완료 처리')+'</button></div>'
+    +'<button type="button" class="lnk" data-pact="del" data-id="'+E(row.id)+'">지우기</button>'
+    +'<button type="button" class="sec" data-pact="close" data-id="'+E(row.id)+'">'+(d.closed?'되돌리기':'완료 처리')+'</button></div>'
     +'</article>';
 }
 function drawPre(){
-  DB.list('prepay').then(function(rows){
+  return DB.list('prepay').then(function(rows){
     preRows=rows;
     var open=[],done=[];
     rows.forEach(function(r){
-      var left=r.data.items.filter(function(x){return !x.d;}).length;
-      (r.data.closed||left===0?done:open).push(r);
+      if(!curCust||r.data.cid!==curCust.id)return;
+      (r.data.closed||leftOf(r)===0?done:open).push(r);
     });
     document.getElementById('preList').innerHTML=open.length?open.map(preCard).join('')
       :'<div class="empty">진행 중인 선결제가 없어요.<br>위 버튼으로 등록해 주세요.</div>';
@@ -871,15 +979,133 @@ function drawPre(){
     document.getElementById('preToggleDone').textContent='완료된 건 보기 ('+done.length+')';
   });
 }
+document.getElementById('preToggleDone').addEventListener('click',function(){
+  var el=document.getElementById('preDone'); el.hidden=!el.hidden;
+});
 function findPre(id){for(var i=0;i<preRows.length;i++)if(preRows[i].id===id)return preRows[i];return null;}
-document.getElementById('tPre').addEventListener('click',function(e){
-  var b=e.target.closest('[data-act]'); if(!b)return;
-  var row=findPre(b.dataset.id); if(!row)return;
-  var d=row.data,act=b.dataset.act;
-  if(act==='item'){
-    var it=d.items[+b.dataset.ix]; it.d=b.checked?Date.now():0;
-    DB.set('prepay',row.id,d).then(drawPre); return;
+
+/* ---- 건 편집 ---- */
+function drawMenuCats(){
+  var gs=['전체'];
+  MENUS.forEach(function(m){if(gs.indexOf(m.g)<0)gs.push(m.g);});
+  document.getElementById('menuCats').innerHTML=gs.map(function(g){
+    return '<button type="button" data-pact="mcat" data-g="'+E(g)+'" aria-pressed="'+(g===mCat?'true':'false')+'">'+E(g)+'</button>';
+  }).join('');
+}
+function drawMenuGrid(){
+  var q=mQ.replace(/\s/g,'');
+  var list=MENUS.filter(function(m){
+    if(q) return m.n.replace(/\s/g,'').indexOf(q)>=0;
+    return mCat==='전체'||m.g===mCat;
+  }).slice(0,120);
+  document.getElementById('menuGrid').innerHTML=list.map(function(m){
+    return '<button type="button" data-pact="add" data-n="'+E(m.n)+'">'+E(m.n)+'</button>';
+  }).join('')||'<div class="empty">찾는 메뉴가 없어요</div>';
+}
+function drawEdItems(){
+  document.getElementById('edItems').innerHTML=edit.items.length?edit.items.map(function(it,ix){
+    var chips=OPTS.map(function(o){
+      return '<button type="button" class="oc'+(it.o.indexOf(o)>=0?' on':'')+'" data-pact="opt" data-ix="'+ix+'" data-o="'+E(o)+'">'+E(o)+'</button>';
+    }).join('');
+    return '<div class="ei"><div class="r1"><b>'+E(it.n)+'</b>'
+      +'<button type="button" class="stp" data-pact="qm" data-ix="'+ix+'">−</button>'
+      +'<span class="q">'+it.q+'</span>'
+      +'<button type="button" class="stp" data-pact="qp" data-ix="'+ix+'">+</button>'
+      +'<button type="button" class="lnk" data-pact="rm" data-ix="'+ix+'">삭제</button></div>'
+      +'<div class="ocs">'+chips+'</div></div>';
+  }).join(''):'<div class="empty">위에서 메뉴를 눌러 담아 주세요</div>';
+}
+function startEdit(o){
+  edit=o; mCat='전체'; mQ='';
+  document.getElementById('menuSearch').value='';
+  document.getElementById('edDate').value=ymd(edit.at||Date.now());
+  document.getElementById('edMemo').value=edit.memo||'';
+  var im=document.getElementById('edImg');
+  if(edit.preview){im.src=edit.preview;im.hidden=false;}else if(edit.img){im.src=edit.img;im.hidden=false;}else{im.hidden=true;}
+  document.getElementById('edStep').textContent=edit.step||'';
+  drawMenuCats(); drawMenuGrid(); drawEdItems(); pv('edit');
+  window.scrollTo(0,0);
+}
+document.getElementById('menuSearch').addEventListener('input',function(){mQ=this.value;drawMenuGrid();});
+document.getElementById('rcpt').addEventListener('change',function(e){
+  var fs=[].slice.call(e.target.files||[]); e.target.value='';
+  if(!fs.length||!curCust)return;
+  nextShot(fs,0);
+});
+function nextShot(files,i){
+  if(i>=files.length){ pv('cust'); drawPre(); return; }
+  startEdit({cid:curCust.id,at:Date.now(),items:[],memo:'',file:files[i],
+    preview:URL.createObjectURL(files[i]),queue:files,qi:i,
+    step:files.length>1?(i+1)+' / '+files.length+'번째 영수증':'영수증 1장'});
+}
+function editRow(row){
+  var d=row.data;
+  startEdit({id:row.id,cid:d.cid,at:d.at||row.at,img:d.img||'',
+    items:(d.items||[]).map(function(it){return {n:it.n,o:it.o?it.o.split(' · '):[],q:it.q};}),
+    memo:'',step:'기존 건 고치기'});
+}
+
+/* ---- 클릭 처리 ---- */
+tPre.addEventListener('click',function(e){
+  var b=e.target.closest('[data-pact]'); if(!b)return;
+  var act=b.dataset.pact,row=b.dataset.id?findPre(b.dataset.id):null,ix=+b.dataset.ix;
+
+  if(act==='open'){ openCust(b.dataset.id); return; }
+  if(act==='back'){ pv('list'); drawCust(); return; }
+  if(act==='cdel'){
+    if(!curCust)return;
+    if(!confirm((curCust.data.n||'이 고객님')+' 기록을 전부 지울까요?'))return;
+    var mine=preRows.filter(function(r){return r.data.cid===curCust.id;});
+    Promise.all(mine.map(function(r){return DB.del('prepay',r.id);}))
+      .then(function(){return DB.del('cust',curCust.id);})
+      .then(function(){pv('list');drawCust();});
+    return;
   }
+  if(act==='manual'){ startEdit({cid:curCust.id,at:Date.now(),items:[],memo:'',step:'직접 입력'}); return; }
+  if(act==='mcat'){ mCat=b.dataset.g; mQ=''; document.getElementById('menuSearch').value=''; drawMenuCats(); drawMenuGrid(); return; }
+  if(act==='add'){
+    var n=b.dataset.n,hit=null;
+    edit.items.forEach(function(it){if(it.n===n&&!it.o.length)hit=it;});
+    if(hit)hit.q++; else edit.items.push({n:n,o:[],q:1});
+    drawEdItems(); return;
+  }
+  if(act==='qp'){ edit.items[ix].q=Math.min(40,edit.items[ix].q+1); drawEdItems(); return; }
+  if(act==='qm'){ if(--edit.items[ix].q<1)edit.items.splice(ix,1); drawEdItems(); return; }
+  if(act==='rm'){ edit.items.splice(ix,1); drawEdItems(); return; }
+  if(act==='opt'){
+    var o=b.dataset.o,arr=edit.items[ix].o,k=arr.indexOf(o);
+    if(k>=0)arr.splice(k,1); else arr.push(o);
+    drawEdItems(); return;
+  }
+  if(act==='ecancel'){
+    if(edit&&edit.queue&&edit.qi+1<edit.queue.length){ nextShot(edit.queue,edit.qi+1); return; }
+    edit=null; pv('cust'); drawPre(); return;
+  }
+  if(act==='esave'){
+    if(!edit.items.length){alert('메뉴를 하나 이상 담아 주세요');return;}
+    var dv=document.getElementById('edDate').value,
+        at=dv?new Date(dv+'T12:00:00').getTime():Date.now(),
+        memo=document.getElementById('edMemo').value.trim(),
+        items=edit.items.map(function(it){
+          var d=[]; for(var i=0;i<it.q;i++)d.push(0);
+          return {n:it.n,o:it.o.join(' · '),q:it.q,d:d};
+        });
+    b.disabled=true; b.textContent='저장 중…';
+    (edit.file?DB.upload(edit.file):Promise.resolve(edit.img||'')).then(function(url){
+      var data={cid:edit.cid,at:at,items:items,memos:memo?[{t:memo,at:Date.now()}]:[],img:url,closed:false};
+      return edit.id?DB.set('prepay',edit.id,data):DB.add('prepay',data);
+    }).then(function(){
+      var q=edit.queue,qi=edit.qi; edit=null;
+      if(q&&qi+1<q.length) nextShot(q,qi+1);
+      else { pv('cust'); drawPre(); }
+    }).catch(function(){alert('저장에 실패했어요. 다시 시도해 주세요');})
+      .then(function(){b.disabled=false;b.textContent='저장';});
+    return;
+  }
+
+  if(!row)return;
+  var d=row.data;
+  if(act==='item'){ d.items[ix].d[+b.dataset.k]=b.checked?Date.now():0; DB.set('prepay',row.id,d).then(drawPre); return; }
   if(act==='memo'){
     var inp=document.querySelector('[data-memo="'+row.id+'"]'),t=inp.value.trim();
     if(!t)return; d.memos=d.memos||[]; d.memos.push({t:t,at:Date.now()});
@@ -887,33 +1113,8 @@ document.getElementById('tPre').addEventListener('click',function(e){
   }
   if(act==='close'){ d.closed=!d.closed; DB.set('prepay',row.id,d).then(drawPre); return; }
   if(act==='img'){ window.open(d.img,'_blank'); return; }
+  if(act==='edit'){ editRow(row); return; }
   if(act==='del'){ if(confirm('이 선결제 기록을 지울까요?')) DB.del('prepay',row.id).then(drawPre); }
-});
-document.getElementById('preToggleDone').addEventListener('click',function(){
-  var el=document.getElementById('preDone'); el.hidden=!el.hidden;
-});
-var preForm=document.getElementById('preForm'),preFile=null;
-document.getElementById('preNew').addEventListener('click',function(){preForm.classList.toggle('on');});
-document.getElementById('pf-cancel').addEventListener('click',function(){preForm.classList.remove('on');});
-document.getElementById('pf-p').addEventListener('change',function(e){
-  preFile=e.target.files[0]||null;
-  var pv=document.getElementById('pf-prev');
-  if(preFile){pv.src=URL.createObjectURL(preFile);pv.hidden=false;}else{pv.hidden=true;}
-});
-document.getElementById('pf-ok').addEventListener('click',function(){
-  var c=document.getElementById('pf-c').value.trim(),
-      items=parseItems(document.getElementById('pf-i').value),
-      m=document.getElementById('pf-m').value.trim();
-  if(!items.length){alert('결제한 메뉴를 한 줄에 하나씩 적어 주세요');return;}
-  var btn=this; btn.disabled=true; btn.textContent='저장 중…';
-  (preFile?DB.upload(preFile):Promise.resolve('')).then(function(url){
-    return DB.add('prepay',{c:c,items:items,memos:m?[{t:m,at:Date.now()}]:[],img:url,closed:false});
-  }).then(function(){
-    document.getElementById('pf-c').value='';document.getElementById('pf-i').value='';
-    document.getElementById('pf-m').value='';document.getElementById('pf-p').value='';
-    document.getElementById('pf-prev').hidden=true; preFile=null;
-    preForm.classList.remove('on'); drawPre();
-  }).catch(function(){}).then(function(){btn.disabled=false;btn.textContent='등록';});
 });
 
 /* ===== 전달사항 ===== */
