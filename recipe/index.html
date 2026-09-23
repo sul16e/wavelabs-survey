@@ -91,6 +91,7 @@ body:not([data-tab="ops"]) #tOps{display:none}
 body:not([data-tab="pre"]) #tPre{display:none}
 body:not([data-tab="note"]) #tNote{display:none}
 body:not([data-tab="insight"]) #tInsight{display:none}
+body:not([data-owner="1"]) .tabs button[data-tab="insight"]{display:none}
 .pane{max-width:var(--wrap);margin:0 auto;padding:var(--pad) var(--pad) 0}
 main#list{padding:var(--pad) var(--pad) 0;max-width:var(--wrap);margin:0 auto;display:grid;grid-template-columns:1fr;gap:6px;align-items:start}
 @media (min-width:560px){ main#list{grid-template-columns:1fr 1fr;gap:7px} }
@@ -716,7 +717,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-23 18:05
+  갱신 2026-09-23 18:11
 </footer>
 
 <script>
@@ -828,7 +829,8 @@ if(lock){
 /* ===== 사장 모드 ===== */
 function setOwner(on){ document.body.dataset.owner=on?'1':'0';
   try{localStorage.setItem('wl-owner',on?'1':'0')}catch(e){}
-  document.getElementById('ownBtn').setAttribute('aria-checked',on?'true':'false'); }
+  document.getElementById('ownBtn').setAttribute('aria-checked',on?'true':'false');
+  if(!on&&document.body.dataset.tab==='insight'&&typeof setTab==='function') setTab('recipe'); }
 setOwner(localStorage.getItem('wl-owner')==='1');
 document.getElementById('ownBtn').addEventListener('click',function(){
   if(document.body.dataset.owner==='1'){setOwner(false);return;}
