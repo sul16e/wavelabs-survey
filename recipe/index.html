@@ -638,7 +638,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-23 17:02
+  갱신 2026-09-23 17:18
 </footer>
 
 <script>
@@ -646,7 +646,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 "use strict";
 /* ===== 영업장 설정 (생성기가 매장_설정.json에서 채운다) ===== */
 var CFG={store:"WaveLabs 매장",pinStaff:"3715",pinOwner:"0012",
-         url:"",key:"",bucket:"receipts",people:["예준", "유정"]};
+         url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["예준", "유정"]};
 var ONLINE=!!(CFG.url&&CFG.key);
 var REST=CFG.url.replace(/\/+$/,'')+'/rest/v1/records';
 function hdr(extra){var h={apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json'};
