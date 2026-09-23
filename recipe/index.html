@@ -22,6 +22,7 @@
   /* ↓ 공통 UI (고정) */
   --bg:#F4F6F8; --card:#fff; --ink:#15212B; --dim:#63737F; --line:#E4E9ED;
   --tint:#F1F4F6; --chip:#EAEEF1; --on-brand:#fff;
+  --head:#EDEFF2; --off-ink:rgba(21,33,43,.38); --pad:16px;
   --warn-bg:#FFF6E6; --warn-ink:#8A5A00; --warn-line:#F0D9A8;
   --ok-bg:#E9F5EE; --ok-ink:#1D6B42; --ok-line:#C2E2D1;
   --bad:#B3261E; --bad-bg:#FDECEA;
@@ -51,24 +52,27 @@ input,textarea,select{font:inherit;font-size:16px}
 #bad{font-size:14px;min-height:20px;opacity:.9}
 
 /* ---------- 헤더 · 탭 ---------- */
-header{position:sticky;top:0;z-index:20;background:var(--brand);color:#fff;
-  padding:calc(6px + env(safe-area-inset-top)) 10px 6px}
-.tabs{display:flex;gap:4px}
-.tabs button{flex:1 1 0;white-space:nowrap;border:1px solid rgba(255,255,255,.3);background:transparent;
-  color:rgba(255,255,255,.85);border-radius:9px;padding:5px 2px;font-size:13px;font-weight:700;min-height:36px}
-.tabs button[aria-selected="true"]{background:#fff;color:var(--brand);border-color:#fff}
+header{position:sticky;top:0;z-index:20;background:var(--head);color:var(--ink);
+  padding:calc(8px + env(safe-area-inset-top)) var(--pad) 8px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;white-space:nowrap;border:0;background:transparent;
+  color:var(--off-ink);padding:4px 0;font-size:18px;font-weight:800;letter-spacing:-.2px;min-height:38px}
+.tabs button[aria-selected="true"]{color:var(--brand)}
+@media (max-width:420px){.tabs{gap:14px}.tabs button{font-size:17px}}
 .top{display:flex;align-items:center;gap:6px;margin-top:6px}
-#q{flex:1 1 auto;min-width:0;border:0;border-radius:10px;padding:9px 12px 9px 36px;color:#fff;
-  background:rgba(255,255,255,.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-opacity='.7' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='16.5' y1='16.5' x2='21' y2='21'/%3E%3C/svg%3E") no-repeat 11px center}
-#q::placeholder{color:rgba(255,255,255,.6)}
-#ownBtn{flex:0 0 auto;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;
+#q{flex:1 1 auto;min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px 12px 9px 36px;color:var(--ink);
+  background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2399A4AF' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='16.5' y1='16.5' x2='21' y2='21'/%3E%3C/svg%3E") no-repeat 11px center}
+#q::placeholder{color:var(--dim)}
+#ownBtn{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--dim);
   border-radius:10px;font-size:13px;font-weight:700;padding:0 11px;min-height:38px}
-body[data-owner="1"] #ownBtn{background:#fff;color:var(--brand);border-color:#fff}
-nav#chips{display:flex;gap:6px;overflow-x:auto;padding:7px 10px;background:var(--brand);scrollbar-width:none}
+body[data-owner="1"] #ownBtn{background:var(--brand);color:#fff;border-color:var(--brand)}
+nav#chips{display:flex;gap:6px;overflow-x:auto;padding:8px var(--pad);background:var(--head);
+  border-bottom:1px solid var(--line);scrollbar-width:none}
 nav#chips::-webkit-scrollbar{display:none}
-nav#chips button{flex:0 0 auto;border:1px solid rgba(255,255,255,.28);background:transparent;color:rgba(255,255,255,.88);
+nav#chips button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--dim);
   border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;min-height:32px}
-nav#chips button[aria-pressed="true"]{background:#fff;color:var(--brand);border-color:#fff}
+nav#chips button[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
 
 /* ---------- 탭 전환 ---------- */
 body:not([data-tab="recipe"]) .top,body:not([data-tab="recipe"]) nav#chips,
@@ -77,8 +81,8 @@ body:not([data-tab="ops"]) #tOps{display:none}
 body:not([data-tab="pre"]) #tPre{display:none}
 body:not([data-tab="note"]) #tNote{display:none}
 body:not([data-tab="insight"]) #tInsight{display:none}
-.pane{max-width:760px;margin:0 auto;padding:8px 8px 0}
-main#list{padding:10px 10px 0;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:6px;align-items:start}
+.pane{max-width:760px;margin:0 auto;padding:var(--pad) var(--pad) 0}
+main#list{padding:var(--pad) var(--pad) 0;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:6px;align-items:start}
 @media (min-width:560px){ main#list{grid-template-columns:1fr 1fr;gap:7px} }
 @media (min-width:900px){ main#list{grid-template-columns:1fr 1fr 1fr} }
 @media (min-width:1280px){ main#list{grid-template-columns:1fr 1fr 1fr 1fr} }
@@ -295,6 +299,27 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 .ic2 .metric .ed input{width:90px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
 .ic2 .acts{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .st-chip{font-size:11.5px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap}
+.qf{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px;margin-bottom:10px}
+.qf textarea{width:100%;min-height:76px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
+  background:var(--bg);color:var(--ink);font-size:16px;line-height:1.5;resize:vertical}
+.qf input[type="text"],.qf input[type="number"],.qf input[type="datetime-local"]{width:100%;padding:10px 12px;
+  border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-size:16px;margin-top:7px}
+.qf .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.qf .chips button{font-size:12.5px;padding:6px 11px;border:1px solid var(--line);border-radius:999px;
+  background:var(--bg);color:var(--dim);white-space:nowrap}
+.qf .chips button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.whenrow{display:flex;gap:7px;align-items:center;margin-top:8px}
+.whenrow input{flex:1 1 auto;margin-top:0!important}
+.whenbadge{flex:0 0 auto;font-size:11.5px;font-weight:700;color:var(--brand2);background:var(--tint);
+  border-radius:7px;padding:6px 8px;white-space:nowrap}
+.qf .more{margin-top:9px;border-top:1px dashed var(--line);padding-top:9px;display:none}
+.qf.open .more{display:block}
+.qf .morebtn{background:none;border:0;color:var(--brand2);font-size:13px;font-weight:700;padding:7px 0;margin-top:6px}
+.qf .go{width:100%;margin-top:9px;min-height:48px;font-size:16px}
+.ic2 .meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:6px}
+.ic2 .meta .mb{font-size:11px;font-weight:700;color:var(--brand2);background:var(--tint);border-radius:6px;padding:2px 7px}
+.ic2 .note{margin-top:7px;background:var(--tint);border-radius:8px;padding:7px 9px;font-size:13px;color:var(--dim);line-height:1.45}
+.ic2 img.shot{width:100%;max-height:220px;object-fit:cover;border-radius:9px;margin-top:8px;border:1px solid var(--line)}
 .st-할것{background:var(--chip);color:var(--brand2)}
 .st-진행{background:var(--warn-bg);color:var(--warn-ink)}
 .st-완료{background:var(--ok-bg);color:var(--ok-ink)}
@@ -610,35 +635,40 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(66px + env(safe-area-
 
 <section id="tInsight" class="pane">
   <div class="off" id="offIns"></div>
-  <button type="button" class="pri wide" id="insNew">+ 기록하기</button>
-  <div class="form" id="insForm">
-    <label>제목</label>
-    <input type="text" id="if-t" placeholder="예: 저녁 손님은 따뜻한 걸 찾는다">
-    <div class="row2">
-      <div><label>분류</label><select id="if-k"><option>관찰</option><option>아이디어</option><option>실험</option></select></div>
-      <div><label>상태</label><select id="if-s"><option>할것</option><option>진행</option><option>완료</option><option>보류</option></select></div>
+
+  <div class="qf" id="insForm">
+    <textarea id="if-b" placeholder="지금 떠오른 것을 그대로 적으세요"></textarea>
+    <div class="chips" id="if-kinds"></div>
+    <input type="text" id="if-note" placeholder="인구통계학 정보 (예: 20대 여성 2인 · 근처 직장인)">
+    <div class="whenrow">
+      <input type="datetime-local" id="if-at">
+      <span class="whenbadge" id="if-when"></span>
     </div>
-    <label>내용</label>
-    <textarea id="if-b" placeholder="무엇을 봤는지 / 무엇을 해볼지"></textarea>
-    <label>측정할 지표 (선택)</label>
-    <input type="text" id="if-m" placeholder="예: 하루 HOT 음료 잔 수">
-    <div class="row2">
-      <div><label>목표</label><input type="number" id="if-goal" inputmode="decimal" placeholder="10"></div>
-      <div><label>지금</label><input type="number" id="if-cur" inputmode="decimal" placeholder="3"></div>
+    <div class="chips" id="if-weather"></div>
+    <button type="button" class="morebtn" id="if-more">＋ 제목 · 사진 · 지표 넣기</button>
+    <div class="more">
+      <input type="text" id="if-t" placeholder="제목 (안 적으면 내용 첫 줄이 제목이 돼요)">
+      <input type="file" id="if-img" accept="image/*" style="margin-top:7px">
+      <img class="thumb" id="if-prev" hidden alt="">
+      <input type="text" id="if-m" placeholder="측정할 지표 (예: 하루 HOT 음료 잔 수)">
+      <div class="row2">
+        <div><label>목표</label><input type="number" id="if-goal" inputmode="decimal" placeholder="10"></div>
+        <div><label>지금</label><input type="number" id="if-cur" inputmode="decimal" placeholder="3"></div>
+      </div>
     </div>
-    <div class="acts">
-      <button type="button" class="sec" id="if-cancel">취소</button>
-      <button type="button" class="pri" id="if-ok">저장</button>
-    </div>
+    <button type="button" class="pri go" id="if-ok">기록하기</button>
   </div>
-  <div class="pick" id="insFilter" style="margin:10px 0 8px"></div>
+
+  <input type="search" class="srch" id="insSearch" placeholder="적어둔 것 찾기">
+  <div class="pick" id="insFilter" style="margin-bottom:6px"></div>
+  <div class="pick" id="insSlot" style="margin-bottom:8px"></div>
   <div id="insList"></div>
 </section>
 
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-23 17:18
+  갱신 2026-09-23 17:24
 </footer>
 
 <script>
@@ -763,7 +793,8 @@ document.getElementById('ownBtn').addEventListener('click',function(){
 var tabBtns=[].slice.call(document.querySelectorAll('.tabs button'));
 function setTab(t){
   document.body.dataset.tab=t;
-  tabBtns.forEach(function(b){b.setAttribute('aria-selected',b.dataset.tab===t?'true':'false');});
+  tabBtns.forEach(function(b){var on=b.dataset.tab===t;b.setAttribute('aria-selected',on?'true':'false');
+    if(on&&b.scrollIntoView)try{b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});}catch(e){}});
   LSset('wl-tab',t); window.scrollTo(0,0);
   if(t==='pre'){ if(tPre.dataset.pv==='cust')drawPre(); else {tPre.dataset.pv='list';drawCust();} }
   if(t==='note')drawNote(); if(t==='insight')drawIns();
@@ -1175,17 +1206,73 @@ document.getElementById('tNote').addEventListener('click',function(e){
 });
 
 /* ===== 인사이트 ===== */
-var insRows=[],insF='전체',insFilter=document.getElementById('insFilter');
-['전체','할것','진행','완료','보류'].forEach(function(s){
-  var b=document.createElement('button');b.type='button';b.textContent=s;
-  b.setAttribute('aria-pressed',s===insF?'true':'false');
-  b.addEventListener('click',function(){insF=s;
-    [].forEach.call(insFilter.children,function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
-    drawIns();});
-  insFilter.appendChild(b);
+var insRows=[],insF='전체',insSlotF='전체',insQ='',insKind='관찰',insW='',insFile=null;
+var KINDS=['관찰','아이디어','실험','손님','메뉴','운영'],WEATHER=['맑음','흐림','비','눈'];
+var WD=['일','월','화','수','목','금','토'],ST=['할것','진행','완료','보류'];
+function slot(h){return h<12?'오전':h<17?'낮':h<21?'저녁':'밤';}
+function dtl(ms){var d=new Date(ms),p=function(n){return ('0'+n).slice(-2);};
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
+function whenTxt(ms){var d=new Date(ms);return WD[d.getDay()]+'요일 · '+d.getHours()+'시 · '+slot(d.getHours());}
+
+function chipRow(el,arr,cur,cb){
+  el.innerHTML=arr.map(function(x){
+    return '<button type="button" data-v="'+E(x)+'" aria-pressed="'+(x===cur?'true':'false')+'">'+E(x)+'</button>';
+  }).join('');
+  el.onclick=function(e){var b=e.target.closest('button'); if(!b)return;
+    cb(b.dataset.v===cur?'':b.dataset.v);};
+}
+function drawKinds(){chipRow(document.getElementById('if-kinds'),KINDS,insKind,function(v){insKind=v||'관찰';drawKinds();});}
+function drawWeather(){chipRow(document.getElementById('if-weather'),WEATHER,insW,function(v){insW=v;drawWeather();});}
+function syncWhen(){
+  var v=document.getElementById('if-at').value;
+  document.getElementById('if-when').textContent=v?whenTxt(new Date(v).getTime()):'';
+}
+function resetForm(){
+  document.getElementById('if-b').value='';document.getElementById('if-note').value='';
+  document.getElementById('if-t').value='';document.getElementById('if-m').value='';
+  document.getElementById('if-goal').value='';document.getElementById('if-cur').value='';
+  document.getElementById('if-img').value='';document.getElementById('if-prev').hidden=true;
+  insFile=null; insKind='관찰'; insW='';
+  document.getElementById('if-at').value=dtl(Date.now());
+  document.getElementById('insForm').classList.remove('open');
+  drawKinds(); drawWeather(); syncWhen();
+}
+document.getElementById('if-at').addEventListener('change',syncWhen);
+document.getElementById('if-more').addEventListener('click',function(){
+  document.getElementById('insForm').classList.toggle('open');});
+document.getElementById('if-img').addEventListener('change',function(e){
+  insFile=e.target.files[0]||null;
+  var pv=document.getElementById('if-prev');
+  if(insFile){pv.src=URL.createObjectURL(insFile);pv.hidden=false;}else{pv.hidden=true;}
 });
+document.getElementById('if-ok').addEventListener('click',function(){
+  var body=document.getElementById('if-b').value.trim();
+  if(!body){document.getElementById('if-b').focus();return;}
+  var t=document.getElementById('if-t').value.trim()||body.split(/\n/)[0].slice(0,40),
+      av=document.getElementById('if-at').value,
+      at=av?new Date(av).getTime():Date.now(),
+      cur=document.getElementById('if-cur').value.trim(),btn=this;
+  btn.disabled=true; btn.textContent='저장 중…';
+  (insFile?DB.upload(insFile):Promise.resolve('')).then(function(url){
+    return DB.add('insight',{t:t,k:insKind,st:'할것',body:body,
+      note:document.getElementById('if-note').value.trim(),at:at,w:insW,img:url,
+      metric:document.getElementById('if-m').value.trim(),
+      goal:document.getElementById('if-goal').value.trim(),cur:cur,
+      hist:cur!==''?[{v:cur,at:Date.now()}]:[]});
+  }).then(function(){resetForm();drawIns();})
+    .catch(function(){alert('저장에 실패했어요');})
+    .then(function(){btn.disabled=false;btn.textContent='기록하기';});
+});
+
+var insFilter=document.getElementById('insFilter'),insSlotEl=document.getElementById('insSlot');
+function drawFilters(){
+  chipRow(insFilter,['전체'].concat(ST),insF,function(v){insF=v||'전체';drawFilters();drawIns();});
+  chipRow(insSlotEl,['전체','오전','낮','저녁','밤'],insSlotF,function(v){insSlotF=v||'전체';drawFilters();drawIns();});
+}
+document.getElementById('insSearch').addEventListener('input',function(){insQ=this.value.trim();drawIns();});
+
 function insCard(row){
-  var d=row.data,at=new Date(row.at).getTime(),m='';
+  var d=row.data,at=d.at||new Date(row.at).getTime(),m='';
   if(d.metric){
     var goal=parseFloat(d.goal),cur=parseFloat(d.cur),
         pct=(isFinite(goal)&&goal>0&&isFinite(cur))?Math.max(0,Math.min(100,cur/goal*100)):0;
@@ -1197,9 +1284,14 @@ function insCard(row){
       +'<span class="muted">'+(d.hist&&d.hist.length?E(d.hist.length)+'번 기록됨':'')+'</span></div></div>';
   }
   return '<article class="ic2" data-id="'+E(row.id)+'">'
-    +'<div class="t"><b>'+E(d.t)+'</b><span class="st-chip st-'+E(d.st||'할것')+'">'+E(d.st||'할것')+'</span>'
-    +'<span class="badge">'+E(d.k||'관찰')+'</span></div>'
-    +(d.body?'<p>'+E(d.body)+'</p>':'')+m
+    +'<div class="meta"><span class="mb">'+E(whenTxt(at))+'</span>'
+    +(d.w?'<span class="mb">'+E(d.w)+'</span>':'')
+    +'<span class="badge">'+E(d.k||'관찰')+'</span>'
+    +'<span class="st-chip st-'+E(d.st||'할것')+'">'+E(d.st||'할것')+'</span></div>'
+    +'<div class="t"><b>'+E(d.t)+'</b></div>'
+    +(d.body&&d.body!==d.t?'<p>'+E(d.body)+'</p>':'')
+    +(d.note?'<div class="note">'+E(d.note)+'</div>':'')
+    +(d.img?'<img class="shot" src="'+E(d.img)+'" alt="" loading="lazy">':'')+m
     +'<div class="acts"><span class="muted">'+E(fmt(at))+'</span><span style="flex:1 1 auto"></span>'
     +'<button type="button" class="sec" data-act="st" data-id="'+E(row.id)+'">상태 바꾸기</button>'
     +'<button type="button" class="lnk" data-act="del" data-id="'+E(row.id)+'">지우기</button></div></article>';
@@ -1207,27 +1299,18 @@ function insCard(row){
 function drawIns(){
   DB.list('insight').then(function(rows){
     insRows=rows;
-    var v=rows.filter(function(r){return insF==='전체'||(r.data.st||'할것')===insF;});
+    var q=insQ.replace(/\s/g,'');
+    var v=rows.filter(function(r){
+      var d=r.data,at=d.at||new Date(r.at).getTime();
+      if(insF!=='전체'&&(d.st||'할것')!==insF)return false;
+      if(insSlotF!=='전체'&&slot(new Date(at).getHours())!==insSlotF)return false;
+      if(q&&((d.t||'')+(d.body||'')+(d.note||'')+(d.metric||'')).replace(/\s/g,'').indexOf(q)<0)return false;
+      return true;
+    }).sort(function(x,y){return (y.data.at||new Date(y.at).getTime())-(x.data.at||new Date(x.at).getTime());});
     document.getElementById('insList').innerHTML=v.length?v.map(insCard).join('')
-      :'<div class="empty">기록이 없어요.<br>장사하다 떠오른 것 · 해볼 것 · 재볼 숫자를 적어 두세요.</div>';
+      :'<div class="empty">'+(rows.length?'조건에 맞는 기록이 없어요.':'기록이 없어요.<br>위에 바로 적고 [기록하기]를 누르세요.')+'</div>';
   });
 }
-var insForm=document.getElementById('insForm');
-document.getElementById('insNew').addEventListener('click',function(){insForm.classList.toggle('on');});
-document.getElementById('if-cancel').addEventListener('click',function(){insForm.classList.remove('on');});
-document.getElementById('if-ok').addEventListener('click',function(){
-  var t=document.getElementById('if-t').value.trim();
-  if(!t){alert('제목을 적어 주세요');return;}
-  var cur=document.getElementById('if-cur').value.trim();
-  DB.add('insight',{t:t,k:document.getElementById('if-k').value,st:document.getElementById('if-s').value,
-    body:document.getElementById('if-b').value.trim(),metric:document.getElementById('if-m').value.trim(),
-    goal:document.getElementById('if-goal').value.trim(),cur:cur,
-    hist:cur!==''?[{v:cur,at:Date.now()}]:[]}).then(function(){
-    ['if-t','if-b','if-m','if-goal','if-cur'].forEach(function(i){document.getElementById(i).value='';});
-    insForm.classList.remove('on'); drawIns();
-  }).catch(function(){});
-});
-var ST=['할것','진행','완료','보류'];
 document.getElementById('tInsight').addEventListener('click',function(e){
   var b=e.target.closest('[data-act]'); if(!b)return;
   var id=b.dataset.id,row=null;
@@ -1244,6 +1327,7 @@ document.getElementById('tInsight').addEventListener('click',function(e){
   }
   if(b.dataset.act==='del'){ if(confirm('지울까요?')) DB.del('insight',id).then(drawIns); }
 });
+resetForm(); drawFilters();
 
 /* ===== 시작 ===== */
 banners();
