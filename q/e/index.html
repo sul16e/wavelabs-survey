@@ -1,0 +1,27 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>WaveLabs 37F</title>
+<noscript><meta http-equiv="refresh" content="0;url=https://m.place.naver.com/restaurant/1110781860"></noscript>
+<style>body{margin:0;height:100vh;display:grid;place-items:center;background:#0B5F84;color:#fff;font:600 18px -apple-system,system-ui,sans-serif}</style>
+</head><body>WaveLabs 37F
+<script>
+// 엘리베이터 전단 QR — 스캔 1회를 매장앱 서버(records, kind=qr)에 남기고 네이버 플레이스로 보낸다
+(function(){
+  var GO="https://m.place.naver.com/restaurant/1110781860";
+  var SRC="엘베전단";
+  var done=false; function go(){ if(done) return; done=true; location.replace(GO); }
+  setTimeout(go, 900);
+  try{
+    if(sessionStorage.getItem("wl_qr")) return go();   // 같은 창 새로고침은 한 번만
+    sessionStorage.setItem("wl_qr","1");
+  }catch(e){}
+  try{
+    fetch("https://gsnsroacvbibljpecizu.supabase.co/rest/v1/records",{
+      method:"POST", keepalive:true,
+      headers:{"apikey":"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw","Content-Type":"application/json","Prefer":"return=minimal"},
+      body:JSON.stringify({id:"qr-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),kind:"qr",data:{src:SRC}})
+    }).then(go,go);
+  }catch(e){ go(); }
+})();
+</script></body></html>
