@@ -247,7 +247,7 @@
 (function(){
   const LS_KEY='wl-referral-v1';
   const DOW=['일','월','화','수','목','금','토'];
-  const CH_ORDER=['네이버지도','카카오맵','엘리베이터 전단','텔온 단골','기타'];
+  const CH_ORDER=['네이버지도','카카오맵','엘리베이터 전단','기타'];
   const $=s=>document.querySelector(s);
   let db=null, downloads=null, dbReady=false;
   let range='all';
@@ -260,7 +260,7 @@
 
   // ---- 자동 업데이트 (사장이 새로고침 안 해도 됨) ----
   // 2분마다 version.txt를 확인해서 값이 바뀌었으면, 홈 화면이고 손님이 안 만지는 동안에만 새로고침
-  const BUILD='20260924-053242';
+  const BUILD='20260924-084941';
   (function autoUpdate(){
     if(BUILD.indexOf('__')===0) return;              // 로컬/아티팩트에서 열었을 땐 동작 안 함
     let lastTouch=Date.now(), pending=null;
