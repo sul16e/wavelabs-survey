@@ -374,11 +374,44 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 .st-진행{background:var(--warn-bg);color:var(--warn-ink)}
 .st-완료{background:var(--ok-bg);color:var(--ok-ink)}
 .st-보류{background:var(--bg);color:var(--dim)}
+
+/* ---------- 로고 · 설정 ---------- */
+.brandrow{display:flex;align-items:center;min-height:40px;margin-bottom:4px}
+#logoBox{display:inline-flex;align-items:center;height:40px;border-radius:10px;padding:4px 12px}
+#logoBox.bg{background:var(--brand)}
+#logoBox img{display:block;height:32px;width:auto;max-width:180px;object-fit:contain}
+#logoBox .lt{font-size:18px;font-weight:800;color:var(--brand)}
+#logoBox.bg .lt{color:#fff}
+#lockLogo{display:block;height:56px;width:auto;max-width:240px;object-fit:contain}
+body:not([data-tab="set"]) #tSet{display:none}
+body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
+.setc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
+.setc h3{margin:0 0 4px;font-size:16px;font-weight:800}
+.setc p{margin:0 0 12px;font-size:13px;color:var(--dim)}
+.lgprev{display:flex;align-items:center;justify-content:center;min-height:88px;border-radius:10px;
+  border:1px dashed var(--line);background:var(--bg);margin-bottom:12px;padding:12px}
+.lgprev.bg{background:var(--brand);border-style:solid;border-color:var(--brand)}
+.lgprev img{display:block;max-height:64px;max-width:100%;object-fit:contain}
+.lgprev span{font-size:13px;color:var(--dim)}
+.setc .row{display:flex;gap:8px;flex-wrap:wrap}
+.setc .row>*{flex:1 1 140px}
+.setc label.ck2{display:flex;align-items:center;gap:8px;font-size:14px;margin-top:12px;min-height:40px}
+.setc label.ck2 input{width:20px;height:20px;accent-color:var(--brand)}
+.colr{display:flex;align-items:center;gap:12px;padding:8px 0}
+.colr+.colr{border-top:1px solid var(--line)}
+.colr b{flex:1 1 auto;font-size:14px}
+.colr small{display:block;font-size:12px;color:var(--dim);font-weight:400}
+.colr input[type=color]{flex:0 0 auto;width:44px;height:44px;border:1px solid var(--line);border-radius:10px;padding:2px;background:var(--card)}
+.colr input[type=text]{flex:0 0 108px;width:108px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;
+  background:var(--bg);color:var(--ink);font-family:ui-monospace,Menlo,monospace;text-transform:uppercase}
+.setsave{display:grid;grid-template-columns:1fr 2fr;gap:8px}
+.setmsg{font-size:13px;color:var(--ok-ink);min-height:20px;margin-top:8px;text-align:center}
 </style>
 </head>
 <body data-tab="recipe" data-seg="close">
 
 <div id="lock">
+  <img id="lockLogo" alt="" hidden>
   <h1>WaveLabs 매장</h1>
   <p>매장 비밀번호를 입력해 주세요</p>
   <input id="pin" type="tel" inputmode="numeric" maxlength="4" placeholder="••••">
@@ -388,12 +421,14 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 
 <header>
  <div class="hw">
+  <div class="brandrow"><span id="logoBox"><span class="lt">WaveLabs 매장</span></span></div>
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-tab="recipe">레시피</button>
     <button type="button" role="tab" data-tab="ops">오픈·마감</button>
     <button type="button" role="tab" data-tab="pre">선결제</button>
     <button type="button" role="tab" data-tab="note">전달사항</button>
     <button type="button" role="tab" data-tab="insight">인사이트</button>
+    <button type="button" role="tab" data-tab="set">설정</button>
   </div>
   <div class="top">
     <input id="q" type="search" placeholder="메뉴 검색" autocomplete="off">
@@ -708,10 +743,37 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
   <div id="insList"></div>
 </section>
 
+<section id="tSet" class="pane">
+  <div class="setc">
+    <h3>로고</h3>
+    <p>맨 위 머리글과 잠금 화면에 들어갑니다. 배경이 투명한 PNG가 가장 깔끔해요.</p>
+    <div class="lgprev" id="setPrev"><span>로고 없음 — 매장명 글자로 표시</span></div>
+    <div class="row">
+      <label class="pri btnlike" for="setLogo">로고 올리기</label>
+      <input type="file" id="setLogo" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+      <button type="button" class="sec" id="setLogoDel">로고 빼기</button>
+    </div>
+    <label class="ck2"><input type="checkbox" id="setLogoBg"> 로고 뒤에 메인 컬러 깔기 (흰 글자 로고용)</label>
+  </div>
+  <div class="setc">
+    <h3>메인 컬러</h3>
+    <p>버튼·선택된 탭·잠금 화면 색입니다. 옅은 배경색은 여기서 자동으로 만들어져요.</p>
+    <div class="colr"><b>메인 컬러 1<small>버튼 · 탭 · 잠금 화면</small></b>
+      <input type="color" id="setC1p"><input type="text" id="setC1" maxlength="7" autocomplete="off"></div>
+    <div class="colr"><b>메인 컬러 2<small>배지 · 진행바 · 강조 글자</small></b>
+      <input type="color" id="setC2p"><input type="text" id="setC2" maxlength="7" autocomplete="off"></div>
+  </div>
+  <div class="setsave">
+    <button type="button" class="sec" id="setReset">처음 값으로</button>
+    <button type="button" class="pri" id="setSave">저장하기</button>
+  </div>
+  <div class="setmsg" id="setMsg"></div>
+</section>
+
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-23 23:17
+  갱신 2026-09-24 18:22
 </footer>
 
 <script>
@@ -719,6 +781,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 "use strict";
 /* ===== 영업장 설정 (생성기가 매장_설정.json에서 채운다) ===== */
 var CFG={store:"WaveLabs 매장",pinStaff:"3715",pinOwner:"0012",
+         brand:{logo:"logo.png",bg:true,c1:"#0B5F84",c2:"#20769B"},
          url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["예준", "유정"]};
 var ONLINE=!!(CFG.url&&CFG.key);
 var REST=CFG.url.replace(/\/+$/,'')+'/rest/v1/records';
@@ -827,12 +890,94 @@ if(lock){
 /* ===== 사장 모드 ===== */
 function setOwner(on){ document.body.dataset.owner=on?'1':'0';
   try{localStorage.setItem('wl-owner',on?'1':'0')}catch(e){}
-  if(!on&&document.body.dataset.tab==='insight'&&typeof setTab==='function') setTab('recipe'); }
+  if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='set')&&typeof setTab==='function') setTab('recipe'); }
 setOwner(localStorage.getItem('wl-owner')==='1');
 document.getElementById('lockBtn').addEventListener('click',function(){
   if(!confirm('잠글까요? 다시 비밀번호를 넣어야 해요.'))return;
   try{localStorage.removeItem('wl-ok');localStorage.removeItem('wl-owner');}catch(e){}
   location.reload();
+});
+
+/* ===== 브랜드 설정 — 로고 · 메인 컬러 (records kind=settings 한 줄) ===== */
+var HEX=/^#[0-9a-fA-F]{6}$/, brandRow=null;
+function curBrand(){var s=LSget('wl-brand',null)||{},d=CFG.brand;
+  return {logo:s.logo!=null?s.logo:d.logo,bg:s.bg!=null?s.bg:d.bg,
+          c1:HEX.test(s.c1||'')?s.c1:d.c1,c2:HEX.test(s.c2||'')?s.c2:d.c2};}
+function applyBrand(b){
+  var r=document.documentElement.style; r.setProperty('--brand',b.c1); r.setProperty('--brand2',b.c2);
+  var m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content',b.c1);
+  var box=document.getElementById('logoBox');
+  box.className=b.logo&&b.bg?'bg':'';
+  box.innerHTML=b.logo?'<img src="'+E(b.logo)+'" alt="'+E(CFG.store)+'">':'<span class="lt">'+E(CFG.store)+'</span>';
+  var ll=document.getElementById('lockLogo');
+  if(ll){ if(b.logo){ll.src=b.logo;ll.hidden=false;} else ll.hidden=true; }
+}
+applyBrand(curBrand());
+function loadBrand(){
+  DB.list('settings').then(function(rows){
+    brandRow=rows[0]||null;
+    if(brandRow){ LSset('wl-brand',brandRow.data); applyBrand(curBrand()); }
+  });
+}
+loadBrand();
+var sb={}, setDirty=null;
+function syncColor(i){var t=document.getElementById('setC'+i),p=document.getElementById('setC'+i+'p');
+  p.addEventListener('input',function(){t.value=p.value.toUpperCase();preview();});
+  t.addEventListener('input',function(){var v=t.value.trim();if(v&&v[0]!=='#')v='#'+v;
+    if(HEX.test(v)){p.value=v;preview();}});}
+syncColor(1); syncColor(2);
+function formBrand(){var c1=document.getElementById('setC1').value.trim(),c2=document.getElementById('setC2').value.trim();
+  if(c1&&c1[0]!=='#')c1='#'+c1; if(c2&&c2[0]!=='#')c2='#'+c2;
+  return {logo:sb.logo||'',bg:document.getElementById('setLogoBg').checked,c1:c1.toUpperCase(),c2:c2.toUpperCase()};}
+function preview(){
+  var f=formBrand(), pv=document.getElementById('setPrev');
+  pv.className='lgprev'+(f.logo&&f.bg?' bg':'');
+  pv.innerHTML=f.logo?'<img src="'+E(f.logo)+'" alt="">':'<span>로고 없음 — 매장명 글자로 표시</span>';
+  if(HEX.test(f.c1)&&HEX.test(f.c2)) applyBrand(f);
+  document.getElementById('setMsg').textContent='';
+}
+function drawSet(){
+  var b=curBrand(); sb={logo:b.logo};
+  document.getElementById('setLogoBg').checked=!!b.bg;
+  document.getElementById('setC1').value=b.c1.toUpperCase(); document.getElementById('setC1p').value=b.c1;
+  document.getElementById('setC2').value=b.c2.toUpperCase(); document.getElementById('setC2p').value=b.c2;
+  preview();
+}
+document.getElementById('setLogoBg').addEventListener('change',preview);
+document.getElementById('setLogoDel').addEventListener('click',function(){sb.logo='';preview();});
+document.getElementById('setLogo').addEventListener('change',function(e){
+  var f=e.target.files&&e.target.files[0]; e.target.value=''; if(!f)return;
+  var msg=document.getElementById('setMsg'); msg.textContent='올리는 중…';
+  var done=function(u){sb.logo=u;preview();msg.textContent=u?'미리보기에 반영됐어요. [저장하기]를 눌러야 적용됩니다.':'올리지 못했어요';};
+  if(/svg/.test(f.type)){ blobToUrl(f).then(done); return; }
+  var img=new Image(),u=URL.createObjectURL(f);          /* PNG 그대로 — 투명 배경 유지, 긴 변 600px */
+  img.onload=function(){var s=Math.min(1,600/Math.max(img.width,img.height)),c=document.createElement('canvas');
+    c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);
+    c.toBlob(function(blob){
+      if(!ONLINE){blobToUrl(blob).then(done);return;}
+      var name='logo-'+uid()+'.png';
+      fetch(CFG.url.replace(/\/+$/,'')+'/storage/v1/object/'+CFG.bucket+'/'+name,
+        {method:'POST',headers:{apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'image/png'},body:blob})
+        .then(function(r){if(!r.ok)throw 0;done(CFG.url.replace(/\/+$/,'')+'/storage/v1/object/public/'+CFG.bucket+'/'+name);})
+        .catch(function(){done('');});
+    },'image/png');};
+  img.onerror=function(){done('');};
+  img.src=u;
+});
+document.getElementById('setReset').addEventListener('click',function(){
+  if(!confirm('처음 값(로고·색)으로 되돌릴까요? [저장하기]를 눌러야 적용됩니다.'))return;
+  var d=CFG.brand; sb={logo:d.logo};
+  document.getElementById('setLogoBg').checked=!!d.bg;
+  document.getElementById('setC1').value=d.c1.toUpperCase();document.getElementById('setC1p').value=d.c1;
+  document.getElementById('setC2').value=d.c2.toUpperCase();document.getElementById('setC2p').value=d.c2;
+  preview();
+});
+document.getElementById('setSave').addEventListener('click',function(){
+  var f=formBrand(),msg=document.getElementById('setMsg');
+  if(!HEX.test(f.c1)||!HEX.test(f.c2)){alert('색은 #0B5F84 처럼 # 뒤 6자리로 넣어 주세요');return;}
+  var p=brandRow?DB.set('settings',brandRow.id,f):DB.add('settings',f).then(function(row){brandRow=row;});
+  Promise.resolve(p).then(function(){LSset('wl-brand',f);applyBrand(f);msg.textContent='저장했어요 — 모든 기기에 적용됩니다';});
 });
 
 /* ===== 탭 ===== */
@@ -843,11 +988,11 @@ function setTab(t){
     if(on&&b.scrollIntoView)try{b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});}catch(e){}});
   LSset('wl-tab',t); window.scrollTo(0,0);
   if(t==='pre'){ if(tPre.dataset.pv==='cust')drawPre(); else {tPre.dataset.pv='list';drawCust();} }
-  if(t==='note')drawNote(); if(t==='insight')drawIns();
+  if(t==='note')drawNote(); if(t==='insight')drawIns(); if(t==='set')drawSet();
 }
 tabBtns.forEach(function(b){b.addEventListener('click',function(){
   var t=b.dataset.tab;
-  if(t==='insight'&&document.body.dataset.owner!=='1')return;
+  if((t==='insight'||t==='set')&&document.body.dataset.owner!=='1')return;
   setTab(t);
 });});
 
@@ -1455,7 +1600,7 @@ resetForm();
 banners();
 setSeg(LSget('wl-seg','close'));
 (function(){var t=LSget('wl-tab','recipe');
-  if(t==='insight'&&document.body.dataset.owner!=='1')t='recipe';
+  if((t==='insight'||t==='set')&&document.body.dataset.owner!=='1')t='recipe';
   setTab(t);})();
 apply();
 drawStock();
