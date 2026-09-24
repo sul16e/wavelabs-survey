@@ -27,6 +27,7 @@
   --ok-bg:#E9F5EE; --ok-ink:#1D6B42; --ok-line:#C2E2D1;
   --bad-ink:#C0392B; --bad-line:#E9C3C3;
   --ph:#AAB4BD;
+  --nt-ink:#37352F; --nt-dim:#787774; --nt-sq:#E3E2E0;
   --bad:#B3261E; --bad-bg:#FDECEA;
 }
 /* 브랜드에서 옅은 톤을 자동으로 뽑는다 (지원 안 하는 구형 기기는 위 회색 그대로) */
@@ -376,12 +377,15 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 .st-보류{background:var(--bg);color:var(--dim)}
 
 /* ---------- 로고 · 설정 ---------- */
-.brandrow{display:flex;align-items:center;min-height:40px;margin-bottom:4px}
-#logoBox{display:inline-flex;align-items:center;height:40px;border-radius:10px;padding:4px 12px}
+.ws{display:flex;align-items:center;gap:10px;min-height:48px;margin-bottom:4px}
+#logoBox{flex:0 0 40px;width:40px;height:40px;border-radius:8px;background:var(--nt-sq);overflow:hidden;
+  display:flex;align-items:center;justify-content:center}
 #logoBox.bg{background:var(--brand)}
-#logoBox img{display:block;height:32px;width:auto;max-width:180px;object-fit:contain}
-#logoBox .lt{font-size:18px;font-weight:800;color:var(--brand)}
-#logoBox.bg .lt{color:#fff}
+#logoBox img{display:block;width:100%;height:100%;object-fit:contain;padding:4px}
+#logoBox .lt{font-size:17px;font-weight:700;color:var(--nt-dim)}
+.wst{min-width:0;display:flex;flex-direction:column;gap:2px}
+.wst b{font-size:15px;font-weight:600;color:var(--nt-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wst small{font-size:12.5px;color:var(--nt-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #lockLogo{display:block;height:56px;width:auto;max-width:240px;object-fit:contain}
 body:not([data-tab="set"]) #tSet{display:none}
 body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
@@ -421,7 +425,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 
 <header>
  <div class="hw">
-  <div class="brandrow"><span id="logoBox"><span class="lt">WaveLabs 매장</span></span></div>
+  <div class="ws"><span id="logoBox"><span class="lt"></span></span><div class="wst"><b id="wsName">웨이브랩스 광교SK뷰레이크37F</b><small id="wsSub"></small></div></div>
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-tab="recipe">레시피</button>
     <button type="button" role="tab" data-tab="ops">오픈·마감</button>
@@ -745,6 +749,12 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 
 <section id="tSet" class="pane">
   <div class="setc">
+    <h3>상호 · 전화번호</h3>
+    <p>맨 위 로고 옆에 상호가, 그 아래 모드와 전화번호가 나옵니다.</p>
+    <label class="fl" for="setName">상호명</label><input type="text" id="setName" maxlength="40" autocomplete="off">
+    <label class="fl" for="setPhone">매장 전화번호</label><input type="tel" id="setPhone" maxlength="13" inputmode="numeric" autocomplete="off">
+  </div>
+  <div class="setc">
     <h3>로고</h3>
     <p>맨 위 머리글과 잠금 화면에 들어갑니다. 배경이 투명한 PNG가 가장 깔끔해요.</p>
     <div class="lgprev" id="setPrev"><span>로고 없음 — 매장명 글자로 표시</span></div>
@@ -753,7 +763,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
       <input type="file" id="setLogo" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
       <button type="button" class="sec" id="setLogoDel">로고 빼기</button>
     </div>
-    <label class="ck2"><input type="checkbox" id="setLogoBg"> 로고 뒤에 메인 컬러 깔기 (흰 글자 로고용)</label>
+    <label class="ck2"><input type="checkbox" id="setLogoBg"> 로고 칸을 메인 컬러로 칠하기 (흰 글자 로고용)</label>
   </div>
   <div class="setc">
     <h3>메인 컬러</h3>
@@ -773,7 +783,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-24 18:22
+  갱신 2026-09-24 18:29
 </footer>
 
 <script>
@@ -781,7 +791,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 "use strict";
 /* ===== 영업장 설정 (생성기가 매장_설정.json에서 채운다) ===== */
 var CFG={store:"WaveLabs 매장",pinStaff:"3715",pinOwner:"0012",
-         brand:{logo:"logo.png",bg:true,c1:"#0B5F84",c2:"#20769B"},
+         brand:{logo:"logo.png",bg:true,c1:"#0B5F84",c2:"#20769B",name:"웨이브랩스 광교SK뷰레이크37F",phone:"01084068985"},
          url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["예준", "유정"]};
 var ONLINE=!!(CFG.url&&CFG.key);
 var REST=CFG.url.replace(/\/+$/,'')+'/rest/v1/records';
@@ -890,7 +900,8 @@ if(lock){
 /* ===== 사장 모드 ===== */
 function setOwner(on){ document.body.dataset.owner=on?'1':'0';
   try{localStorage.setItem('wl-owner',on?'1':'0')}catch(e){}
-  if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='set')&&typeof setTab==='function') setTab('recipe'); }
+  if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='set')&&typeof setTab==='function') setTab('recipe');
+  drawSub(); }
 setOwner(localStorage.getItem('wl-owner')==='1');
 document.getElementById('lockBtn').addEventListener('click',function(){
   if(!confirm('잠글까요? 다시 비밀번호를 넣어야 해요.'))return;
@@ -902,13 +913,24 @@ document.getElementById('lockBtn').addEventListener('click',function(){
 var HEX=/^#[0-9a-fA-F]{6}$/, brandRow=null;
 function curBrand(){var s=LSget('wl-brand',null)||{},d=CFG.brand;
   return {logo:s.logo!=null?s.logo:d.logo,bg:s.bg!=null?s.bg:d.bg,
-          c1:HEX.test(s.c1||'')?s.c1:d.c1,c2:HEX.test(s.c2||'')?s.c2:d.c2};}
+          c1:HEX.test(s.c1||'')?s.c1:d.c1,c2:HEX.test(s.c2||'')?s.c2:d.c2,
+          name:s.name||d.name,phone:s.phone!=null?s.phone:d.phone};}
+function fmtTel(t){t=String(t||'').replace(/\D/g,'');
+  if(t.length===11)return t.replace(/(\d{3})(\d{4})(\d{4})/,'$1-$2-$3');
+  if(t.length===10)return t.replace(/^(02)(\d{4})(\d{4})$/,'$1-$2-$3').replace(/^(\d{3})(\d{3})(\d{4})$/,'$1-$2-$3');
+  return t;}
+var BR=null;
+function drawSub(){var el=document.getElementById('wsSub');if(!el||!BR)return;
+  var m=document.body.dataset.owner==='1'?'사장님 모드':'직원 모드',t=fmtTel(BR.phone);
+  el.textContent=t?m+' · '+t:m;}
 function applyBrand(b){
   var r=document.documentElement.style; r.setProperty('--brand',b.c1); r.setProperty('--brand2',b.c2);
   var m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content',b.c1);
   var box=document.getElementById('logoBox');
+  var nm=b.name||CFG.store; BR=b;
   box.className=b.logo&&b.bg?'bg':'';
-  box.innerHTML=b.logo?'<img src="'+E(b.logo)+'" alt="'+E(CFG.store)+'">':'<span class="lt">'+E(CFG.store)+'</span>';
+  box.innerHTML=b.logo?'<img src="'+E(b.logo)+'" alt="'+E(nm)+'">':'<span class="lt">'+E(nm.charAt(0))+'</span>';
+  document.getElementById('wsName').textContent=nm; drawSub();
   var ll=document.getElementById('lockLogo');
   if(ll){ if(b.logo){ll.src=b.logo;ll.hidden=false;} else ll.hidden=true; }
 }
@@ -928,7 +950,8 @@ function syncColor(i){var t=document.getElementById('setC'+i),p=document.getElem
 syncColor(1); syncColor(2);
 function formBrand(){var c1=document.getElementById('setC1').value.trim(),c2=document.getElementById('setC2').value.trim();
   if(c1&&c1[0]!=='#')c1='#'+c1; if(c2&&c2[0]!=='#')c2='#'+c2;
-  return {logo:sb.logo||'',bg:document.getElementById('setLogoBg').checked,c1:c1.toUpperCase(),c2:c2.toUpperCase()};}
+  return {logo:sb.logo||'',bg:document.getElementById('setLogoBg').checked,c1:c1.toUpperCase(),c2:c2.toUpperCase(),
+    name:document.getElementById('setName').value.trim(),phone:document.getElementById('setPhone').value.replace(/\D/g,'')};}
 function preview(){
   var f=formBrand(), pv=document.getElementById('setPrev');
   pv.className='lgprev'+(f.logo&&f.bg?' bg':'');
@@ -938,12 +961,15 @@ function preview(){
 }
 function drawSet(){
   var b=curBrand(); sb={logo:b.logo};
+  document.getElementById('setName').value=b.name||''; document.getElementById('setPhone').value=fmtTel(b.phone);
   document.getElementById('setLogoBg').checked=!!b.bg;
   document.getElementById('setC1').value=b.c1.toUpperCase(); document.getElementById('setC1p').value=b.c1;
   document.getElementById('setC2').value=b.c2.toUpperCase(); document.getElementById('setC2p').value=b.c2;
   preview();
 }
 document.getElementById('setLogoBg').addEventListener('change',preview);
+document.getElementById('setName').addEventListener('input',preview);
+document.getElementById('setPhone').addEventListener('input',preview);
 document.getElementById('setLogoDel').addEventListener('click',function(){sb.logo='';preview();});
 document.getElementById('setLogo').addEventListener('change',function(e){
   var f=e.target.files&&e.target.files[0]; e.target.value=''; if(!f)return;
@@ -968,6 +994,7 @@ document.getElementById('setLogo').addEventListener('change',function(e){
 document.getElementById('setReset').addEventListener('click',function(){
   if(!confirm('처음 값(로고·색)으로 되돌릴까요? [저장하기]를 눌러야 적용됩니다.'))return;
   var d=CFG.brand; sb={logo:d.logo};
+  document.getElementById('setName').value=d.name; document.getElementById('setPhone').value=fmtTel(d.phone);
   document.getElementById('setLogoBg').checked=!!d.bg;
   document.getElementById('setC1').value=d.c1.toUpperCase();document.getElementById('setC1p').value=d.c1;
   document.getElementById('setC2').value=d.c2.toUpperCase();document.getElementById('setC2p').value=d.c2;
@@ -976,6 +1003,7 @@ document.getElementById('setReset').addEventListener('click',function(){
 document.getElementById('setSave').addEventListener('click',function(){
   var f=formBrand(),msg=document.getElementById('setMsg');
   if(!HEX.test(f.c1)||!HEX.test(f.c2)){alert('색은 #0B5F84 처럼 # 뒤 6자리로 넣어 주세요');return;}
+  if(!f.name){alert('상호명을 넣어 주세요');return;}
   var p=brandRow?DB.set('settings',brandRow.id,f):DB.add('settings',f).then(function(row){brandRow=row;});
   Promise.resolve(p).then(function(){LSset('wl-brand',f);applyBrand(f);msg.textContent='저장했어요 — 모든 기기에 적용됩니다';});
 });
