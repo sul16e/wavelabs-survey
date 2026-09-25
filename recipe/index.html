@@ -381,12 +381,13 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 #logoBox{flex:0 0 40px;width:40px;height:40px;border-radius:8px;background:var(--nt-sq);overflow:hidden;
   display:flex;align-items:center;justify-content:center}
 #logoBox.bg{background:var(--brand)}
-#logoBox img{display:block;width:100%;height:100%;object-fit:contain;padding:4px}
+#logoBox img{display:block;width:100%;height:100%;object-fit:cover}
+#logoBox.bg img{object-fit:contain;padding:4px}
 #logoBox .lt{font-size:17px;font-weight:700;color:var(--nt-dim)}
 .wst{min-width:0;display:flex;flex-direction:column;gap:2px}
 .wst b{font-size:15px;font-weight:600;color:var(--nt-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .wst small{font-size:12.5px;color:var(--nt-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#lockLogo{display:block;height:56px;width:auto;max-width:240px;object-fit:contain}
+#lockLogo{display:block;width:72px;height:72px;border-radius:14px;object-fit:cover}
 body:not([data-tab="set"]) #tSet{display:none}
 body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 .setc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
@@ -784,7 +785,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-25 08:31
+  갱신 2026-09-25 12:01
 </footer>
 
 <script>
@@ -792,7 +793,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 "use strict";
 /* ===== 영업장 설정 (생성기가 매장_설정.json에서 채운다) ===== */
 var CFG={store:"WaveLabs 매장",pinStaff:"3715",pinOwner:"0012",
-         brand:{logo:"logo.png",bg:true,c1:"#0B5F84",c2:"#20769B",name:"웨이브랩스 광교SK뷰레이크37F",phone:"01084068985"},
+         brand:{logo:"logo.jpg",bg:false,c1:"#0B5F84",c2:"#20769B",name:"웨이브랩스 광교SK뷰레이크37F",phone:"01084068985"},
          url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["예준", "유정"]};
 var ONLINE=!!(CFG.url&&CFG.key);
 var REST=CFG.url.replace(/\/+$/,'')+'/rest/v1/records';
