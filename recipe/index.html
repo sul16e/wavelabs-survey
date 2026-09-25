@@ -97,6 +97,7 @@ main#list{padding:var(--pad) var(--pad) 0;max-width:var(--wrap);margin:0 auto;di
 .g{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden}
 @media(min-width:680px){
   #ckWrap{columns:300px 4;column-gap:12px}
+
   #ckWrap>.prog,#ckWrap>.done{column-span:all}
   #ckWrap .g{break-inside:avoid;-webkit-column-break-inside:avoid;display:inline-block;width:100%}
 }
@@ -411,6 +412,8 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
   background:var(--bg);color:var(--ink);font-family:ui-monospace,Menlo,monospace;text-transform:uppercase}
 .setsave{display:grid;grid-template-columns:1fr 2fr;gap:8px}
 .setmsg{font-size:13px;color:var(--ok-ink);min-height:20px;margin-top:8px;text-align:center}
+  label.ck[hidden],section.g[hidden]{display:none!important}
+  .ck em.wd{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--chip);color:var(--brand);font-style:normal;font-size:11.5px;font-weight:700;vertical-align:2px}
 </style>
 </head>
 <body data-tab="recipe" data-seg="close">
@@ -611,6 +614,11 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <label class="ck"><input type="checkbox" data-id="close:밖에서 비밀번호 눌러 문 닫기"><div><b>밖에서 비밀번호 눌러 문 닫기</b><small>누르면 자동으로 닫힌다</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:Closed 간판"><div><b>Closed 간판</b></div></label>
 </section>
+<section class="g"><h3>10. 나가면서 <span>0/3</span></h3>
+<label class="ck"><input type="checkbox" data-id="close:재활용 버리기"><div><b>재활용 버리기</b><small>지하 1층 분리수거장</small></div></label>
+<label class="ck" data-wd="0"><input type="checkbox" data-id="close:[일] 전단 우편함에 넣기"><div><b>전단 우편함에 넣기</b><em class="wd">일요일만</em></div></label>
+<label class="ck" data-wd="5"><input type="checkbox" data-id="close:[금] 전단 붙이기"><div><b>전단 붙이기</b><em class="wd">금요일만</em></div></label>
+</section>
 </div>
 <div class="ckl" data-mode="open">
 <section class="g"><h3>커피 <span>0/8</span></h3>
@@ -785,7 +793,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-25 18:42
+  갱신 2026-09-25 18:49
 </footer>
 
 <script>
@@ -1074,12 +1082,13 @@ function ckKey(){return 'wl-chk-'+day+'-'+mode;}
 function box(){return document.querySelector('.ckl[data-mode="'+mode+'"]');}
 function updCk(){
   var b=box();if(!b)return;
-  var all=b.querySelectorAll('input[type=checkbox]'),n=0;
+  var all=b.querySelectorAll('label.ck:not([hidden]) input[type=checkbox]'),n=0;
   [].forEach.call(all,function(c){if(c.checked)n++;});
   document.getElementById('pc').textContent=n+' / '+all.length;
   document.getElementById('pb').style.width=(all.length?n/all.length*100:0)+'%';
   [].forEach.call(b.querySelectorAll('section.g'),function(g){
-    var cs=g.querySelectorAll('input[type=checkbox]'),k=0;
+    var cs=g.querySelectorAll('label.ck:not([hidden]) input[type=checkbox]'),k=0;
+    g.hidden=!cs.length;
     [].forEach.call(cs,function(c){if(c.checked)k++;});
     var sp=g.querySelector('h3 span');if(sp)sp.textContent=k+'/'+cs.length;
     g.classList.toggle('all',!!cs.length&&k===cs.length);
@@ -1096,6 +1105,8 @@ function setSeg(s){
   if(s!=='stock'){
     mode=s;
     [].forEach.call(document.querySelectorAll('.ckl'),function(el){el.style.display=el.dataset.mode===s?'':'none';});
+    var wd=String(bizDate().getDay());
+    [].forEach.call(document.querySelectorAll('label.ck[data-wd]'),function(l){l.hidden=l.dataset.wd!==wd;});
     var o=LSget(ckKey(),{});
     [].forEach.call(box().querySelectorAll('input[type=checkbox]'),function(c){
       c.checked=!!o[c.dataset.id]; c.closest('label').classList.toggle('on',c.checked);
