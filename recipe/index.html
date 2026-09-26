@@ -87,6 +87,7 @@ body:not([data-tab="pre"]) #tPre{display:none}
 body:not([data-tab="note"]) #tNote{display:none}
 body:not([data-tab="insight"]) #tInsight{display:none}
 body:not([data-owner="1"]) .tabs button[data-tab="insight"]{display:none}
+body:not([data-owner="1"]) .onlyown{display:none!important}
 .pane{max-width:var(--wrap);margin:0 auto;padding:var(--pad) var(--pad) 0}
 main#list{padding:var(--pad) var(--pad) 0;max-width:var(--wrap);margin:0 auto;display:grid;grid-template-columns:1fr;gap:6px;align-items:start}
 @media (min-width:560px){ main#list{grid-template-columns:1fr 1fr;gap:7px} }
@@ -681,7 +682,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
   <div class="pv" data-pv="cust">
     <button type="button" class="lnk back" data-pact="back">← 고객 목록</button>
     <div class="chead"><b id="cuName"></b><span id="cuPhone"></span>
-      <button type="button" class="lnk" data-pact="cdel">고객 삭제</button></div>
+      <button type="button" class="lnk onlyown" data-pact="cdel">고객 삭제</button></div>
     <div class="two">
       <label class="pri btnlike" for="rcpt">영수증 사진 올리기</label>
       <input type="file" id="rcpt" accept="image/*" multiple hidden>
@@ -792,7 +793,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-26 09:52
+  갱신 2026-09-26 09:54
 </footer>
 
 <script>
@@ -1236,7 +1237,7 @@ function preCard(row){
       +'<input type="number" class="qi" min="0" max="'+tot+'" inputmode="numeric" value="'+rem+'" data-pact="qset" data-id="'+E(row.id)+'" data-ix="'+ix+'"'+dis+'>'
       +'<button type="button" class="stp" data-pact="rp1" data-id="'+E(row.id)+'" data-ix="'+ix+'"'+dis+' aria-label="하나 되돌리기">+</button>'
       +'<span class="tot">/ '+tot+'</span></div>'
-      +'<button type="button" class="xit" data-pact="ditem" data-id="'+E(row.id)+'" data-ix="'+ix+'">\u00d7</button></div>';
+      +'<button type="button" class="xit onlyown" data-pact="ditem" data-id="'+E(row.id)+'" data-ix="'+ix+'">\u00d7</button></div>';
   }).join('');
   var memos=(d.memos||[]).map(function(m){return '<div>'+E(m.t)+'<small>'+E(fmt(m.at))+'</small></div>';}).join('');
   var bar='';
@@ -1257,10 +1258,10 @@ function preCard(row){
     +'<div class="memoin"><input type="text" placeholder="예: 아메리카노 → 디카페인으로 나감" data-memo="'+E(row.id)+'">'
     +'<button type="button" class="sec" data-pact="memo" data-id="'+E(row.id)+'">추가</button></div></div>'
     +'<div class="ft">'+(d.img?'<button type="button" class="sec" data-pact="img" data-id="'+E(row.id)+'">영수증 보기</button>':'')
-    +'<button type="button" class="sec" data-pact="addit" data-id="'+E(row.id)+'">+ 항목 추가</button>'
-    +'<button type="button" class="sec" data-pact="edit" data-id="'+E(row.id)+'">고치기</button>'
+    +'<button type="button" class="sec onlyown" data-pact="addit" data-id="'+E(row.id)+'">+ 항목 추가</button>'
+    +'<button type="button" class="sec onlyown" data-pact="edit" data-id="'+E(row.id)+'">고치기</button>'
     +'<span class="grow"></span>'
-    +'<button type="button" class="sec danger" data-pact="del" data-id="'+E(row.id)+'">삭제하기</button>'
+    +'<button type="button" class="sec danger onlyown" data-pact="del" data-id="'+E(row.id)+'">삭제하기</button>'
     +'<button type="button" class="sec" data-pact="close" data-id="'+E(row.id)+'">'+(d.closed?'되돌리기':'완료 처리')+'</button></div>'
     +'</article>';
 }
@@ -1352,6 +1353,7 @@ function editRow(row){
 /* ---- 클릭 처리 ---- */
 tPre.addEventListener('click',function(e){
   var b=e.target.closest('[data-pact]'); if(!b)return;
+  if(b.classList.contains('onlyown')&&document.body.dataset.owner!=='1')return;
   var act=b.dataset.pact,row=b.dataset.id?findPre(b.dataset.id):null,ix=+b.dataset.ix;
 
   if(act==='open'){ openCust(b.dataset.id); return; }
@@ -1506,8 +1508,8 @@ function noteCard(row){
     +'<p>'+E(d.body)+'</p>'
     +'<div class="acts"><button type="button" class="sec" data-act="ack" data-id="'+E(row.id)+'">'
     +(d.ack?'확인 취소':'확인했어요')+'</button>'
-    +'<button type="button" class="sec" data-act="edit" data-id="'+E(row.id)+'">수정</button>'
-    +'<button type="button" class="sec" data-act="del" data-id="'+E(row.id)+'" style="margin-left:auto;color:var(--dim)">삭제</button>'
+    +'<button type="button" class="sec onlyown" data-act="edit" data-id="'+E(row.id)+'">수정</button>'
+    +'<button type="button" class="sec onlyown" data-act="del" data-id="'+E(row.id)+'" style="margin-left:auto;color:var(--dim)">삭제</button>'
     +'</div></article>';
 }
 function drawNote(){
@@ -1535,6 +1537,7 @@ document.getElementById('nf-ok').addEventListener('click',function(){
 });
 document.getElementById('tNote').addEventListener('click',function(e){
   var b=e.target.closest('[data-act]'); if(!b)return;
+  if(b.classList.contains('onlyown')&&document.body.dataset.owner!=='1')return;
   var id=b.dataset.id,row=null;
   noteRows.forEach(function(r){if(r.id===id)row=r;}); if(!row)return;
   if(b.dataset.act==='ack'){ row.data.ack=row.data.ack?0:Date.now(); DB.set('note',id,row.data).then(drawNote); }
@@ -1623,6 +1626,7 @@ function drawIns(){
 }
 document.getElementById('tInsight').addEventListener('click',function(e){
   var b=e.target.closest('[data-act]'); if(!b)return;
+  if(b.classList.contains('onlyown')&&document.body.dataset.owner!=='1')return;
   var id=b.dataset.id,row=null;
   insRows.forEach(function(r){if(r.id===id)row=r;}); if(!row)return;
   if(b.dataset.act==='st'){
