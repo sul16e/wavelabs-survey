@@ -71,6 +71,8 @@ header{position:sticky;top:0;z-index:20;background:var(--head);color:var(--ink);
 #lockBtn{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--dim);
   border-radius:999px;font-size:13px;font-weight:700;padding:0 14px;min-height:38px;touch-action:manipulation}
 #lockBtn:active{background:var(--line)}
+#rfBtn{margin-left:auto;flex:0 0 auto;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--dim);touch-action:manipulation}
+#rfBtn:active{background:var(--line)}
 body[data-owner="1"] #lockBtn{color:var(--brand);border-color:var(--brand)}
 nav#chips{display:flex;gap:6px;overflow-x:auto;padding:8px var(--pad);background:var(--head);
   border-bottom:1px solid var(--line);scrollbar-width:none;max-width:var(--wrap);margin:0 auto}
@@ -435,7 +437,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 
 <header>
  <div class="hw">
-  <div class="ws"><span id="logoBox"><span class="lt"></span></span><div class="wst"><b id="wsName">웨이브랩스 광교SK뷰레이크37F</b><small id="wsSub"></small></div></div>
+  <div class="ws"><span id="logoBox"><span class="lt"></span></span><div class="wst"><b id="wsName">웨이브랩스 광교SK뷰레이크37F</b><small id="wsSub"></small></div><button type="button" id="rfBtn" aria-label="새로고침"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 3 21 9 15 9"/></svg></button></div>
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-tab="recipe">레시피</button>
     <button type="button" role="tab" data-tab="ops">오픈·마감</button>
@@ -798,7 +800,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-26 10:07
+  갱신 2026-09-26 10:09
 </footer>
 
 <script>
@@ -919,6 +921,10 @@ function setOwner(on){ document.body.dataset.owner=on?'1':'0';
   if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='set')&&typeof setTab==='function') setTab('recipe');
   drawSub(); }
 setOwner(localStorage.getItem('wl-owner')==='1');
+document.getElementById('rfBtn').addEventListener('click',function(){
+  if(typeof stDirty!=='undefined'&&stDirty&&!confirm('잔여 수량을 아직 저장 안 했어요. 그래도 새로고침할까요?'))return;
+  location.reload();
+});
 document.getElementById('lockBtn').addEventListener('click',function(){
   if(!confirm('잠글까요? 다시 비밀번호를 넣어야 해요.'))return;
   try{localStorage.removeItem('wl-ok');localStorage.removeItem('wl-owner');}catch(e){}
@@ -1662,7 +1668,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-09-26 10:07",lastTouch=Date.now();
+var BUILD="2026-09-26 10:09",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<60000)return true;
