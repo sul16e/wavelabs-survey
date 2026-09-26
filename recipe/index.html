@@ -797,7 +797,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-26 10:05
+  갱신 2026-09-26 10:06
 </footer>
 
 <script>
@@ -847,8 +847,9 @@ var DB={
     var a=DB.cache(kind);for(var i=0;i<a.length;i++)if(a[i].id===id)a[i].data=data;
     LSset('wl-db-'+kind,a);
     if(!ONLINE) return Promise.resolve();
-    return fetch(REST+'?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:hdr(),body:JSON.stringify({data:data})})
-      .then(function(r){if(!r.ok)throw 0;}).catch(function(){netBad=true;banners();});
+    return fetch(REST+'?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:hdr({Prefer:'return=representation'}),body:JSON.stringify({data:data,at:new Date().toISOString()})})
+      .then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){if(!j||!j.length)throw 0;})
+      .catch(function(){netBad=true;banners();alert('저장 실패 — 인터넷 연결을 확인해 주세요');throw 0;});
   },
   del:function(kind,id){
     LSset('wl-db-'+kind,DB.cache(kind).filter(function(x){return x.id!==id;}));
@@ -1132,7 +1133,8 @@ var stIns=[].slice.call(document.querySelectorAll('#stock input[data-n]')),
     bSave=document.getElementById('save'),stRow=null,stDirty=false;
 function drawStock(){
   DB.list('stock').then(function(rows){
-    stRow=rows[0]||null;
+    if(stDirty)return;
+    stRow=rows.reduce(function(best,r){var t=(r.data&&r.data.at)||0,bt=best?((best.data&&best.data.at)||0):-1;return t>bt?r:best;},null);
     var d=stRow?stRow.data:{v:{},note:'',at:0};
     stIns.forEach(function(x){x.value=(d.v&&d.v[x.dataset.n]!=null)?d.v[x.dataset.n]:'';});
     stNote.value=d.note||'';
@@ -1658,7 +1660,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-09-26 10:05",lastTouch=Date.now();
+var BUILD="2026-09-26 10:06",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<60000)return true;
@@ -1676,6 +1678,17 @@ function checkNew(){
   }).catch(function(){});
 }
 setInterval(checkNew,120000);
+/* 다른 기기에서 바꾼 내용 20초마다 다시 불러오기 (쓰는 중이면 건너뜀) */
+function liveSync(){
+  if(document.hidden||busy2())return;
+  var t=LSget('wl-tab','recipe');
+  if(t==='close'||t==='check'||document.querySelector('#stock')&&document.querySelector('#stock').offsetParent)drawStock();
+  if(document.getElementById('tPre')&&document.getElementById('tPre').offsetParent&&!pend&&document.getElementById('tPre').dataset.pv!=='edit')drawPre();
+  var tn=document.getElementById('tNote'); if(tn&&tn.offsetParent&&!noteEdit)drawNote();
+}
+function busy2(){var a=document.activeElement;return stDirty||!!(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))||Date.now()-lastTouch<5000;}
+setInterval(liveSync,20000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)liveSync();});
 document.addEventListener('visibilitychange',function(){if(!document.hidden)checkNew();});
 })();
 </script>
