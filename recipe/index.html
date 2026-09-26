@@ -610,7 +610,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <label class="ck"><input type="checkbox" data-id="close:로봇청소기 정비"><div><b>로봇청소기 정비</b><ol class="sub"><li>정수통 채우기 — 세척용액 한 컵 + 물</li><li class="w">⚠️ 정수통 끼울 때 본체 안 고무 마개가 빠지지 않았는지 확인 — 빠지면 뚜껑이 안 닫힌다</li><li>오수통 비우기</li><li>걸레 · 걸레 패드 더러우면 닦기</li><li>내일 아침 7시에 자동으로 청소가 돌아간다</li></ol></div></label>
 </section>
 <section class="g"><h3>7. 잔여 수량 <span>0/1</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:「오픈·마감」 탭 위쪽 [잔여 수량]에서 수량 고치고 [수정 반영하기]"><div><b>「오픈·마감」 탭 위쪽 [잔여 수량]에서 수량 고치고 [수정 반영하기]</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:「오픈·마감」 탭 위쪽 [잔여 수량]에서 수량 고치기 (자동 저장)"><div><b>「오픈·마감」 탭 위쪽 [잔여 수량]에서 수량 고치기 (자동 저장)</b></div></label>
 </section>
 <section class="g"><h3>8. 전원 · 충전 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:전원 끄기"><div><b>전원 끄기</b><ol class="sub"><li>에어컨 3개 OFF</li><li>선풍기 2개 OFF (켜져 있으면)</li><li>일반 커피 머신 OFF</li><li>디카페인 커피 머신 OFF</li><li>식기세척기 OFF — 버튼 2번 눌러야 꺼짐 (세척 끝난 뒤에)</li><li>크로플 기계 OFF</li><li>스피커 OFF — 재생/일시정지 버튼 한 번만</li></ol></div></label>
@@ -665,7 +665,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
     </section>
   </div>
 </section>
-<div class="fbar"><button type="button" id="save">수정 반영하기</button></div>
+<div class="fbar"><button type="button" id="save">고치면 자동 저장돼요</button></div>
 
 <section id="tPre" class="pane" data-pv="list">
   <div class="off" id="offPre"></div>
@@ -800,7 +800,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-26 10:09
+  갱신 2026-09-26 10:10
 </footer>
 
 <script>
@@ -1154,18 +1154,22 @@ function drawStock(){
 document.getElementById('stock').addEventListener('click',function(e){
   var b=e.target.closest('.stp'); if(!b)return;
   var x=b.parentNode.querySelector('input'),v=parseInt(x.value,10);
-  if(isNaN(v))v=0; x.value=String(Math.max(0,v+(+b.dataset.d))); stDirty=true; lowMark();
-  bSave.classList.remove('ok'); bSave.textContent='수정 반영하기';
+  if(isNaN(v))v=0; x.value=String(Math.max(0,v+(+b.dataset.d))); stDirty=true; lowMark(); autoSave();
 });
-document.getElementById('stock').addEventListener('input',function(){ stDirty=true; lowMark();
-  bSave.classList.remove('ok'); bSave.textContent='수정 반영하기';
+document.getElementById('stock').addEventListener('input',function(){ stDirty=true; lowMark(); autoSave();
 });
-bSave.addEventListener('click',function(){
+var stTimer=null,stSaving=false,stGen=0;
+function autoSave(){ stGen++; bSave.classList.remove('ok'); bSave.textContent='저장 중…';
+  clearTimeout(stTimer); stTimer=setTimeout(saveStock,1200); }
+bSave.addEventListener('click',function(){clearTimeout(stTimer);saveStock();});
+function saveStock(){
+  if(stSaving){stTimer=setTimeout(saveStock,800);return;} stSaving=true; var g=stGen;
   var v={}; stIns.forEach(function(x){if(x.value.trim()!=='')v[x.dataset.n]=x.value.trim();});
   var data={v:v,note:stNote.value.trim(),at:Date.now()};
   (stRow?DB.set('stock',stRow.id,data):DB.add('stock',data).then(function(r){stRow=r;}))
-    .then(function(){stDirty=false;bSave.classList.add('ok');bSave.textContent='반영됐어요 ✓';drawStock();});
-});
+    .then(function(){stSaving=false;if(g===stGen){stDirty=false;bSave.classList.add('ok');bSave.textContent='자동 저장됐어요 ✓';}drawStock();},
+          function(){stSaving=false;bSave.textContent='저장 실패 — 눌러서 다시 저장';});
+}
 
 /* ===== 선결제 ===== */
 var MENUS=[{"n": "아메리카노", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "디카페인 아메리카노", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "아포가토", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "콘파냐", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "카페라떼", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "허니라떼", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "피스타치오 라떼", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "오렌지 블랙", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "흑임자 카페라떼 (ICE)", "g": "커피", "o": ["디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "시그니처 바닐라", "g": "커피", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽"]}, {"n": "제로 아이스티", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "피치 블랙티", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "허니 카모마일", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "허니자몽블랙티", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "피치 블루레몬 릴렉서", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "유자 릴렉서", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "레몬 페퍼민트", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "말차라떼", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "초코라떼", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "쑥라떼", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "흑임자 라떼 (ICE)", "g": "논커피", "o": ["오트 변경"]}, {"n": "딸기에이드", "g": "논커피", "o": ["HOT", "ICE"]}, {"n": "얼그레이 밀크티", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "딸기라떼", "g": "논커피", "o": ["HOT", "ICE", "오트 변경"]}, {"n": "얼그레이 레몬에이드", "g": "시그니처", "o": ["HOT", "ICE"]}, {"n": "피치 릴렉서", "g": "시그니처", "o": ["HOT", "ICE"]}, {"n": "수박주스", "g": "시그니처", "o": ["HOT", "ICE"]}, {"n": "시그니처 바닐라 위스키 (ICE)", "g": "시그니처", "o": []}, {"n": "바나나 브륄레와 아이스크림", "g": "안주", "o": []}, {"n": "옥수수 크림치즈 & 아이스크림과 크래커", "g": "안주", "o": []}, {"n": "와인 플래터", "g": "안주", "o": []}, {"n": "레드 와인 (14%)", "g": "와인", "o": []}, {"n": "화이트 와인 (13%)", "g": "와인", "o": []}, {"n": "하이네켄 (5.0%)", "g": "주류", "o": []}, {"n": "크로넨버그 1664 블랑 (5.0%)", "g": "주류", "o": []}, {"n": "기네스 드래프트 (4.2%)", "g": "주류", "o": []}, {"n": "오레오 아이스크림", "g": "디저트", "o": []}, {"n": "크로플 하프 (평일 ~17시)", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "오리지널 크로플", "g": "디저트", "o": ["아이스크림 추가", "저당 메이플 시럽"]}, {"n": "옥수수 크로플 (시즌)", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "누텔라 바나나 브륄레 크로플", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "오레오 크로플", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "흑임자 바스크 치즈케이크 (신규)", "g": "디저트", "o": ["화이트 크림 추가"]}, {"n": "오리지널 바스크 치즈케이크", "g": "디저트", "o": ["화이트 크림 추가"]}, {"n": "애플 시나몬 크로플", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "얼그레이 바스크 치즈케이크", "g": "디저트", "o": ["화이트 크림 추가"]}, {"n": "베리 아이스크림", "g": "디저트", "o": []}, {"n": "브라우니 & 바닐라 아이스크림", "g": "디저트", "o": ["아이스크림 추가"]}, {"n": "브런치 플레이트", "g": "브런치", "o": ["계란 추가"]}, {"n": "흑임자 바치케 + 아메리카노 세트", "g": "세트", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽", "화이트 크림 추가"]}, {"n": "오리지널 바치케 + 아메리카노 세트", "g": "세트", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽", "화이트 크림 추가"]}, {"n": "얼그레이 바치케 + 아메리카노 세트", "g": "세트", "o": ["HOT", "ICE", "디카페인", "샷 추가", "오트 변경", "헤이즐넛 시럽", "화이트 크림 추가"]}];
@@ -1668,7 +1672,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-09-26 10:09",lastTouch=Date.now();
+var BUILD="2026-09-26 10:10",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<60000)return true;
