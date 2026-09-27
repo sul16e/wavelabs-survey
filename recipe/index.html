@@ -339,7 +339,6 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 
 /* ---------- 전달사항 ---------- */
 .nc{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:8px}
-.nc.done{opacity:.7}
 .nc .who{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
 .chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;
   font-size:12px;font-weight:700;background:var(--chip);color:var(--dim)}
@@ -352,7 +351,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 .nc .who .dt{margin-left:auto;font-size:11.5px;color:var(--dim)}
 .nc p{margin:0;font-size:14.5px;line-height:1.5;white-space:pre-wrap}
 .nc .acts{display:flex;gap:6px;margin-top:7px;align-items:center}
-.nc .ack{font-size:12px;color:var(--ok-ink);font-weight:700}
+.nc .ackd{background:var(--ok-bg);color:var(--ok-ink);border-color:transparent;opacity:1}
 
 /* ---------- 인사이트 ---------- */
 .ic2{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 11px;margin-bottom:7px}
@@ -800,7 +799,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-26 10:10
+  갱신 2026-09-27 13:37
 </footer>
 
 <script>
@@ -846,11 +845,11 @@ var DB={
       .then(function(r){if(!r.ok)throw 0;return row;})
       .catch(function(){netBad=true;banners();alert('저장 실패 — 인터넷 연결을 확인해 주세요');throw 0;});
   },
-  set:function(kind,id,data){
+  set:function(kind,id,data,keepAt){
     var a=DB.cache(kind);for(var i=0;i<a.length;i++)if(a[i].id===id)a[i].data=data;
     LSset('wl-db-'+kind,a);
     if(!ONLINE) return Promise.resolve();
-    return fetch(REST+'?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:hdr({Prefer:'return=representation'}),body:JSON.stringify({data:data,at:new Date().toISOString()})})
+    return fetch(REST+'?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:hdr({Prefer:'return=representation'}),body:JSON.stringify(keepAt?{data:data}:{data:data,at:new Date().toISOString()})})
       .then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){if(!j||!j.length)throw 0;})
       .catch(function(){netBad=true;banners();alert('저장 실패 — 인터넷 연결을 확인해 주세요');throw 0;});
   },
@@ -1528,11 +1527,11 @@ function noteCard(row){
   }
   return '<article class="nc'+(d.ack?' done':'')+'" data-id="'+E(row.id)+'">'
     +'<div class="who"><span class="chip '+whoColor(d.who||'전체')+'">'+E(d.who||'전체')+'</span>'
-    +(d.ack?'<span class="ack">✓ 확인</span>':'')
     +'<span class="dt">'+E(fmt(at))+(d.edited?' · 수정됨':'')+'</span></div>'
     +'<p>'+E(d.body)+'</p>'
-    +'<div class="acts"><button type="button" class="sec" data-act="ack" data-id="'+E(row.id)+'">'
-    +(d.ack?'확인 취소':'확인했어요')+'</button>'
+    +'<div class="acts">'+(d.ack
+      ?'<button type="button" class="sec ackd" disabled>✓ 확인했어요'+(typeof d.ack==='number'&&d.ack>1?' · '+E(fmt(d.ack)):'')+'</button>'
+      :'<button type="button" class="sec" data-act="ack" data-id="'+E(row.id)+'">확인했어요</button>')
     +'<button type="button" class="sec onlyown" data-act="edit" data-id="'+E(row.id)+'">수정</button>'
     +'<button type="button" class="sec onlyown" data-act="del" data-id="'+E(row.id)+'" style="margin-left:auto;color:var(--dim)">삭제</button>'
     +'</div></article>';
@@ -1565,7 +1564,7 @@ document.getElementById('tNote').addEventListener('click',function(e){
   if(b.classList.contains('onlyown')&&document.body.dataset.owner!=='1')return;
   var id=b.dataset.id,row=null;
   noteRows.forEach(function(r){if(r.id===id)row=r;}); if(!row)return;
-  if(b.dataset.act==='ack'){ row.data.ack=row.data.ack?0:Date.now(); DB.set('note',id,row.data).then(drawNote); }
+  if(b.dataset.act==='ack'){ if(row.data.ack)return; row.data.ack=Date.now(); DB.set('note',id,row.data,true).then(drawNote); }
   if(b.dataset.act==='del'){ if(confirm('이 전달사항을 지울까요?')) DB.del('note',id).then(drawNote); }
   if(b.dataset.act==='edit'){ noteEdit=id; noteEditWho=row.data.who||'전체'; drawNote(); }
   if(b.dataset.act==='ecancel'){ noteEdit=null; drawNote(); }
@@ -1581,7 +1580,7 @@ document.getElementById('tNote').addEventListener('click',function(e){
     var nd=Object.assign({},row.data), changed=(nd.body!==body);
     nd.body=body; nd.who=w2||noteEditWho; nd.edited=Date.now();
     if(changed) nd.ack=0;   // 내용이 바뀌면 다시 확인받는다
-    DB.set('note',id,nd).then(function(){noteEdit=null;drawNote();});
+    DB.set('note',id,nd,true).then(function(){noteEdit=null;drawNote();});
   }
 });
 
@@ -1672,7 +1671,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-09-26 10:10",lastTouch=Date.now();
+var BUILD="2026-09-27 13:37",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<60000)return true;
