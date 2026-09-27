@@ -799,7 +799,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-27 14:05
+  갱신 2026-09-27 14:07
 </footer>
 
 <script>
@@ -1671,10 +1671,10 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-09-27 14:05",lastTouch=Date.now();
+var BUILD="2026-09-27 14:07",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
-  if(Date.now()-lastTouch<60000)return true;
+  if(Date.now()-lastTouch<5000)return true;
   var a=document.activeElement; if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return true;
   if(stDirty||pend||noteEdit)return true;
   var tp=document.getElementById('tPre'); if(tp&&tp.dataset.pv==='edit')return true;
@@ -1685,10 +1685,12 @@ function checkNew(){
   if(location.protocol==='file:')return;
   fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'}).then(function(r){return r.text();}).then(function(t){
     var m=t.match(/var BUILD="([^"]+)"/); if(!m||m[1]===BUILD)return;
-    (function tryReload(){ if(busy()){setTimeout(tryReload,30000);return;} location.reload(); })();
+    var nb=m[1];
+    (function tryReload(){ if(busy()){setTimeout(tryReload,5000);return;} location.replace(location.pathname+'?v='+encodeURIComponent(nb)+location.hash); })();
   }).catch(function(){});
 }
-setInterval(checkNew,120000);
+setInterval(checkNew,30000);
+window.addEventListener('focus',checkNew);
 /* 다른 기기에서 바꾼 내용 20초마다 다시 불러오기 (쓰는 중이면 건너뜀) */
 function liveSync(){
   if(document.hidden||busy2())return;
