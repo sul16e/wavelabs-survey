@@ -799,7 +799,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-09-27 13:37
+  갱신 2026-09-27 14:05
 </footer>
 
 <script>
@@ -1525,7 +1525,7 @@ function noteCard(row){
       +'<button type="button" class="pri" data-act="esave" data-id="'+E(row.id)+'">저장</button></div>'
       +'</div></article>';
   }
-  return '<article class="nc'+(d.ack?' done':'')+'" data-id="'+E(row.id)+'">'
+  return '<article class="nc" data-id="'+E(row.id)+'">'
     +'<div class="who"><span class="chip '+whoColor(d.who||'전체')+'">'+E(d.who||'전체')+'</span>'
     +'<span class="dt">'+E(fmt(at))+(d.edited?' · 수정됨':'')+'</span></div>'
     +'<p>'+E(d.body)+'</p>'
@@ -1671,7 +1671,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-09-27 13:37",lastTouch=Date.now();
+var BUILD="2026-09-27 14:05",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<60000)return true;
