@@ -829,7 +829,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-10-09 18:13
+  갱신 2026-10-09 18:41
 </footer>
 
 <script>
@@ -1198,7 +1198,10 @@ bSave.addEventListener('click',function(){clearTimeout(stTimer);saveStock();});
 function saveStock(){
   if(stSaving){stTimer=setTimeout(saveStock,800);return;} stSaving=true; var g=stGen;
   var v={}; stIns.forEach(function(x){if(x.value.trim()!=='')v[x.dataset.n]=x.value.trim();});
-  var data={v:v,note:stNote.value.trim(),at:Date.now()};
+  /* 칸별 수정 시각(t) — 값이 바뀐 칸만 새로 찍는다. 밤 바치케 굽기 계획이 「몇 시 기준 숫자인지」를 칸별로 본다 */
+  var now=Date.now(),pd=(stRow&&stRow.data)||{},pv=pd.v||{},pt=pd.t||{},t={};
+  Object.keys(v).forEach(function(k){t[k]=(pv[k]===v[k])?(pt[k]||pd.at||now):now;});
+  var data={v:v,t:t,note:stNote.value.trim(),at:now};
   (stRow?DB.set('stock',stRow.id,data):DB.add('stock',data).then(function(r){stRow=r;}))
     .then(function(){stSaving=false;if(g===stGen){stDirty=false;bSave.classList.add('ok');bSave.textContent='자동 저장됐어요 ✓';}drawStock();},
           function(){stSaving=false;bSave.textContent='저장 실패 — 눌러서 다시 저장';});
@@ -1705,7 +1708,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-10-09 18:13",lastTouch=Date.now();
+var BUILD="2026-10-09 18:41",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
