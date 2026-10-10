@@ -833,7 +833,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-10-11 01:54
+  갱신 2026-10-11 02:01
 </footer>
 
 <script>
@@ -1299,18 +1299,18 @@ function preCard(row){
     var out=tot-q.rem;
     return '<div class="it'+(rem===0?' on':'')+'">'
       +'<div class="nm"><b>'+E(it.n)+'</b>'+(it.o?'<em>'+E(it.o)+'</em>':'')
-      +'<small>총 '+tot+'개 · 나감 '+out+'개'+(last?' · 마지막 '+E(fmt(last)):'')+'</small></div>'
-      +'<div class="lft'+(rem===0?' z':'')+'"><b>'+rem+'</b><span>'+(rem===0?'다 나감':'개 남음')+'</span></div>'
+      +'<small>총 '+tot+'개 · 사용 '+out+'개'+(last?' · 마지막 '+E(fmt(last)):'')+'</small></div>'
+      +'<div class="lft'+(rem===0?' z':'')+'"><b>'+rem+'</b><span>'+(rem===0?'사용 완료':'개 보관 중')+'</span></div>'
       +'<button type="button" class="xit onlyown" data-pact="ditem" data-id="'+E(row.id)+'" data-ix="'+ix+'" aria-label="항목 삭제">\u00d7</button>'
       +((rem>0&&!d.closed)||(out>0&&!d.closed)?'<div class="acts2">'
-      +(rem>0&&!d.closed?'<button type="button" class="go" data-pact="rm1" data-id="'+E(row.id)+'" data-ix="'+ix+'">1개 나감</button>':'')
+      +(rem>0&&!d.closed?'<button type="button" class="go" data-pact="rm1" data-id="'+E(row.id)+'" data-ix="'+ix+'">1개 사용</button>':'')
       +(out>0&&!d.closed?'<button type="button" class="undo" data-pact="rp1" data-id="'+E(row.id)+'" data-ix="'+ix+'">되돌리기</button>':'')
       +'</div>':'')+'</div>';
   }).join('');
   var memos=(d.memos||[]).map(function(m){return '<div>'+E(m.t)+'<small>'+E(fmt(m.at))+'</small></div>';}).join('');
   var bar='';
   if(pend&&pend.id===row.id){
-    bar='<div class="whenbar"><span>'+(pend.all?'남은 것 전부 나간 날짜':'나간 날짜')+'</span>'
+    bar='<div class="whenbar"><span>'+(pend.all?'보관분 전부 사용한 날짜':'사용한 날짜')+'</span>'
       +'<input type="datetime-local" id="whenIn" value="'+E(dtl(Date.now()))+'">'
       +(pend.all?'<div class="whopick"><em>완료 처리한 사람</em>'+['사장'].concat(CFG.people).map(function(p){
         return '<button type="button" data-pact="pwho" data-v="'+E(p)+'" aria-pressed="'+(p===pendWho?'true':'false')+'">'+E(p)+'</button>';}).join('')+'</div>':'')
@@ -1319,13 +1319,13 @@ function preCard(row){
   }
   return '<article class="pc'+(cl?' closed':'')+'" data-id="'+E(row.id)+'">'
     +'<div class="ph"><b>'+E(ymd(d.at||row.at))+' 선결제</b>'
-    +'<span class="badge'+(cl?' ok':'')+'">'+(cl?'다 나감':'남은 '+left+'개')+'</span></div>'
+    +'<span class="badge'+(cl?' ok':'')+'">'+(cl?'사용 완료':'보관 '+left+'개')+'</span></div>'
     +bar
     +'<div class="items">'+(items||'<div class="empty">담긴 메뉴가 없어요</div>')+'</div>'
     +(memos?'<div class="memos">'+memos+'</div>':'')
     +'<div class="addmemo" data-open="0">'
     +'<button type="button" class="memobtn" data-pact="memoopen">메모 추가</button>'
-    +'<div class="memoin"><input type="text" placeholder="예: 아메리카노 → 디카페인으로 나감" data-memo="'+E(row.id)+'">'
+    +'<div class="memoin"><input type="text" placeholder="예: 아메리카노 → 디카페인으로 사용" data-memo="'+E(row.id)+'">'
     +'<button type="button" class="sec" data-pact="memo" data-id="'+E(row.id)+'">추가</button></div></div>'
     +'<div class="ft">'+(d.img?'<button type="button" class="sec" data-pact="img" data-id="'+E(row.id)+'">영수증 보기</button>':'')
     +'<button type="button" class="sec onlyown" data-pact="addit" data-id="'+E(row.id)+'">+ 항목 추가</button>'
@@ -1515,7 +1515,7 @@ tPre.addEventListener('click',function(e){
   if(act==='pwho'){ pendWho=b.dataset.v; drawPre(); return; }
   if(act==='wok'){
     var iv=document.getElementById('whenIn').value;
-    if(!iv){alert('나간 날짜를 정해 주세요');return;}
+    if(!iv){alert('사용한 날짜를 정해 주세요');return;}
     var ts=new Date(iv).getTime();
     if(pend.all){ if(!pendWho){alert('완료 처리한 사람을 골라 주세요');return;}
       d.items.forEach(function(it){ it.d=it.d.map(function(x){return x||ts;}); }); d.closed=true;
@@ -1722,7 +1722,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-10-11 01:54",lastTouch=Date.now();
+var BUILD="2026-10-11 02:01",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
