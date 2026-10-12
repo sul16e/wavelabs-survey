@@ -261,27 +261,27 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 .pc .ph .badge{background:transparent;padding:0;border-radius:0;font-size:13px;font-weight:700;color:var(--brand)}
 .pc .ph .badge.ok{background:transparent;color:var(--ok-ink)}
 .pc .items{padding:4px 8px 8px}
-.pc .it{display:grid;grid-template-columns:1fr auto auto;grid-template-areas:"nm lft x" "ac ac ac";
-  gap:8px 12px;align-items:center;padding:12px 4px;border-top:1px solid var(--line)}
+.pc .it{display:grid;grid-template-columns:1fr auto;grid-template-areas:"nm use" "st use" "sm sm";
+  gap:6px 12px;align-items:center;padding:12px 4px;border-top:1px solid var(--line)}
 .pc .items .it:first-child{border-top:0}
 .pc .it .nm{grid-area:nm;min-width:0}
-.pc .it .nm b{font-weight:600;font-size:15px;line-height:1.3}
+.pc .it .nm b{font-weight:700;font-size:15px;line-height:1.3}
 .pc .it .nm em{font-style:normal;font-size:12.5px;color:var(--dim);margin-left:5px}
-.pc .it .nm small{display:block;font-size:12.5px;color:var(--dim);margin-top:4px}
-.pc .it.on .nm b{color:var(--dim);text-decoration:line-through}
-.pc .it .lft{grid-area:lft;display:flex;align-items:baseline;gap:4px}
-.pc .it .lft b{font-size:24px;font-weight:800;color:var(--brand);line-height:1}
-.pc .it .lft span{font-size:13px;color:var(--ink);font-weight:600}
-.pc .it .lft.z b{color:var(--dim)}
-.pc .it .lft.z span{color:var(--dim);font-weight:500}
-.pc .it .acts2{grid-area:ac;display:flex;gap:8px;justify-content:flex-end}
-.pc .it .go{flex:1 1 auto;min-height:44px;border:0;border-radius:10px;background:var(--brand);color:var(--on-brand);
-  font-size:15px;font-weight:700;touch-action:manipulation}
-.pc .it .go[disabled]{background:var(--line);color:var(--dim)}
-.pc .it .undo{flex:0 0 auto;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:10px;
-  background:var(--card);color:var(--dim);font-size:14px;font-weight:600;touch-action:manipulation}
-.pc .it .xit{grid-area:x;flex:0 0 auto;border:0;background:transparent;color:var(--dim);font-size:17px;line-height:1;
-  padding:4px 6px;min-height:32px;opacity:.5;touch-action:manipulation}
+.pc .it.on .nm b{color:var(--dim)}
+.pc .it .st{grid-area:st;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pc .it .dots{display:flex;gap:4px;flex-wrap:wrap}
+.pc .it .dot{width:16px;height:16px;border-radius:50%;background:var(--brand)}
+.pc .it .dot.u{background:transparent;border:2px solid var(--line)}
+.pc .it .cnt{font-size:13px;color:var(--dim)}
+.pc .it .cnt b{font-size:15px;color:var(--brand);font-weight:800}
+.pc .it.on .cnt b{color:var(--dim)}
+.pc .it .use{grid-area:use;min-width:84px;min-height:44px;padding:0 14px;border:0;border-radius:10px;background:var(--brand);
+  color:var(--on-brand);font-size:15px;font-weight:700;touch-action:manipulation}
+.pc .it .done{grid-area:use;font-size:13px;font-weight:700;color:var(--dim)}
+.pc .it .sm{grid-area:sm;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--dim)}
+.pc .it .sm .lnk2{border:0;background:transparent;padding:0;min-height:32px;font:inherit;font-size:12.5px;color:var(--dim);
+  text-decoration:underline;touch-action:manipulation}
+.pc .it .whenbar{grid-column:1 / -1;border:1px solid var(--warn-line);border-radius:10px}
 .pc .ft{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line);align-items:center;flex-wrap:wrap}
 .pc .ft .grow{flex:1 1 auto}
 .whenbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;background:var(--warn-bg);
@@ -834,7 +834,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="set"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-10-11 20:35
+  갱신 2026-10-12 12:41
 </footer>
 
 <script>
@@ -1242,17 +1242,15 @@ function drawCust(){
       if(!q)return true;
       return ((c.data.n||'')+(c.data.p||'').replace(/[\s-]/g,'')).indexOf(q)>=0;
     }).map(function(c){
-      var left=0,done=0,cnt=0;
+      var left=0,used=0,cnt=0;
       preRows.forEach(function(row){
         if(row.data.cid!==c.id)return;
         cnt++;
         (row.data.items||[]).forEach(function(it){
-          var arr=it.d||[],out=0;
-          arr.forEach(function(x){ if(x)out++; });
-          if(row.data.closed||out>=arr.length)done++; else left++;
+          (it.d||[]).forEach(function(x){ if(x||row.data.closed)used++; else left++; });
         });
       });
-      var sum=cnt?('완료 '+done+' · '+(left?'<em>잔여 '+left+'</em>':'잔여 0')):'아직 선결제 없음';
+      var sum=cnt?(left?'<em>남은 '+left+'개</em> · 사용 '+used+'개':'모두 사용 · '+used+'개'):'아직 선결제 없음';
       return '<div class="cc" data-pact="open" data-id="'+E(c.id)+'">'
         +'<div class="ci"><div class="n1"><b>'+E(c.data.n||'손님')+'</b>'
         +'<span class="ph2">'+E(c.data.p||'')+'</span></div>'
@@ -1298,19 +1296,22 @@ function preCard(row){
     var it=q.it,ix=q.ix,tot=q.tot,last=q.last;
     var rem=d.closed?0:q.rem, dis=d.closed?' disabled':'';
     var out=tot-q.rem;
+    var dots=tot<=12?'<span class="dots">'+Array.apply(null,Array(tot)).map(function(_,k){return '<i class="dot'+(k<rem?'':' u')+'"></i>';}).join('')+'</span>':'';
+    var here=pend&&pend.id===row.id&&!pend.all&&pend.ix===ix;
     return '<div class="it'+(rem===0?' on':'')+'">'
-      +'<div class="nm"><b>'+E(it.n)+'</b>'+(it.o?'<em>'+E(it.o)+'</em>':'')
-      +'<small>총 '+tot+'개 · 사용 '+out+'개'+(last?' · 마지막 '+E(fmt(last)):'')+'</small></div>'
-      +'<div class="lft'+(rem===0?' z':'')+'"><b>'+rem+'</b><span>'+(rem===0?'사용 완료':'개 보관 중')+'</span></div>'
-      +'<button type="button" class="xit onlyown" data-pact="ditem" data-id="'+E(row.id)+'" data-ix="'+ix+'" aria-label="항목 삭제">\u00d7</button>'
-      +((rem>0&&!d.closed)||(out>0&&!d.closed)?'<div class="acts2">'
-      +(rem>0&&!d.closed?'<button type="button" class="go" data-pact="rm1" data-id="'+E(row.id)+'" data-ix="'+ix+'">1개 사용</button>':'')
-      +(out>0&&!d.closed?'<button type="button" class="undo" data-pact="rp1" data-id="'+E(row.id)+'" data-ix="'+ix+'">되돌리기</button>':'')
-      +'</div>':'')+'</div>';
+      +'<div class="nm"><b>'+E(it.n)+'</b>'+(it.o?'<em>'+E(it.o)+'</em>':'')+'</div>'
+      +'<div class="st">'+dots+'<span class="cnt">'+(rem===0?'다 사용했어요':'남은 <b>'+rem+'</b>개 / 총 '+tot+'개')+'</span></div>'
+      +(rem>0&&!d.closed?'<button type="button" class="use" data-pact="rm1" data-id="'+E(row.id)+'" data-ix="'+ix+'">사용</button>':'<span class="done">사용 완료</span>')
+      +((last||(out>0&&!d.closed))?'<div class="sm">'+(last?'<span>마지막 사용 '+E(fmt(last))+'</span>':'')
+        +(out>0&&!d.closed?'<button type="button" class="lnk2" data-pact="rp1" data-id="'+E(row.id)+'" data-ix="'+ix+'">사용 1개 취소</button>':'')+'</div>':'')
+      +(here?'<div class="whenbar"><span>사용한 날짜</span><input type="datetime-local" id="whenIn" value="'+E(dtl(Date.now()))+'">'
+        +'<button type="button" class="sec" data-pact="wcancel">취소</button>'
+        +'<button type="button" class="pri" data-pact="wok" data-id="'+E(row.id)+'">확인</button></div>':'')
+      +'</div>';
   }).join('');
   var memos=(d.memos||[]).map(function(m){return '<div>'+E(m.t)+'<small>'+E(fmt(m.at))+'</small></div>';}).join('');
   var bar='';
-  if(pend&&pend.id===row.id){
+  if(pend&&pend.id===row.id&&pend.all){
     bar='<div class="whenbar"><span>'+(pend.all?'보관분 전부 사용한 날짜':'사용한 날짜')+'</span>'
       +'<input type="datetime-local" id="whenIn" value="'+E(dtl(Date.now()))+'">'
       +(pend.all?'<div class="whopick"><em>완료 처리한 사람</em>'+['사장'].concat(CFG.people).map(function(p){
@@ -1320,7 +1321,7 @@ function preCard(row){
   }
   return '<article class="pc'+(cl?' closed':'')+'" data-id="'+E(row.id)+'">'
     +'<div class="ph"><b>'+E(ymd(d.at||row.at))+' 선결제</b>'
-    +'<span class="badge'+(cl?' ok':'')+'">'+(cl?'사용 완료':'보관 '+left+'개')+'</span></div>'
+    +'<span class="badge'+(cl?' ok':'')+'">'+(cl?'사용 완료':'남은 '+left+'개')+'</span></div>'
     +bar
     +'<div class="items">'+(items||'<div class="empty">담긴 메뉴가 없어요</div>')+'</div>'
     +(memos?'<div class="memos">'+memos+'</div>':'')
@@ -1723,7 +1724,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-10-11 20:35",lastTouch=Date.now();
+var BUILD="2026-10-12 12:41",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
