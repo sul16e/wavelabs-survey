@@ -363,7 +363,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 .chip.c5{background:#E7EFFB;color:#31518F}
 .nc .who .dt{margin-left:auto;font-size:11.5px;color:var(--dim)}
 .nc p{margin:0;font-size:14.5px;line-height:1.5;white-space:pre-wrap}
-.nc .acts{display:flex;gap:6px;margin-top:7px;align-items:center}
+.nc .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
 .nc .ackd{background:var(--ok-bg);color:var(--ok-ink);border-color:transparent;opacity:1}
 
 /* ---------- 인사이트 ---------- */
@@ -880,7 +880,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="duty"]{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-10-24 15:50
+  갱신 2026-10-24 16:05
 </footer>
 
 <script>
@@ -1623,6 +1623,19 @@ function whoColor(n){
   var h=0; for(var i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))>>>0;
   return 'c'+(h%6);
 }
+/* 알바별 확인(10/24 사장 「확인했어요 알바별로 구분」): data.acks = {이름: 확인 시각} · 「전체」면 직원 모두, 아니면 그 사람만 */
+function noteTargets(d){var w=d.who||'전체';return w==='전체'?CFG.people.slice():[w];}
+function ackBtns(row){
+  var d=row.data,a=d.acks||{},t=noteTargets(d);
+  if(!t.length)t=['확인'];
+  var old=d.ack&&!Object.keys(a).length;   /* 알바별 확인 전에 누른 것 */
+  if(old)return '<button type="button" class="sec ackd" disabled>✓ 확인했어요</button>';
+  return t.map(function(n){
+    return a[n]
+      ?'<button type="button" class="sec ackd" disabled>✓ '+E(n)+' · '+E(fmt(a[n]))+'</button>'
+      :'<button type="button" class="sec" data-act="ack" data-n="'+E(n)+'" data-id="'+E(row.id)+'">'+E(n)+' 확인</button>';
+  }).join('');
+}
 function noteCard(row){
   var d=row.data,at=new Date(row.at).getTime();
   if(noteEdit===row.id){
@@ -1641,9 +1654,7 @@ function noteCard(row){
     +'<div class="who"><span class="chip '+whoColor(d.who||'전체')+'">'+E(d.who||'전체')+'</span>'
     +'<span class="dt">'+E(fmt(at))+(d.edited?' · 수정됨':'')+'</span></div>'
     +'<p>'+E(d.body)+'</p>'
-    +'<div class="acts">'+(d.ack
-      ?'<button type="button" class="sec ackd" disabled>✓ 확인했어요</button>'
-      :'<button type="button" class="sec" data-act="ack" data-id="'+E(row.id)+'">확인했어요</button>')
+    +'<div class="acts">'+ackBtns(row)
     +'<button type="button" class="sec onlyown" data-act="edit" data-id="'+E(row.id)+'">수정</button>'
     +'<button type="button" class="sec onlyown" data-act="del" data-id="'+E(row.id)+'" style="margin-left:auto;color:var(--dim)">삭제</button>'
     +'</div></article>';
@@ -1676,7 +1687,10 @@ document.getElementById('tNote').addEventListener('click',function(e){
   if(b.classList.contains('onlyown')&&document.body.dataset.owner!=='1')return;
   var id=b.dataset.id,row=null;
   noteRows.forEach(function(r){if(r.id===id)row=r;}); if(!row)return;
-  if(b.dataset.act==='ack'){ if(row.data.ack)return; row.data.ack=Date.now(); DB.set('note',id,row.data,true).then(drawNote); }
+  if(b.dataset.act==='ack'){ var n=b.dataset.n; row.data.acks=row.data.acks||{}; if(row.data.acks[n])return;
+    row.data.acks[n]=Date.now();
+    var all=noteTargets(row.data).every(function(x){return row.data.acks[x];}); if(all)row.data.ack=Date.now();
+    DB.set('note',id,row.data,true).then(drawNote); }
   if(b.dataset.act==='del'){ if(confirm('이 전달사항을 지울까요?')) DB.del('note',id).then(drawNote); }
   if(b.dataset.act==='edit'){ noteEdit=id; noteEditWho=row.data.who||'전체'; drawNote(); }
   if(b.dataset.act==='ecancel'){ noteEdit=null; drawNote(); }
@@ -1691,7 +1705,7 @@ document.getElementById('tNote').addEventListener('click',function(e){
     if(!body){alert('내용을 적어 주세요');return;}
     var nd=Object.assign({},row.data), changed=(nd.body!==body);
     nd.body=body; nd.who=w2||noteEditWho; nd.edited=Date.now();
-    if(changed) nd.ack=0;   // 내용이 바뀌면 다시 확인받는다
+    if(changed){ nd.ack=0; nd.acks={}; }   // 내용이 바뀌면 다시 확인받는다
     DB.set('note',id,nd,true).then(function(){noteEdit=null;drawNote();});
   }
 });
@@ -1844,7 +1858,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-10-24 15:50",lastTouch=Date.now();
+var BUILD="2026-10-24 16:05",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
