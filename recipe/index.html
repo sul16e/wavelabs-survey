@@ -6,10 +6,8 @@
 <meta name="theme-color" content="#0B5F84">
 <meta name="color-scheme" content="light">
 <meta name="robots" content="noindex,nofollow">
-<title>wavelabs 매장 관리</title>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<link rel="apple-touch-icon" href="icon-180.png">
+<title>WaveLabs 매장</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B5F84'/%3E%3Ctext x='32' y='42' font-size='24' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E37F%3C/text%3E%3C/svg%3E">
 <style>
 /* ============================================================
    매장 운영 앱 템플릿
@@ -463,6 +461,40 @@ body:not([data-owner="1"]) .tabs button[data-tab="duty"]{display:none}
   background:var(--bg);color:var(--ink);font-family:ui-monospace,Menlo,monospace;text-transform:uppercase}
 .setsave{display:grid;grid-template-columns:1fr 2fr;gap:8px}
 .setmsg{font-size:13px;color:var(--ok-ink);min-height:20px;margin-top:8px;text-align:center}
+/* ---------- FAQ (10/25) ---------- */
+body:not([data-tab="faq"]) #tFaq{display:none}
+.fq{background:var(--card);border:1px solid var(--line);border-radius:11px;margin-bottom:8px;overflow:hidden}
+.fq-q{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;text-align:left;
+  padding:12px;min-height:48px;color:var(--ink);touch-action:manipulation}
+.fq-q b{flex:1 1 auto;font-size:15px;font-weight:700;line-height:1.4}
+.fq-q i{flex:0 0 auto;font-style:normal;font-size:12.5px;font-weight:700;color:var(--brand)}
+.fq-a{display:none;padding:0 12px 12px;border-top:1px solid var(--line)}
+.fq.on .fq-a{display:block}
+.fq-st{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.fq-st:last-of-type{border-bottom:0}
+.fq-n{flex:0 0 24px;height:24px;border-radius:999px;background:var(--tint);color:var(--brand2);
+  font-size:12.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.fq-b{flex:1 1 auto;min-width:0}
+.fq-b p{margin:0;font-size:14.5px;line-height:1.55;white-space:pre-wrap}
+.fq-m{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.fq-m img{display:block;width:120px;height:160px;object-fit:cover;border-radius:8px;background:var(--chip);cursor:zoom-in;touch-action:manipulation}
+.fq-m video{display:block;width:100%;max-width:360px;border-radius:8px;background:var(--ink)}
+.fq-go{margin-top:8px;min-height:44px;text-decoration:none}
+.fq .acts{display:flex;flex-wrap:wrap;gap:6px;padding-top:12px}
+.fq-es{border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:8px;background:var(--bg)}
+.fq-eh{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.fq-eh b{font-size:13px;font-weight:800;color:var(--brand2)}
+.fq-es textarea{margin-top:8px}
+.fq-em{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.fq-et{position:relative;display:block;width:72px;height:96px;border-radius:8px;overflow:hidden;background:var(--chip)}
+.fq-et img,.fq-et video{display:block;width:100%;height:100%;object-fit:cover}
+.fq-et button{position:absolute;top:4px;right:4px;width:28px;height:28px;border:0;border-radius:999px;
+  background:var(--card);color:var(--bad-ink);font-size:13px;font-weight:800;padding:0}
+.form label.fq-add{display:flex;width:100%;min-height:40px;margin:8px 0 0;font-size:14px;font-weight:600;letter-spacing:0;color:var(--ink)}
+.fq-ed input[type=text],.fq-ed textarea{font-size:16px}
+.fq-ed textarea{min-height:96px}
+.fq-es .row2{margin-top:8px}
+.fq-upl{font-size:13px;color:var(--dim);min-height:20px;margin-top:8px;text-align:center}
   .ck em.wd{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--chip);color:var(--brand);font-style:normal;font-size:11.5px;font-weight:700;vertical-align:2px}
 </style>
 </head>
@@ -488,6 +520,7 @@ body:not([data-owner="1"]) .tabs button[data-tab="duty"]{display:none}
     <button type="button" role="tab" data-tab="insight">인사이트</button>
     <button type="button" role="tab" data-tab="duty">필수 업무</button>
     <button type="button" role="tab" data-tab="set">설정</button>
+    <button type="button" role="tab" data-tab="faq">FAQ</button>
   </div>
   <div class="top">
     <input id="q" type="search" placeholder="메뉴 검색" autocomplete="off">
@@ -882,10 +915,17 @@ body:not([data-owner="1"]) .tabs button[data-tab="duty"]{display:none}
   <div class="setmsg" id="setMsg"></div>
 </section>
 
+<section id="tFaq" class="pane">
+  <div class="off" id="offFaq"></div>
+  <div id="faqEd"></div>
+  <div id="faqList"></div>
+  <button type="button" class="pri wide stickybtn onlyown" id="faqNew">+ FAQ 추가</button>
+</section>
+
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-10-25 11:48
+  갱신 2026-10-25 11:52
 </footer>
 
 <script>
@@ -910,7 +950,7 @@ var netBad=false;
 function banners(){
   var msg = !ONLINE ? '이 기기에만 저장됩니다. 사장님 폰에서는 안 보여요.'
           : netBad ? '서버에 연결하지 못했어요. 지금 보이는 건 이 기기에 저장된 마지막 내용입니다.' : '';
-  ['offPre','offNote','offIns','offStock'].forEach(function(id){
+  ['offPre','offNote','offIns','offStock','offFaq'].forEach(function(id){
     var el=document.getElementById(id); if(!el) return;
     el.textContent=msg; el.classList.toggle('on',!!msg);
   });
@@ -1124,7 +1164,7 @@ function setTab(t){
     if(on&&b.scrollIntoView)try{b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});}catch(e){}});
   LSset('wl-tab',t); window.scrollTo(0,0);
   if(t==='pre'){ if(tPre.dataset.pv==='cust')drawPre(); else {tPre.dataset.pv='list';drawCust();} }
-  if(t==='note')drawNote(); if(t==='insight')drawIns(); if(t==='set')drawSet(); if(t==='duty')drawDuty();
+  if(t==='note')drawNote(); if(t==='insight')drawIns(); if(t==='set')drawSet(); if(t==='duty')drawDuty(); if(t==='faq')drawFaq();
 }
 tabBtns.forEach(function(b){b.addEventListener('click',function(){
   var t=b.dataset.tab;
@@ -1137,7 +1177,7 @@ tabBtns.forEach(function(b){b.addEventListener('click',function(){
 if(!bx){bx=document.createElement('div');bx.className='lbx';bx.id='lbx';bx.setAttribute('role','dialog');bx.setAttribute('aria-label','사진 크게 보기');bx.innerHTML='<img alt=""><p></p>';document.body.appendChild(bx);} /* 스크립트가 lbx 태그보다 먼저 실행돼 null → 이후 스크립트 전체가 멈추던 문제(10/10 카테고리 칩 사라짐) */
 var bi=bx.querySelector('img'),bp=bx.querySelector('p');
 document.addEventListener('click',function(e){var t=e.target;
-  if(t.matches&&t.matches('img.sp')){e.preventDefault();e.stopPropagation();bi.src=t.src;bp.textContent=t.parentNode.firstChild.textContent||'';bx.classList.add('on');return;}
+  if(t.matches&&t.matches('img.sp,img.fqi')){e.preventDefault();e.stopPropagation();bi.src=t.src;bp.textContent=t.classList.contains('fqi')?(t.alt||''):(t.parentNode.firstChild.textContent||'');bx.classList.add('on');return;}
   if(t.matches&&t.matches('img.th')){e.preventDefault();e.stopPropagation();bi.src=t.src;
     var nm=t.closest('.hd')&&t.closest('.hd').querySelector('.nm');
     bp.textContent=(nm?nm.textContent:'')+(t.dataset.cap?' · '+t.dataset.cap:'');bx.classList.add('on');return;}
@@ -1882,6 +1922,167 @@ document.getElementById('dSave').addEventListener('click',function(){
     .then(function(){btn.disabled=false;});
 });
 
+/* ===== FAQ (10/25 사장 「매장 운영하며 생기는 문제를 사장이 남기고, 알바가 사진·영상과 함께 미리 보게」) =====
+   records kind=faq · data = {q, ord, steps:[{t:글, m:[{u:주소, k:'img'|'vid'}], bl:버튼 글자, bh:버튼 주소}]}
+   bh가 「포토부스」면 포토부스 관리 사이트 지난 사진(#photos) — 주소는 아이맥이 10분마다 records id=photobooth-url에 적어 둔다
+   (아이맥 IP가 자주 바뀜). 3일 넘게 안 적혔으면 아이맥 이름(.local)으로. 매장 와이파이에서만 열린다. */
+var faqRows=[],faqOpen={},faqEd=null,faqUp=0,faqKey='',pbUrl='';
+var PB_FALLBACK='http://wavelabsimac.local:3000/staff.html', SUPA=CFG.url.replace(/\/+$/,'');
+function isPb(h){h=String(h||'').trim().toLowerCase();return h==='포토부스'||h==='photobooth';}
+function faqHref(h){return isPb(h)?(pbUrl||PB_FALLBACK)+'#photos':String(h||'').trim();}
+function loadPb(){
+  if(!ONLINE)return Promise.resolve();
+  return fetch(REST+'?id=eq.photobooth-url&select=data',{headers:hdr()})
+    .then(function(r){return r.ok?r.json():[];})
+    .then(function(a){var d=a&&a[0]&&a[0].data; if(d&&d.url&&Date.now()-(d.at||0)<3*864e5)pbUrl=d.url;})
+    .catch(function(){});
+}
+function faqSorted(rows){
+  return rows.slice().sort(function(a,b){
+    var x=a.data.ord==null?1e9:a.data.ord, y=b.data.ord==null?1e9:b.data.ord;
+    return x-y||(new Date(a.at)-new Date(b.at));});
+}
+function faqMedia(m,alt){
+  return (m||[]).map(function(x){
+    return x.k==='vid'
+      ?'<video src="'+E(x.u)+'#t=0.1" controls playsinline preload="metadata"></video>'
+      :'<img class="fqi" src="'+E(x.u)+'" alt="'+E(alt)+'" loading="lazy">';
+  }).join('');
+}
+function faqCard(row,i,n){
+  var d=row.data, on=!!faqOpen[row.id], id=E(row.id);
+  var steps=(d.steps||[]).map(function(st,k){
+    var go=st.bl&&st.bh?'<a class="pri btnlike fq-go" href="'+E(faqHref(st.bh))+'" target="_blank" rel="noopener">'+E(st.bl)+'</a>':'';
+    var m=st.m&&st.m.length?'<div class="fq-m">'+faqMedia(st.m,d.q)+'</div>':'';
+    return '<div class="fq-st"><span class="fq-n">'+(k+1)+'</span><div class="fq-b">'+(st.t?'<p>'+E(st.t)+'</p>':'')+m+go+'</div></div>';
+  }).join('');
+  return '<article class="fq'+(on?' on':'')+'" data-id="'+id+'">'
+    +'<button type="button" class="fq-q" data-act="tog" data-id="'+id+'" aria-expanded="'+on+'"><b>'+E(d.q)+'</b><i>'+(on?'접기':'보기')+'</i></button>'
+    +'<div class="fq-a">'+(steps||'<div class="empty">아직 답이 없어요.</div>')
+    +'<div class="acts onlyown">'
+    +'<button type="button" class="sec" data-act="edit" data-id="'+id+'">수정</button>'
+    +'<button type="button" class="sec" data-act="up" data-id="'+id+'"'+(i===0?' disabled':'')+'>위로</button>'
+    +'<button type="button" class="sec" data-act="down" data-id="'+id+'"'+(i===n-1?' disabled':'')+'>아래로</button>'
+    +'<button type="button" class="sec danger" data-act="del" data-id="'+id+'" style="margin-left:auto">삭제</button>'
+    +'</div></div></article>';
+}
+function drawFaq(force){
+  Promise.all([DB.list('faq'),loadPb()]).then(function(r){
+    faqRows=faqSorted(r[0]||[]);
+    /* 20초마다 다시 불러올 때 내용이 그대로면 다시 그리지 않는다 — 보던 영상이 끊기지 않게 */
+    var key=JSON.stringify(faqRows.map(function(x){return [x.id,x.at,x.data];}))+pbUrl;
+    if(!force&&key===faqKey)return; faqKey=key;
+    document.getElementById('faqList').innerHTML=faqRows.length
+      ?faqRows.map(function(row,i){return faqCard(row,i,faqRows.length);}).join('')
+      :'<div class="empty">아직 등록된 FAQ가 없어요.</div>';
+  });
+}
+function faqEdHtml(){
+  var e=faqEd;
+  return '<div class="form on fq-ed">'
+    +'<label for="fq-q">질문</label><input type="text" id="fq-q" data-f="q" value="'+E(e.q)+'" placeholder="예: 포토부스 출력이 안 돼요">'
+    +e.steps.map(function(st,k){
+      return '<div class="fq-es"><div class="fq-eh"><b>'+(k+1)+'단계</b>'
+        +'<button type="button" class="sec" data-act="sdel" data-k="'+k+'">이 단계 빼기</button></div>'
+        +'<textarea data-f="t" data-k="'+k+'" placeholder="할 일을 짧게">'+E(st.t)+'</textarea>'
+        +(st.m.length?'<div class="fq-em">'+st.m.map(function(x,j){
+            return '<span class="fq-et">'+(x.k==='vid'?'<video src="'+E(x.u)+'#t=0.1" muted playsinline preload="metadata"></video>':'<img src="'+E(x.u)+'" alt="">')
+              +'<button type="button" data-act="mdel" data-k="'+k+'" data-j="'+j+'" aria-label="빼기">✕</button></span>';
+          }).join('')+'</div>':'')
+        +'<label class="sec btnlike fq-add">사진·영상 추가<input type="file" class="fq-file" data-k="'+k+'" accept="image/*,video/*" multiple hidden></label>'
+        +'<div class="row2"><input type="text" data-f="bl" data-k="'+k+'" value="'+E(st.bl||'')+'" placeholder="버튼 글자 (선택)">'
+        +'<input type="text" data-f="bh" data-k="'+k+'" value="'+E(st.bh||'')+'" placeholder="주소 또는 포토부스"></div>'
+        +'</div>';
+    }).join('')
+    +'<button type="button" class="sec wide" data-act="sadd" style="margin-top:8px">+ 단계 추가</button>'
+    +'<div class="fq-upl" id="fq-upl"></div>'
+    +'<div class="acts"><button type="button" class="sec" data-act="ecancel">취소</button>'
+    +'<button type="button" class="pri" data-act="esave">저장</button></div></div>';
+}
+function drawFaqEd(){var b=document.getElementById('faqEd');b.innerHTML=faqEd?faqEdHtml():'';
+  document.getElementById('faqNew').style.display=faqEd?'none':'';}   /* 쓰는 동안 「+ FAQ 추가」가 저장 버튼을 가리지 않게 */
+function faqOpenEd(row){
+  var d=row?row.data:{q:'',steps:[]};
+  faqEd={id:row?row.id:null,q:d.q||'',steps:(d.steps&&d.steps.length?d.steps:[{t:''}]).map(function(x){
+    return {t:x.t||'',m:(x.m||[]).slice(),bl:x.bl||'',bh:x.bh||''};})};
+  drawFaqEd(); window.scrollTo(0,0);
+}
+/* 사진은 줄여서, 영상은 그대로 올린다(저장소 한도 약 50MB — 12MB 성공·60MB 거절 10/25 실측) */
+function faqUpload(file,onp){
+  var vid=/^video\//.test(file.type)||/\.(mov|mp4|m4v)$/i.test(file.name||'');
+  if(!ONLINE){alert('서버가 없어 사진·영상을 올릴 수 없어요');return Promise.reject();}
+  if(vid&&file.size>50*1024*1024){alert('영상이 50MB를 넘어요 — 폰에서 10~20초로 잘라서 다시 올려 주세요');return Promise.reject();}
+  return (vid?Promise.resolve(file):shrink(file)).then(function(blob){
+    var ext=vid?((String(file.name||'').match(/\.(\w+)$/)||[0,'mp4'])[1].toLowerCase()):'jpg',
+        name='faq/'+uid()+'.'+ext, type=vid?(file.type||'video/mp4'):'image/jpeg';
+    return new Promise(function(res,rej){
+      var x=new XMLHttpRequest();
+      x.open('POST',SUPA+'/storage/v1/object/'+CFG.bucket+'/'+name);
+      x.setRequestHeader('apikey',CFG.key); x.setRequestHeader('Authorization','Bearer '+CFG.key); x.setRequestHeader('Content-Type',type);
+      x.upload.onprogress=function(ev){if(ev.lengthComputable&&onp)onp(ev.loaded/ev.total);};
+      x.onload=function(){x.status>=200&&x.status<300?res({u:SUPA+'/storage/v1/object/public/'+CFG.bucket+'/'+name,k:vid?'vid':'img'}):rej(x.status);};
+      x.onerror=function(){rej(0);};
+      x.send(blob);
+    });
+  });
+}
+document.getElementById('faqNew').addEventListener('click',function(){
+  if(document.body.dataset.owner!=='1')return; faqOpenEd(null);
+});
+var faqEdBox=document.getElementById('faqEd');
+faqEdBox.addEventListener('input',function(e){
+  var f=e.target.dataset.f; if(!f||!faqEd)return;
+  if(f==='q')faqEd.q=e.target.value; else faqEd.steps[+e.target.dataset.k][f]=e.target.value;
+});
+faqEdBox.addEventListener('change',function(e){
+  var t=e.target; if(!t.classList.contains('fq-file')||!faqEd)return;
+  var k=+t.dataset.k, files=[].slice.call(t.files||[]), msg=document.getElementById('fq-upl');
+  t.value='';
+  (function next(i){
+    if(i>=files.length){faqUp=0;drawFaqEd();return;}
+    faqUp=1;
+    faqUpload(files[i],function(p){var m=document.getElementById('fq-upl');if(m)m.textContent='올리는 중 '+(i+1)+'/'+files.length+' · '+Math.round(p*100)+'%';})
+      .then(function(media){faqEd.steps[k].m.push(media);drawFaqEd();next(i+1);},
+            function(err){if(err!==undefined)alert('올리기 실패 — 인터넷을 확인하고 다시 해 주세요');faqUp=0;drawFaqEd();});
+  })(0);
+  if(msg)msg.textContent='올리는 중…';
+});
+faqEdBox.addEventListener('click',function(e){
+  var b=e.target.closest('[data-act]'); if(!b||!faqEd)return;
+  var a=b.dataset.act, k=+b.dataset.k;
+  if(a==='sadd'){faqEd.steps.push({t:'',m:[],bl:'',bh:''});drawFaqEd();}
+  if(a==='sdel'){if(faqEd.steps.length>1||confirm('마지막 단계를 뺄까요?')){faqEd.steps.splice(k,1);if(!faqEd.steps.length)faqEd.steps.push({t:'',m:[],bl:'',bh:''});drawFaqEd();}}
+  if(a==='mdel'){faqEd.steps[k].m.splice(+b.dataset.j,1);drawFaqEd();}
+  if(a==='ecancel'){if(faqUp)return;faqEd=null;drawFaqEd();}
+  if(a==='esave'){
+    if(faqUp){alert('사진·영상을 올리는 중이에요 — 끝나면 저장해 주세요');return;}
+    var q=faqEd.q.trim(); if(!q){alert('질문을 적어 주세요');return;}
+    var steps=faqEd.steps.map(function(x){return {t:x.t.trim(),m:x.m,bl:x.bl.trim(),bh:x.bh.trim()};})
+      .filter(function(x){return x.t||x.m.length||(x.bl&&x.bh);});
+    var old=null; faqRows.forEach(function(r){if(r.id===faqEd.id)old=r;});
+    var p=old?DB.set('faq',old.id,Object.assign({},old.data,{q:q,steps:steps}),true).then(function(){return old;})
+      :DB.add('faq',{q:q,steps:steps,ord:faqRows.length?Math.max.apply(null,faqRows.map(function(r){return r.data.ord||0;}))+1:1});
+    b.disabled=true;
+    p.then(function(row){if(row&&row.id)faqOpen[row.id]=1;faqEd=null;drawFaqEd();drawFaq(true);},function(){b.disabled=false;});
+  }
+});
+document.getElementById('faqList').addEventListener('click',function(e){
+  var b=e.target.closest('[data-act]'); if(!b)return;
+  var a=b.dataset.act, id=b.dataset.id, i=-1;
+  faqRows.forEach(function(r,j){if(r.id===id)i=j;}); if(i<0)return;
+  if(a==='tog'){faqOpen[id]=!faqOpen[id];var art=b.closest('.fq'),on=!!faqOpen[id];
+    art.classList.toggle('on',on);b.setAttribute('aria-expanded',on);b.querySelector('i').textContent=on?'접기':'보기';return;}
+  if(document.body.dataset.owner!=='1')return;
+  if(a==='edit')faqOpenEd(faqRows[i]);
+  if(a==='del'&&confirm('이 FAQ를 지울까요?'))DB.del('faq',id).then(function(){drawFaq(true);});
+  if(a==='up'||a==='down'){
+    var j=a==='up'?i-1:i+1; if(j<0||j>=faqRows.length)return;
+    var list=faqRows.slice(); var t=list[i]; list[i]=list[j]; list[j]=t;
+    Promise.all(list.map(function(r,n){if(r.data.ord===n+1)return null;r.data.ord=n+1;return DB.set('faq',r.id,r.data,true);}))
+      .then(function(){drawFaq(true);});
+  }
+});
+
 /* ===== 시작 ===== */
 banners();
 setSeg(LSget('wl-seg','close'));
@@ -1892,12 +2093,12 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-10-25 11:48",lastTouch=Date.now();
+var BUILD="2026-10-25 11:52",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
   var a=document.activeElement; if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return true;
-  if(stDirty||pend||noteEdit)return true;
+  if(stDirty||pend||noteEdit||faqEd||faqUp)return true;
   var tp=document.getElementById('tPre'); if(tp&&tp.dataset.pv==='edit')return true;
   return [].some.call(document.querySelectorAll('textarea,input[type=text]'),function(x){
     return x.id!=='q'&&!x.closest('.srch')&&x.value.trim()!=='';});
@@ -1919,6 +2120,7 @@ function liveSync(){
   if(t==='close'||t==='check'||document.querySelector('#stock')&&document.querySelector('#stock').offsetParent)drawStock();
   if(document.getElementById('tPre')&&document.getElementById('tPre').offsetParent&&!pend&&document.getElementById('tPre').dataset.pv!=='edit')drawPre();
   var tn=document.getElementById('tNote'); if(tn&&tn.offsetParent&&!noteEdit)drawNote();
+  var tf=document.getElementById('tFaq'); if(tf&&tf.offsetParent&&!faqEd)drawFaq();
 }
 function busy2(){var a=document.activeElement;return stDirty||!!(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))||Date.now()-lastTouch<5000;}
 setInterval(liveSync,20000);
