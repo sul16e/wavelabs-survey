@@ -6,8 +6,10 @@
 <meta name="theme-color" content="#0B5F84">
 <meta name="color-scheme" content="light">
 <meta name="robots" content="noindex,nofollow">
-<title>WaveLabs 매장</title>
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B5F84'/%3E%3Ctext x='32' y='42' font-size='24' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3E37F%3C/text%3E%3C/svg%3E">
+<title>wavelabs 매장 관리</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="icon-180.png">
 <style>
 /* ============================================================
    매장 운영 앱 템플릿
@@ -925,7 +927,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-10-25 11:52
+  갱신 2026-10-25 11:55
 </footer>
 
 <script>
@@ -2093,7 +2095,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-10-25 11:52",lastTouch=Date.now();
+var BUILD="2026-10-25 11:55",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
