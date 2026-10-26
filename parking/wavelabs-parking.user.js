@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         웨이브랩스 셀프 주차 등록 + 방문 경로
 // @namespace    wavelabs
-// @version      1.0.0
+// @version      1.0.1
 // @description  나이스파크 웹할인 화면 앞에 「어디서 보고 오셨어요?」를 먼저 띄우고, 유료권·메뉴는 가린다(픽업대 아이패드용)
 // @match        https://npdc-i.nicepark.co.kr/*
 // @run-at       document-end
@@ -54,6 +54,8 @@
     'html.wl-on #contentWrap{left:0!important;margin-left:0!important;width:100%!important;padding-left:0!important}',
     'html.wl-on .used_ticket_box.yellow,html.wl-on .keypadUsed,html.wl-on .keypad_help{display:none!important}',
     'html.wl-on #mf_wfm_body_remainTkListMainBox{zoom:1.4}',
+    'html.wl-on #mf_grp_wrap #mf_wfm_header_layoutWrap.layoutWrap::before{content:none!important;display:none!important}',
+    'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{padding-left:16px!important;box-sizing:border-box}',
     '#wl-ov{position:fixed;inset:0;z-index:2147483000;background:#0B5F84;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;font-family:-apple-system,"Apple SD Gothic Neo",sans-serif;-webkit-user-select:none;user-select:none}',
     '#wl-ov.off{display:none}',
     '#wl-ov .tag{font-size:16px;opacity:.85;margin-bottom:12px}',
