@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>wavelabs 방문 경로</title>
+<link rel="icon" href="../recipe/favicon-32.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{--brand:#20769B;--brand2:#0B5F84;--bg:#F4F6F8;--card:#fff;--ink:#15212B;--dim:#63737F;--line:#E4E9ED;--head:#EDEFF2;--off-ink:rgba(21,33,43,.38);--pad:16px;--wrap:900px}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:16px var(--pad) 40px}
+  .head{display:flex;align-items:center;gap:12px;margin:4px 0 16px}
+  .head img{width:40px;height:40px;border-radius:10px}
+  .head .t1{font-size:18px;font-weight:800}
+  .head .t2{font-size:13px;color:var(--dim);margin-top:2px}
+  .chips{display:flex;gap:8px;margin-bottom:12px;overflow-x:auto}
+  .chips button{min-height:40px;padding:0 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--dim);font:600 14.5px inherit;font-family:inherit;touch-action:manipulation;cursor:pointer;white-space:nowrap}
+  .chips button.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+  .card h2{font-size:15px;margin:0 0 12px;font-weight:800}
+  .sum{font-size:13px;color:var(--dim);margin:-4px 0 12px}
+  .row{display:grid;grid-template-columns:120px 1fr 64px;align-items:center;gap:12px;padding:8px 0}
+  .row .n{font-size:15px;font-weight:700}
+  .bar{height:12px;border-radius:6px;background:var(--head);overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--brand);border-radius:6px}
+  .row .v{text-align:right;font-size:14.5px;font-weight:700}
+  .row .v small{display:block;font-size:12.5px;color:var(--dim);font-weight:500}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  td{padding:10px 4px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:0}
+  td.d{color:var(--dim);white-space:nowrap}
+  td.h{text-align:right;white-space:nowrap}
+  .empty{color:var(--dim);font-size:14.5px;padding:8px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head"><img src="../recipe/logo.jpg" alt=""><div><div class="t1">방문 경로</div><div class="t2">픽업대 아이패드 셀프 주차 등록 때 고른 답</div></div></div>
+  <div class="chips" id="chips">
+    <button data-d="1">오늘</button><button data-d="7" class="on">최근 7일</button><button data-d="30">최근 30일</button><button data-d="0">전체</button>
+  </div>
+  <div class="card"><h2>어디서 보고 왔나</h2><div class="sum" id="sum"></div><div id="rank"></div></div>
+  <div class="card"><h2>최근 기록</h2><table id="list"></table></div>
+</div>
+<script>
+(function(){
+  var SB='https://gsnsroacvbibljpecizu.supabase.co/rest/v1/records?kind=eq.visit&select=data,at&order=at.desc&limit=5000';
+  var KEY='sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw';
+  var CH=['네이버 지도','카카오맵','인스타그램','엘리베이터 전단','친구·지인 소개','기타'];
+  var DOW=['일','월','화','수','목','금','토'];
+  var rows=[], days=7;
+  function kst(ms){return new Date(ms+9*3600e3)}
+  function dayKey(ms){var d=kst(ms);return d.getUTCFullYear()+'-'+(d.getUTCMonth()+1)+'-'+d.getUTCDate()}
+  function fmt(ms){var d=kst(ms);return (d.getUTCMonth()+1)+'/'+d.getUTCDate()+'('+DOW[d.getUTCDay()]+') '+String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function draw(){
+    var now=Date.now(), today=dayKey(now);
+    var list=rows.filter(function(r){
+      if(days===0) return true;
+      if(days===1) return dayKey(r.t)===today;
+      return now-r.t<days*864e5;
+    });
+    var cnt={}; CH.forEach(function(c){cnt[c]=0});
+    var hours=0;
+    list.forEach(function(r){cnt[r.ch]=(cnt[r.ch]||0)+1; hours+=r.h||0});
+    var total=list.length, max=Math.max(1,Math.max.apply(null,Object.keys(cnt).map(function(k){return cnt[k]})));
+    document.getElementById('sum').textContent=total? '응답 '+total+'건 · 이번에 등록한 무료 시간 '+hours+'시간' : '';
+    var keys=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a]});
+    document.getElementById('rank').innerHTML= total ? keys.map(function(k){
+      var pct=total?Math.round(cnt[k]*100/total):0;
+      return '<div class="row"><div class="n">'+esc(k)+'</div><div class="bar"><i style="width:'+(cnt[k]*100/max)+'%"></i></div><div class="v">'+cnt[k]+'<small>'+pct+'%</small></div></div>';
+    }).join('') : '<div class="empty">아직 응답이 없어요</div>';
+    document.getElementById('list').innerHTML= list.slice(0,50).map(function(r){
+      return '<tr><td class="d">'+fmt(r.t)+'</td><td>'+esc(r.ch)+'</td><td class="h">'+(r.h?r.h+'시간':'-')+'</td></tr>';
+    }).join('') || '<tr><td class="empty">아직 기록이 없어요</td></tr>';
+  }
+  document.getElementById('chips').addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    [].forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b)});
+    days=+b.dataset.d; draw();
+  });
+  fetch(SB,{headers:{apikey:KEY,Authorization:'Bearer '+KEY},cache:'no-store'}).then(function(r){return r.json()}).then(function(js){
+    rows=(js||[]).filter(function(x){return x.data && !x.data.test}).map(function(x){
+      return {t:x.data.at||Date.parse(x.at), ch:x.data.ch||'기타', h:+x.data.hours||0};
+    });
+    draw();
+  }).catch(function(){document.getElementById('rank').innerHTML='<div class="empty">불러오지 못했어요. 새로고침해 주세요</div>'});
+})();
+</script>
+</body>
+</html>
