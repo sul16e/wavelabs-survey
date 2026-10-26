@@ -154,7 +154,7 @@
       'html.wl-on #mf_wfm_body_mobileCarNoText{font-size:26px!important;font-weight:800!important;color:#0B5F84!important;letter-spacing:1px}',
       'html.wl-on #contentWrap .carinfoAreaIn,html.wl-on #contentWrap .carinfoAreaInner,html.wl-on #contentWrap .carinfoAreaInner_right{background:#fff!important;border:0!important;padding:0!important;margin:0!important}',
       'html.wl-on #contentWrap .carinfoArea table{width:100%!important;margin:0!important}',
-      'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea td{padding:14px 20px!important;border:0!important;border-bottom:1px solid #E4E9ED!important;font-size:16px!important;background:#fff!important}',
+      'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea td{padding:14px 20px!important;border:0!important;border-right:0!important;border-left:0!important;border-bottom:1px solid #E4E9ED!important;font-size:16px!important;background:#fff!important}',
       'html.wl-on #contentWrap .carinfoArea tr:last-child th,html.wl-on #contentWrap .carinfoArea tr:last-child td{border-bottom:0!important}',
       'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea th *{color:#63737F!important;font-weight:500!important;text-align:left}',
       'html.wl-on #contentWrap .carinfoArea td,html.wl-on #contentWrap .carinfoArea td *{color:#15212B!important;font-weight:700!important}',
