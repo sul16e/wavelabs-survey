@@ -233,7 +233,8 @@
         inp.setAttribute('placeholder', '차량번호 뒤 4자리');
       }
       var cw = document.getElementById('contentWrap');
-      if (cw) ['left', 'margin-left', 'padding-left'].forEach(function (p) { cw.style.setProperty(p, '0', 'important'); });
+      // 나이스가 왼쪽 메뉴 자리만큼 밀어 둔 것을 지우고 가운데로(10/26 사장 「묶어서 중앙정렬」)
+      if (cw) [['left', '0'], ['margin-left', 'auto'], ['margin-right', 'auto'], ['padding-left', '16px'], ['padding-right', '16px']].forEach(function (p) { cw.style.setProperty(p[0], p[1], 'important'); });
       // 나이스가 숫자판에 order:2를 요소에 직접 넣어 둬서 여기서 덮어씀(숫자판 왼쪽 · 차량정보 오른쪽)
       var kpd = document.querySelector('#contentWrap .saleKeypad'), sct = document.querySelector('#contentWrap .saleContent');
       if (kpd) kpd.style.setProperty('order', '0', 'important');
