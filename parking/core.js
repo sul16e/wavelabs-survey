@@ -135,11 +135,31 @@
       'html.wl-on #mf_grp_wrap #mf_wfm_header_layoutWrap.layoutWrap::before{content:none!important;display:none!important}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{padding-left:16px!important;box-sizing:border-box}',
       'html.wl-on body{padding-bottom:120px!important}',
-      'html.wl-on #mf_wfm_body_mobileGrp{height:auto!important;padding:8px 12px!important;border-radius:16px!important}',
-      'html.wl-on #mf_wfm_body_carNo{font-size:30px!important;height:64px!important;font-weight:700!important;letter-spacing:6px;text-align:center}',
-      'html.wl-on #mf_wfm_body_mobileOkBtn{transform:scale(1.6)}',
-      'html.wl-on #contentWrap .carinfoArea{margin-top:16px!important}',
-      '#wl-root{font-family:-apple-system,"Apple SD Gothic Neo",sans-serif;-webkit-user-select:none;user-select:none;color:#15212B}',
+      // ---- 브랜드 모양(10/26 사장 「나이스파크 화면도 깔끔하게 브랜드에 맞게」) — 색은 매장앱과 같은 토큰 ----
+      'html.wl-on,html.wl-on body,html.wl-on #mf_grp_wrap,html.wl-on #contentWrap,html.wl-on .saleWrap,html.wl-on .saleContent{background:#F4F6F8!important}',
+      'html.wl-on body,html.wl-on body *:not(svg):not(path){font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif!important}',
+      'html.wl-on #contentWrap{max-width:900px;margin:0 auto!important;padding:0 16px!important;box-sizing:border-box}',
+      'html.wl-on #contentWrap .saleWrap,html.wl-on #contentWrap .saleContent{padding-left:0!important;padding-right:0!important;margin-top:0!important}',
+      '#wl-head{display:flex;align-items:center;gap:12px;max-width:900px;margin:0 auto;padding:20px 16px 12px;box-sizing:border-box}',
+      '#wl-head img{width:40px;height:40px;border-radius:10px;flex:none}',
+      '#wl-head .t1{font-size:18px;font-weight:800;color:#15212B;line-height:1.2}',
+      '#wl-head .t2{font-size:13px;color:#63737F;margin-top:2px}',
+      'html.wl-on #mf_wfm_body_mobileGrp{background:#fff!important;border:1px solid #E4E9ED!important;border-radius:18px!important;height:auto!important;padding:12px 12px 12px 20px!important;box-shadow:none!important;display:flex!important;align-items:center;gap:12px;box-sizing:border-box}',
+      'html.wl-on #mf_wfm_body_carNo{flex:1;width:auto!important;background:transparent!important;border:0!important;outline:none!important;box-shadow:none!important;color:#15212B!important;font-size:34px!important;height:64px!important;font-weight:800!important;letter-spacing:8px;text-align:center;padding:0!important}',
+      'html.wl-on #mf_wfm_body_carNo::placeholder{color:#AAB4BD;font-weight:600;letter-spacing:2px;font-size:24px}',
+      "html.wl-on #mf_wfm_body_mobileOkBtn{position:static!important;flex:none;width:56px!important;height:56px!important;border:0!important;border-radius:14px!important;background:#20769B url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E\") center/26px no-repeat!important;font-size:0!important;color:transparent!important;text-indent:-999px;overflow:hidden;transform:none!important}",
+      'html.wl-on #contentWrap .carinfoArea{margin-top:12px!important;background:#fff!important;border:1px solid #E4E9ED!important;border-radius:18px!important;overflow:hidden;box-shadow:none!important}',
+      'html.wl-on.wl-nocar #contentWrap .carinfoArea{display:none!important}',
+      'html.wl-on #contentWrap .car_title{background:#fff!important;border:0!important;border-bottom:1px solid #E4E9ED!important;padding:16px 20px!important;height:auto!important;min-height:0!important}',
+      'html.wl-on #mf_wfm_body_mobileCarNoText{font-size:26px!important;font-weight:800!important;color:#0B5F84!important;letter-spacing:1px}',
+      'html.wl-on #contentWrap .carinfoAreaIn,html.wl-on #contentWrap .carinfoAreaInner,html.wl-on #contentWrap .carinfoAreaInner_right{background:#fff!important;border:0!important;padding:0!important;margin:0!important}',
+      'html.wl-on #contentWrap .carinfoArea table{width:100%!important;margin:0!important}',
+      'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea td{padding:14px 20px!important;border:0!important;border-bottom:1px solid #E4E9ED!important;font-size:16px!important;background:#fff!important}',
+      'html.wl-on #contentWrap .carinfoArea tr:last-child th,html.wl-on #contentWrap .carinfoArea tr:last-child td{border-bottom:0!important}',
+      'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea th *{color:#63737F!important;font-weight:500!important;text-align:left}',
+      'html.wl-on #contentWrap .carinfoArea td,html.wl-on #contentWrap .carinfoArea td *{color:#15212B!important;font-weight:700!important}',
+      'html.wl-on #contentWrap .carinfoArea th::before,html.wl-on #contentWrap .carinfoArea th label::before{content:none!important;display:none!important}',
+      '#wl-root{-webkit-user-select:none;user-select:none;color:#15212B}',
       '#wl-root button{border:0;touch-action:manipulation;font-family:inherit;cursor:pointer}',
       // 아래 큰 버튼 하나(안에 작게 주의 문구)
       '#wl-go{position:fixed;left:16px;right:16px;bottom:16px;z-index:2147482001;min-height:84px;border-radius:18px;background:#20769B;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 16px;box-shadow:0 6px 18px rgba(21,33,43,.18)}',
@@ -229,6 +249,12 @@
         return;
       }
       document.documentElement.classList.add('wl-on');
+      document.documentElement.classList.add('wl-nocar');
+      var font = el('link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css' });
+      document.head.appendChild(font);
+      var head = el('div', { id: 'wl-head' }, '<img src="https://sul16e.github.io/wavelabs-survey/recipe/logo.jpg" alt=""><div><div class="t1">웨이브랩스 37F</div><div class="t2">셀프 주차 등록</div></div>');
+      var cwTop = document.getElementById('contentWrap');
+      if (cwTop && cwTop.parentNode) cwTop.parentNode.insertBefore(head, cwTop); else root.appendChild(head);
       mask(); setInterval(mask, 500);
 
       // 아래 큰 버튼 하나 — 차 고르기 전엔 회색 안내, 고르면 「322가8152 주차 등록하기」
@@ -284,6 +310,7 @@
         var busy = niceModal || !ask.classList.contains('off') || !res.classList.contains('off');
         go.classList.toggle('hide', busy);
         go.classList.toggle('wait', !ready);
+        document.documentElement.classList.toggle('wl-nocar', !ready);
         var m = go.querySelector('.m');
         var want = ready ? carNoText() + '  주차 등록하기' : '차량번호 뒤 4자리를 입력해 주세요';
         if (m && m.textContent !== want) m.textContent = want;
