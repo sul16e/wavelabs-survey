@@ -182,6 +182,8 @@
       'html.wl-on #contentWrap .saleWrap{display:flex!important;flex-direction:row!important;align-items:flex-start;gap:16px;width:100%!important;height:auto!important}',
       'html.wl-on #contentWrap .saleKeypad{display:block!important;order:0;flex:none;position:static!important;width:320px!important;max-width:45%;margin:0!important;height:auto!important;left:auto!important;right:auto!important;top:auto!important}',
       'html.wl-on #contentWrap .saleKeypad .keypadArea{width:100%!important;position:static!important}',
+      'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleKeypad{order:0!important}',
+      'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleContent{order:1!important}',
       'html.wl-on #contentWrap .saleContent{order:1;flex:1;min-width:0;width:auto!important;margin:0!important;position:static!important}',
       '#wl-ph{background:#fff;border:1px solid #E4E9ED;border-radius:18px;padding:32px 20px;text-align:center;color:#63737F;font-size:16px;line-height:1.5}',
       'html.wl-on:not(.wl-nocar) #wl-ph{display:none}',
