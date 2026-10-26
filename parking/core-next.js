@@ -1,4 +1,4 @@
-// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체 v6(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
+// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체 v7(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
 // 고칠 땐 이 파일만 고치고 push → 아이패드는 다음 새로고침부터 바로 반영(재설치 필요 없음)
 (function () {
   function main() {
@@ -123,7 +123,7 @@
     var css = [
       'html.wl-on #mf_grp_wrap #mf_wfm_header_layoutWrap.layoutWrap::before{content:none!important;display:none!important}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{padding-left:16px!important;box-sizing:border-box}',
-      'html.wl-on body{padding-bottom:120px!important}',
+      'html.wl-on body{padding-bottom:140px!important}',
       // ---- 브랜드 모양(10/26 사장 「나이스파크 화면도 깔끔하게 브랜드에 맞게」) — 색은 매장앱과 같은 토큰 ----
       'html.wl-on,html.wl-on body,html.wl-on #mf_grp_wrap,html.wl-on #contentWrap,html.wl-on .saleWrap,html.wl-on .saleContent{background:#F4F6F8!important}',
       'html.wl-on body,html.wl-on body *:not(svg):not(path){font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif!important}',
@@ -176,16 +176,19 @@
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleKeypad{order:0!important}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleContent{order:1!important}',
       'html.wl-on #contentWrap .saleContent{order:1;flex:1;min-width:0;width:auto!important;margin:0!important;position:static!important}',
-      '#wl-ph{background:#fff;border:1px solid #E4E9ED;border-radius:18px;padding:32px 20px;text-align:center;color:#63737F;font-size:16px;line-height:1.5}',
+      '#wl-ph{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border:1px solid #E4E9ED;border-radius:18px;padding:32px 20px;text-align:center;color:#63737F;font-size:16px;line-height:1.5}',
+      'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{align-items:stretch!important}',
+      'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleContent{display:flex!important;flex-direction:column;height:auto!important}',
       'html.wl-on:not(.wl-nocar) #wl-ph{display:none}',
       '#wl-root{-webkit-user-select:none;user-select:none;color:#15212B}',
       '#wl-root button{border:0;touch-action:manipulation;font-family:inherit;cursor:pointer}',
       // 아래 큰 버튼 하나(안에 작게 주의 문구)
-      '#wl-go{position:fixed;left:16px;right:16px;bottom:16px;z-index:2147482001;min-height:84px;border-radius:18px;background:#20769B;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 16px;box-shadow:0 6px 18px rgba(21,33,43,.18)}',
+      '#wl-dock{position:fixed;left:16px;right:16px;bottom:12px;z-index:2147482001}',
+      '#wl-dock.hide{display:none}',
+      '#wl-note{margin-top:8px;font-size:13px;color:#63737F;display:flex;align-items:center;justify-content:center;gap:6px;line-height:1.3}',
+      '#wl-go{width:100%;min-height:76px;border-radius:18px;background:#20769B;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 16px;box-shadow:0 6px 18px rgba(21,33,43,.18)}',
       '#wl-go .m{font-size:24px;font-weight:800;line-height:1.25}',
-      '#wl-go .n{font-size:13px;font-weight:500;opacity:.92;display:flex;align-items:center;gap:6px;line-height:1.3}',
       '#wl-go.wait{background:#EDEFF2;color:#63737F;box-shadow:none}',
-      '#wl-go.hide{display:none}',
       // 가볍게 뜨는 팝업
       '.wl-pop{position:fixed;inset:0;z-index:2147483000;background:rgba(21,33,43,.28);display:flex;align-items:center;justify-content:center;padding:16px}',
       '.wl-pop.off{display:none}',
@@ -236,6 +239,8 @@
       if (kpd) kpd.style.setProperty('order', '0', 'important');
       if (sct) sct.style.setProperty('order', '1', 'important');
       // 아이패드 폭에선 나이스가 숫자판을 숨겨서(모바일 모양) 다시 보이게
+      var kh = document.querySelector('#contentWrap .keypadArea h4');
+      if (kh && kh.textContent !== '차량번호 뒤 4자리를 입력해 주세요') kh.textContent = '차량번호 뒤 4자리를 입력해 주세요';
       var kpa = document.querySelector('#contentWrap .keypadArea');
       if (kpa) kpa.style.setProperty('display', 'block', 'important');
     }
@@ -284,9 +289,12 @@
       })();
 
       // 아래 큰 버튼 하나 — 차 고르기 전엔 회색 안내, 고르면 「322가8152 주차 등록하기」
-      var NOTE = '<span class="n">' + ICON + '건물 내 다른 상가에서 등록하신 경우 최대 1시간만 추가 가능</span>';
-      var go = el('button', { type: 'button', id: 'wl-go', class: 'wait' }, '<span class="m">조회하기</span>' + NOTE);
-      root.appendChild(go);
+      // 아래: 큰 버튼 + 그 밑에 회색 주의 문구(10/26 사장)
+      var dock = el('div', { id: 'wl-dock' });
+      var go = el('button', { type: 'button', id: 'wl-go', class: 'wait' }, '<span class="m">조회하기</span>');
+      dock.appendChild(go);
+      dock.appendChild(el('div', { id: 'wl-note' }, ICON + '건물 내 다른 상가에서 등록하신 경우 최대 1시간만 추가 가능'));
+      root.appendChild(dock);
 
       // 방문 경로 질문 — 가볍게 뜨는 팝업(닫기·넘어가기 없음)
       var ask = el('div', { class: 'wl-pop off', id: 'wl-ask' });
@@ -348,7 +356,7 @@
         var lay = document.getElementById('mf_wfm_body_carListLayer');   // 같은 번호 차가 여러 대면 나오는 목록
         var listOpen = !!(lay && lay.getClientRects().length && getComputedStyle(lay).display !== 'none');
         var busy = niceModal || listOpen || !ask.classList.contains('off') || !res.classList.contains('off');
-        go.classList.toggle('hide', busy);
+        dock.classList.toggle('hide', busy);
         go.classList.toggle('wait', mode === 'query' && d.length < 4);
         document.documentElement.classList.toggle('wl-nocar', !hasCar);
         var m = go.querySelector('.m');
