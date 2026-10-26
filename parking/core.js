@@ -1,4 +1,4 @@
-// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
+// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체 v6(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
 // 고칠 땐 이 파일만 고치고 push → 아이패드는 다음 새로고침부터 바로 반영(재설치 필요 없음)
 (function () {
   function main() {
@@ -145,7 +145,7 @@
       '#wl-head .t1{font-size:18px;font-weight:800;color:#15212B;line-height:1.2}',
       '#wl-head .t2{font-size:13px;color:#63737F;margin-top:2px}',
       'html.wl-on #mf_wfm_body_mobileGrp{background:#fff!important;border:1px solid #E4E9ED!important;border-radius:18px!important;height:auto!important;padding:12px 12px 12px 20px!important;box-shadow:none!important;box-sizing:border-box}',
-      'html.wl-on.wl-mob #mf_wfm_body_mobileGrp{display:flex!important;align-items:center;gap:12px}',
+      'html.wl-on #mf_wfm_body_mobileGrp{display:none!important}',
       'html.wl-on #mf_wfm_body_carNo{flex:1;width:auto!important;background:transparent!important;border:0!important;outline:none!important;box-shadow:none!important;color:#15212B!important;font-size:34px!important;height:64px!important;font-weight:800!important;letter-spacing:8px;text-align:center;padding:0!important}',
       'html.wl-on #mf_wfm_body_carNo::placeholder{color:#AAB4BD;font-weight:600;letter-spacing:2px;font-size:24px}',
       "html.wl-on #mf_wfm_body_mobileOkBtn{position:static!important;flex:none;width:56px!important;height:56px!important;border:0!important;border-radius:14px!important;background:#20769B url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E\") center/26px no-repeat!important;font-size:0!important;color:transparent!important;text-indent:-999px;overflow:hidden;transform:none!important}",
@@ -158,6 +158,8 @@
       'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea td{padding:14px 20px!important;border:0!important;border-right:0!important;border-left:0!important;border-bottom:1px solid #E4E9ED!important;font-size:16px!important;background:#fff!important}',
       'html.wl-on #contentWrap .carinfoArea tr:last-child th,html.wl-on #contentWrap .carinfoArea tr:last-child td{border-bottom:0!important}',
       'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea th *{color:#63737F!important;font-weight:500!important;text-align:left}',
+      'html.wl-on #contentWrap .carinfoArea th{white-space:nowrap!important;width:104px!important}',
+      'html.wl-on #contentWrap .carinfoArea col:first-child{width:104px!important}',
       'html.wl-on #contentWrap .carinfoArea td,html.wl-on #contentWrap .carinfoArea td *{color:#15212B!important;font-weight:700!important}',
       'html.wl-on #contentWrap .carinfoArea th::before,html.wl-on #contentWrap .carinfoArea th label::before{content:none!important;display:none!important}',
       // 숫자판(넓은 화면 = 아이패드 가로) — 흰 카드 + 연회색 키 + 남색 OK
@@ -175,9 +177,18 @@
       'html.wl-on .keypadArea .keypad_ok:active{background:#0B5F84!important}',
       'html.wl-on .keypadArea .keypad_ok input{color:#fff!important;font-size:24px!important;font-weight:800!important}',
       "html.wl-on .keypadArea .keypad_clear input{background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%2315212B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 5H9l-6 7 6 7h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z'/%3E%3Cpath d='M17 9l-6 6M11 9l6 6'/%3E%3C/svg%3E\") center/30px no-repeat!important;font-size:0!important;color:transparent!important;text-indent:-999px;overflow:hidden}",
-      'html.wl-on .keypadArea #mf_wfm_body_keypadDelBtn{grid-column:1;grid-row:4}',
-      'html.wl-on .keypadArea #mf_wfm_body_keypad0Btn{grid-column:2;grid-row:4}',
-      'html.wl-on .keypadArea #mf_wfm_body_keypadOkBtn{grid-column:3;grid-row:4}',
+      'html.wl-on .keypadArea #mf_wfm_body_keypad0Btn{grid-column:1 / span 2;grid-row:4}',
+      'html.wl-on .keypadArea #mf_wfm_body_keypadDelBtn{grid-column:3;grid-row:4}',
+      'html.wl-on .keypadArea #mf_wfm_body_keypadOkBtn{display:none!important}',
+      // 배치: 숫자판 왼쪽 · 차량정보 오른쪽(10/26 사장)
+      'html.wl-on #contentWrap .saleWrap{display:flex!important;flex-direction:row!important;align-items:flex-start;gap:16px;width:100%!important;height:auto!important}',
+      'html.wl-on #contentWrap .saleKeypad{display:block!important;order:0;flex:none;position:static!important;width:320px!important;max-width:45%;margin:0!important;height:auto!important;left:auto!important;right:auto!important;top:auto!important}',
+      'html.wl-on #contentWrap .saleKeypad .keypadArea{width:100%!important;position:static!important}',
+      'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleKeypad{order:0!important}',
+      'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleContent{order:1!important}',
+      'html.wl-on #contentWrap .saleContent{order:1;flex:1;min-width:0;width:auto!important;margin:0!important;position:static!important}',
+      '#wl-ph{background:#fff;border:1px solid #E4E9ED;border-radius:18px;padding:32px 20px;text-align:center;color:#63737F;font-size:16px;line-height:1.5}',
+      'html.wl-on:not(.wl-nocar) #wl-ph{display:none}',
       '#wl-root{-webkit-user-select:none;user-select:none;color:#15212B}',
       '#wl-root button{border:0;touch-action:manipulation;font-family:inherit;cursor:pointer}',
       // 아래 큰 버튼 하나(안에 작게 주의 문구)
@@ -228,14 +239,16 @@
         inp.__wl = true;
         inp.setAttribute('inputmode', 'numeric'); inp.setAttribute('pattern', '[0-9]*'); inp.setAttribute('maxlength', '4');
         inp.setAttribute('placeholder', '차량번호 뒤 4자리');
-        // 4자리를 다 넣으면 돋보기 안 눌러도 바로 검색
-        inp.addEventListener('input', function () {
-          var v = (inp.value || '').replace(/\D/g, '');
-          if (v.length === 4) { var ok = document.getElementById('mf_wfm_body_mobileOkBtn'); if (ok) setTimeout(function () { ok.click(); }, 150); }
-        });
       }
       var cw = document.getElementById('contentWrap');
       if (cw) ['left', 'margin-left', 'padding-left'].forEach(function (p) { cw.style.setProperty(p, '0', 'important'); });
+      // 나이스가 숫자판에 order:2를 요소에 직접 넣어 둬서 여기서 덮어씀(숫자판 왼쪽 · 차량정보 오른쪽)
+      var kpd = document.querySelector('#contentWrap .saleKeypad'), sct = document.querySelector('#contentWrap .saleContent');
+      if (kpd) kpd.style.setProperty('order', '0', 'important');
+      if (sct) sct.style.setProperty('order', '1', 'important');
+      // 아이패드 폭에선 나이스가 숫자판을 숨겨서(모바일 모양) 다시 보이게
+      var kpa = document.querySelector('#contentWrap .keypadArea');
+      if (kpa) kpa.style.setProperty('display', 'block', 'important');
     }
 
     function carNoText() {
@@ -275,10 +288,15 @@
       var cwTop = document.getElementById('contentWrap');
       if (cwTop && cwTop.parentNode) cwTop.parentNode.insertBefore(head, cwTop); else root.appendChild(head);
       mask(); setInterval(mask, 500);
+      var ph = el('div', { id: 'wl-ph' }, '차량번호를 조회하면<br>여기에 차량 정보가 나와요');
+      (function putPh() {
+        var sc = document.querySelector('#contentWrap .saleContent');
+        if (sc && !document.getElementById('wl-ph')) sc.insertBefore(ph, sc.firstChild); else if (!sc) setTimeout(putPh, 500);
+      })();
 
       // 아래 큰 버튼 하나 — 차 고르기 전엔 회색 안내, 고르면 「322가8152 주차 등록하기」
       var NOTE = '<span class="n">' + ICON + '건물 내 다른 상가에서 등록하신 경우 최대 1시간만 추가 가능</span>';
-      var go = el('button', { type: 'button', id: 'wl-go', class: 'wait' }, '<span class="m">차량번호 뒤 4자리를 입력해 주세요</span>' + NOTE);
+      var go = el('button', { type: 'button', id: 'wl-go', class: 'wait' }, '<span class="m">조회하기</span>' + NOTE);
       root.appendChild(go);
 
       // 방문 경로 질문 — 가볍게 뜨는 팝업(닫기·넘어가기 없음)
@@ -300,7 +318,17 @@
         grid.appendChild(b);
       });
 
-      go.addEventListener('click', function () { if (!go.classList.contains('wait')) ask.classList.remove('off'); });
+      function digits() {
+        var t = document.querySelector('#contentWrap .keypad_top');
+        return t ? (t.textContent || '').replace(/\D/g, '') : '';
+      }
+      var mode = 'query';
+      go.addEventListener('click', function () {
+        if (go.classList.contains('wait')) return;
+        if (mode === 'reg') { ask.classList.remove('off'); return; }
+        var ok = document.querySelector('#mf_wfm_body_keypadOkBtn input') || document.getElementById('mf_wfm_body_keypadOkBtn');
+        if (ok) ok.click();
+      });
 
       async function run() {
         ask.classList.add('off');
@@ -321,21 +349,23 @@
         res.addEventListener('click', home);
       }
 
-      // 차가 골라지면 버튼을 「번호 + 주차 등록하기」로
+      // 버튼 상태: 번호를 누르는 중이면 「조회하기」(4자리면 켜짐) · 조회돼서 번호칸이 비면 「322가8152 주차 등록하기」
       setInterval(function () {
-        var ready = !!(carPicked && carNoText());
+        var d = digits();
+        var hasCar = !!(carPicked && carNoText());
+        mode = (hasCar && !d) ? 'reg' : 'query';
         var nm = document.getElementById('_modal');   // 나이스 알림창이 떠 있으면 버튼을 숨겨 「확인」을 가리지 않게
         var niceModal = !!(nm && nm.getClientRects().length && getComputedStyle(nm).display !== 'none');
-        var busy = niceModal || !ask.classList.contains('off') || !res.classList.contains('off');
+        var lay = document.getElementById('mf_wfm_body_carListLayer');   // 같은 번호 차가 여러 대면 나오는 목록
+        var listOpen = !!(lay && lay.getClientRects().length && getComputedStyle(lay).display !== 'none');
+        var busy = niceModal || listOpen || !ask.classList.contains('off') || !res.classList.contains('off');
         go.classList.toggle('hide', busy);
-        go.classList.toggle('wait', !ready);
-        document.documentElement.classList.toggle('wl-nocar', !ready);
-        var kp = document.getElementById('mf_wfm_body_keypadOkBtn');   // 숫자판이 안 보이면 = 나이스 모바일 모양(아이패드 세로)
-        document.documentElement.classList.toggle('wl-mob', !(kp && kp.getClientRects().length));
+        go.classList.toggle('wait', mode === 'query' && d.length < 4);
+        document.documentElement.classList.toggle('wl-nocar', !hasCar);
         var m = go.querySelector('.m');
-        var want = ready ? carNoText() + '  주차 등록하기' : '차량번호 뒤 4자리를 입력해 주세요';
+        var want = mode === 'reg' ? carNoText() + '  주차 등록하기' : '조회하기';
         if (m && m.textContent !== want) m.textContent = want;
-      }, 400);
+      }, 300);
 
       // 안 만지면 처음으로
       var last = Date.now();
