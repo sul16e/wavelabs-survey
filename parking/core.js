@@ -3,8 +3,8 @@
 (function () {
   function main() {
     'use strict';
-    if (window.__wlParking) return;
-    window.__wlParking = true;
+    if (window.__wlParkingCore) return;   // 로더가 둘 깔려 있어도 한 번만
+    window.__wlParkingCore = true;
 
     // ---- 설정 ----
     var SB = 'https://gsnsroacvbibljpecizu.supabase.co/rest/v1/records';
@@ -153,7 +153,12 @@
     }
     function home() { location.reload(); }
 
+    function killOld() {
+      // 옛 1.x 스크립트가 아이패드에 남아 있으면 그 화면(첫 질문 · 아래 줄)을 지운다
+      document.querySelectorAll('#wl-ov, #wl-bar').forEach(function (x) { if (!x.closest('#wl-root')) x.remove(); });
+    }
     function mask() {
+      killOld();
       ['#gnbWrap', '.mobileMenu', '.mobileMypage', '#mf_wfm_body_carImgBtnId', '#mf_wfm_body_remainTkListMainBox',
         '#mf_wfm_body_usedTkListMainBox', '.keypadUsed'].forEach(function (s) {
         document.querySelectorAll(s).forEach(function (x) { x.style.setProperty('display', 'none', 'important'); });
@@ -188,7 +193,7 @@
         return;
       }
       document.documentElement.classList.add('wl-on');
-      mask(); setInterval(mask, 1500);
+      mask(); setInterval(mask, 500);
 
       // 아래 안내 줄
       var bar = el('div', { id: 'wl-bar' },
