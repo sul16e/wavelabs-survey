@@ -158,6 +158,8 @@
       'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea td{padding:14px 20px!important;border:0!important;border-right:0!important;border-left:0!important;border-bottom:1px solid #E4E9ED!important;font-size:16px!important;background:#fff!important}',
       'html.wl-on #contentWrap .carinfoArea tr:last-child th,html.wl-on #contentWrap .carinfoArea tr:last-child td{border-bottom:0!important}',
       'html.wl-on #contentWrap .carinfoArea th,html.wl-on #contentWrap .carinfoArea th *{color:#63737F!important;font-weight:500!important;text-align:left}',
+      'html.wl-on #contentWrap .carinfoArea th{white-space:nowrap!important;width:104px!important}',
+      'html.wl-on #contentWrap .carinfoArea col:first-child{width:104px!important}',
       'html.wl-on #contentWrap .carinfoArea td,html.wl-on #contentWrap .carinfoArea td *{color:#15212B!important;font-weight:700!important}',
       'html.wl-on #contentWrap .carinfoArea th::before,html.wl-on #contentWrap .carinfoArea th label::before{content:none!important;display:none!important}',
       // 숫자판(넓은 화면 = 아이패드 가로) — 흰 카드 + 연회색 키 + 남색 OK
