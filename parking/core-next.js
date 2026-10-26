@@ -278,7 +278,7 @@
       document.documentElement.classList.add('wl-nocar');
       var font = el('link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css' });
       document.head.appendChild(font);
-      var head = el('div', { id: 'wl-head' }, '<img src="https://sul16e.github.io/wavelabs-survey/recipe/logo.jpg" alt=""><div><div class="t1">웨이브랩스 37F</div><div class="t2">셀프 주차 등록</div></div>');
+      var head = el('div', { id: 'wl-head' }, '<img src="https://sul16e.github.io/wavelabs-survey/recipe/logo.jpg" alt=""><div><div class="t1">웨이브랩스 37F 셀프 주차 등록</div><div class="t2">SK뷰레이크 건물 주차만 지원 가능</div></div>');
       var cwTop = document.getElementById('contentWrap');
       if (cwTop && cwTop.parentNode) cwTop.parentNode.insertBefore(head, cwTop); else root.appendChild(head);
       mask(); setInterval(mask, 500);
