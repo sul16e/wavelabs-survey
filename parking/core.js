@@ -122,7 +122,7 @@
     var ICON = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;vertical-align:-3px"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.8" r="1.4" fill="currentColor"/></svg>';
     var css = [
       'html.wl-on #mf_grp_wrap #mf_wfm_header_layoutWrap.layoutWrap::before{content:none!important;display:none!important}',
-      'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{padding-left:16px!important;box-sizing:border-box}',
+      'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{padding-left:0!important;padding-right:0!important;box-sizing:border-box}',
       'html.wl-on body{padding-bottom:140px!important}',
       // ---- 브랜드 모양(10/26 사장 「나이스파크 화면도 깔끔하게 브랜드에 맞게」) — 색은 매장앱과 같은 토큰 ----
       'html.wl-on,html.wl-on body,html.wl-on #mf_grp_wrap,html.wl-on #contentWrap,html.wl-on .saleWrap,html.wl-on .saleContent{background:#F4F6F8!important}',
@@ -170,12 +170,12 @@
       'html.wl-on .keypadArea #mf_wfm_body_keypadDelBtn{grid-column:3;grid-row:4}',
       'html.wl-on .keypadArea #mf_wfm_body_keypadOkBtn{display:none!important}',
       // 배치: 숫자판 왼쪽 · 차량정보 오른쪽(10/26 사장)
-      'html.wl-on #contentWrap .saleWrap{display:flex!important;flex-direction:row!important;align-items:flex-start;gap:16px;width:100%!important;height:auto!important}',
+      'html.wl-on #contentWrap .saleWrap{display:flex!important;flex-direction:row!important;align-items:flex-start;justify-content:center!important;flex-wrap:nowrap!important;gap:16px;width:100%!important;max-width:868px!important;margin-left:auto!important;margin-right:auto!important;height:auto!important}',
       'html.wl-on #contentWrap .saleKeypad{display:block!important;order:0;flex:none;position:static!important;width:320px!important;max-width:45%;margin:0!important;height:auto!important;left:auto!important;right:auto!important;top:auto!important}',
       'html.wl-on #contentWrap .saleKeypad .keypadArea{width:100%!important;position:static!important}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleKeypad{order:0!important}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleContent{order:1!important}',
-      'html.wl-on #contentWrap .saleContent{order:1;flex:1;min-width:0;width:auto!important;margin:0!important;position:static!important}',
+      'html.wl-on #contentWrap .saleContent{order:1;flex:1 1 0!important;max-width:532px!important;min-width:0;width:auto!important;margin:0!important;position:static!important}',
       '#wl-ph{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border:1px solid #E4E9ED;border-radius:18px;padding:32px 20px;text-align:center;color:#63737F;font-size:16px;line-height:1.5}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{align-items:stretch!important}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap > .saleContent{display:flex!important;flex-direction:column;height:auto!important}',
@@ -183,7 +183,7 @@
       '#wl-root{-webkit-user-select:none;user-select:none;color:#15212B}',
       '#wl-root button{border:0;touch-action:manipulation;font-family:inherit;cursor:pointer}',
       // 아래 큰 버튼 하나(안에 작게 주의 문구)
-      '#wl-dock{position:fixed;left:16px;right:16px;bottom:12px;z-index:2147482001}',
+      '#wl-dock{position:fixed;left:50%;right:auto;transform:translateX(-50%);width:calc(100% - 32px);max-width:868px;bottom:12px;z-index:2147482001}',
       '#wl-dock.hide{display:none}',
       '#wl-note{margin-top:8px;font-size:13px;color:#63737F;display:flex;align-items:center;justify-content:center;gap:6px;line-height:1.3}',
       '#wl-go{width:100%;min-height:76px;border-radius:18px;background:#20769B;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 16px;box-shadow:0 6px 18px rgba(21,33,43,.18)}',
@@ -233,7 +233,8 @@
         inp.setAttribute('placeholder', '차량번호 뒤 4자리');
       }
       var cw = document.getElementById('contentWrap');
-      if (cw) ['left', 'margin-left', 'padding-left'].forEach(function (p) { cw.style.setProperty(p, '0', 'important'); });
+      // 나이스가 왼쪽 메뉴 자리만큼 밀어 둔 것을 지우고 가운데로(10/26 사장 「묶어서 중앙정렬」)
+      if (cw) [['left', '0'], ['margin-left', 'auto'], ['margin-right', 'auto'], ['padding-left', '16px'], ['padding-right', '16px']].forEach(function (p) { cw.style.setProperty(p[0], p[1], 'important'); });
       // 나이스가 숫자판에 order:2를 요소에 직접 넣어 둬서 여기서 덮어씀(숫자판 왼쪽 · 차량정보 오른쪽)
       var kpd = document.querySelector('#contentWrap .saleKeypad'), sct = document.querySelector('#contentWrap .saleContent');
       if (kpd) kpd.style.setProperty('order', '0', 'important');
