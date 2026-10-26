@@ -189,6 +189,11 @@
         inp.__wl = true;
         inp.setAttribute('inputmode', 'numeric'); inp.setAttribute('pattern', '[0-9]*'); inp.setAttribute('maxlength', '4');
         inp.setAttribute('placeholder', '차량번호 뒤 4자리');
+        // 4자리를 다 넣으면 돋보기 안 눌러도 바로 검색
+        inp.addEventListener('input', function () {
+          var v = (inp.value || '').replace(/\D/g, '');
+          if (v.length === 4) { var ok = document.getElementById('mf_wfm_body_mobileOkBtn'); if (ok) setTimeout(function () { ok.click(); }, 150); }
+        });
       }
       var cw = document.getElementById('contentWrap');
       if (cw) ['left', 'margin-left', 'padding-left'].forEach(function (p) { cw.style.setProperty(p, '0', 'important'); });
@@ -228,7 +233,7 @@
 
       // 아래 큰 버튼 하나 — 차 고르기 전엔 회색 안내, 고르면 「322가8152 주차 등록하기」
       var NOTE = '<span class="n">' + ICON + '건물 내 다른 상가에서 등록하신 경우 최대 1시간만 추가 가능</span>';
-      var go = el('button', { type: 'button', id: 'wl-go', class: 'wait' }, '<span class="m">차량번호 뒤 4자리를 누르고 OK</span>' + NOTE);
+      var go = el('button', { type: 'button', id: 'wl-go', class: 'wait' }, '<span class="m">차량번호 뒤 4자리를 입력해 주세요</span>' + NOTE);
       root.appendChild(go);
 
       // 방문 경로 질문 — 가볍게 뜨는 팝업(닫기·넘어가기 없음)
@@ -278,7 +283,7 @@
         go.classList.toggle('hide', busy);
         go.classList.toggle('wait', !ready);
         var m = go.querySelector('.m');
-        var want = ready ? carNoText() + '  주차 등록하기' : '차량번호 뒤 4자리를 누르고 OK';
+        var want = ready ? carNoText() + '  주차 등록하기' : '차량번호 뒤 4자리를 입력해 주세요';
         if (m && m.textContent !== want) m.textContent = want;
       }, 400);
 
