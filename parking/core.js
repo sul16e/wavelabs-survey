@@ -170,6 +170,7 @@
       'html.wl-on .keypadArea .triger_box{width:auto!important;height:68px!important;margin:0!important;float:none!important;background:#F4F6F8!important;background-image:none!important;border:0!important;border-radius:14px!important;box-shadow:none!important}',
       'html.wl-on .keypadArea .triger_box:active{background:#EDF4F8!important}',
       'html.wl-on .keypadArea .triger_box input{width:100%!important;height:100%!important;background:transparent!important;background-image:none!important;border:0!important;border-radius:14px!important;box-shadow:none!important;text-shadow:none!important;color:#15212B!important;font-size:30px!important;font-weight:700!important}',
+      'html.wl-on .keypadArea .triger_box,html.wl-on .keypadArea .triger_box *{outline:none!important;-webkit-tap-highlight-color:transparent}',
       'html.wl-on .keypadArea .keypad_ok{background:#20769B!important}',
       'html.wl-on .keypadArea .keypad_ok:active{background:#0B5F84!important}',
       'html.wl-on .keypadArea .keypad_ok input{color:#fff!important;font-size:24px!important;font-weight:800!important}',
