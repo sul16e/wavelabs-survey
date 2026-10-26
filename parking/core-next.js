@@ -1,4 +1,4 @@
-// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
+// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체 v5(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
 // 고칠 땐 이 파일만 고치고 push → 아이패드는 다음 새로고침부터 바로 반영(재설치 필요 없음)
 (function () {
   function main() {
@@ -240,6 +240,10 @@
       }
       var cw = document.getElementById('contentWrap');
       if (cw) ['left', 'margin-left', 'padding-left'].forEach(function (p) { cw.style.setProperty(p, '0', 'important'); });
+      // 나이스가 숫자판에 order:2를 요소에 직접 넣어 둬서 여기서 덮어씀(숫자판 왼쪽 · 차량정보 오른쪽)
+      var kpd = document.querySelector('#contentWrap .saleKeypad'), sct = document.querySelector('#contentWrap .saleContent');
+      if (kpd) kpd.style.setProperty('order', '0', 'important');
+      if (sct) sct.style.setProperty('order', '1', 'important');
     }
 
     function carNoText() {
