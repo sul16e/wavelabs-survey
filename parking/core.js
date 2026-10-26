@@ -279,7 +279,9 @@
       // 차가 골라지면 버튼을 「번호 + 주차 등록하기」로
       setInterval(function () {
         var ready = !!(carPicked && carNoText());
-        var busy = !ask.classList.contains('off') || !res.classList.contains('off');
+        var nm = document.getElementById('_modal');   // 나이스 알림창이 떠 있으면 버튼을 숨겨 「확인」을 가리지 않게
+        var niceModal = !!(nm && nm.getClientRects().length && getComputedStyle(nm).display !== 'none');
+        var busy = niceModal || !ask.classList.contains('off') || !res.classList.contains('off');
         go.classList.toggle('hide', busy);
         go.classList.toggle('wait', !ready);
         var m = go.querySelector('.m');
