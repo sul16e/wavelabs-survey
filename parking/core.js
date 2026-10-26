@@ -23,7 +23,7 @@
     var OUR_SHOP = '3715';          // 나이스에 등록된 우리 상점 이름에 들어 있는 글자(「Office 3715호 텔온커피」)
     var MAX_HOURS = 2;              // 기본 1시간 무료 2번 = 2시간
     var MAX_IF_OTHER = 1;           // 다른 상가에서 이미 등록한 차면 최대 1시간
-    var IDLE_MS = 60000, DONE_MS = 12000, STAFF_MS = 10 * 60000;
+    var IDLE_MS = 60000, DONE_MS = 5000, STAFF_MS = 10 * 60000;
     var LS_Q = 'wl-visit-q', LS_STAFF = 'wl-staff-until', LS_TEST = 'wl-test', LS_DRY = 'wl-dry';
 
     function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -130,27 +130,31 @@
     }
 
     // ---- 화면 ----
+    var ICON = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;vertical-align:-3px"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.8" r="1.4" fill="currentColor"/></svg>';
     var css = [
       'html.wl-on #mf_grp_wrap #mf_wfm_header_layoutWrap.layoutWrap::before{content:none!important;display:none!important}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{padding-left:16px!important;box-sizing:border-box}',
-      '#wl-root{font-family:-apple-system,"Apple SD Gothic Neo",sans-serif;-webkit-user-select:none;user-select:none}',
-      '#wl-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147482000;background:#0B5F84;color:#fff;display:flex;align-items:center;gap:16px;padding:12px 16px}',
-      '#wl-bar .t{flex:1;font-size:19px;font-weight:800;line-height:1.4}',
-      '#wl-bar .s{font-size:15px;font-weight:400;opacity:.9}',
-      '#wl-root button{border:0;touch-action:manipulation;font-family:inherit;font-weight:800;cursor:pointer}',
-      '#wl-bar button{min-height:48px;padding:0 20px;border-radius:12px;background:#fff;color:#0B5F84;font-size:17px}',
-      '#wl-go{position:fixed;left:16px;right:336px;bottom:96px;z-index:2147482001;min-height:96px;border-radius:20px!important;background:#20769B!important;color:#fff;font-size:30px!important;box-shadow:0 6px 20px rgba(0,0,0,.25)}',
-      '#wl-go.off,.wl-pane.off{display:none}',
-      '.wl-pane{position:fixed;inset:0;z-index:2147483000;background:rgba(11,95,132,.97);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}',
-      '.wl-pane .tag{font-size:17px;opacity:.9;margin-bottom:12px}',
-      '.wl-pane h1{font-size:34px;line-height:1.3;margin:0 0 28px;font-weight:800}',
-      '.wl-pane .grid{display:grid;grid-template-columns:repeat(3,minmax(0,220px));gap:16px;width:100%;justify-content:center}',
-      '.wl-pane .grid button{min-height:84px;border-radius:16px;background:#fff;color:#0B5F84;font-size:22px}',
-      '.wl-pane .grid button:active{background:#6EAAC2;color:#fff}',
-      '.wl-pane .big{font-size:52px;font-weight:800;margin:8px 0 12px}',
-      '.wl-pane .big2{display:inline-block;background:#fff;color:#0B5F84;border-radius:18px;padding:8px 28px;font-size:46px;font-weight:800;margin:4px 0 16px}',
-      '.wl-pane .sub{font-size:20px;opacity:.92;line-height:1.5}',
-      '.wl-pane .home{margin-top:32px;min-height:56px;padding:0 28px;border-radius:14px;background:#fff;color:#0B5F84;font-size:20px}',
+      'html.wl-on body{padding-bottom:120px!important}',
+      '#wl-root{font-family:-apple-system,"Apple SD Gothic Neo",sans-serif;-webkit-user-select:none;user-select:none;color:#15212B}',
+      '#wl-root button{border:0;touch-action:manipulation;font-family:inherit;cursor:pointer}',
+      // 아래 큰 버튼 하나(안에 작게 주의 문구)
+      '#wl-go{position:fixed;left:16px;right:16px;bottom:16px;z-index:2147482001;min-height:84px;border-radius:18px;background:#20769B;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 16px;box-shadow:0 6px 18px rgba(21,33,43,.18)}',
+      '#wl-go .m{font-size:24px;font-weight:800;line-height:1.25}',
+      '#wl-go .n{font-size:13px;font-weight:500;opacity:.92;display:flex;align-items:center;gap:6px;line-height:1.3}',
+      '#wl-go.wait{background:#EDEFF2;color:#63737F;box-shadow:none}',
+      '#wl-go.hide{display:none}',
+      // 가볍게 뜨는 팝업
+      '.wl-pop{position:fixed;inset:0;z-index:2147483000;background:rgba(21,33,43,.28);display:flex;align-items:center;justify-content:center;padding:16px}',
+      '.wl-pop.off{display:none}',
+      '.wl-card{background:#fff;border-radius:20px;box-shadow:0 12px 36px rgba(21,33,43,.22);width:100%;max-width:520px;padding:24px;text-align:center}',
+      '.wl-card .q-s{font-size:14px;color:#63737F;margin-bottom:6px}',
+      '.wl-card .q{font-size:22px;font-weight:800;line-height:1.35;margin-bottom:18px}',
+      '.wl-card .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}',
+      '.wl-card .grid button{min-height:56px;border-radius:14px;background:#EDF4F8;color:#0B5F84;font-size:18px;font-weight:700}',
+      '.wl-card .grid button:active{background:#20769B;color:#fff}',
+      '.wl-card .car{font-size:18px;color:#63737F;margin-bottom:6px}',
+      '.wl-card .done{font-size:26px;font-weight:800;line-height:1.35}',
+      '.wl-card .cnt{font-size:13px;color:#63737F;margin-top:14px}',
       '#wl-corner{position:fixed;top:0;left:0;width:80px;height:80px;z-index:2147483002}',
       '#wl-staff{position:fixed;top:8px;right:8px;z-index:2147483001;background:#C0392B;color:#fff;font:700 13px -apple-system,sans-serif;padding:6px 10px;border-radius:8px}'
     ].join('\n');
@@ -205,29 +209,22 @@
       document.documentElement.classList.add('wl-on');
       mask(); setInterval(mask, 500);
 
-      // 아래 안내 줄
-      var bar = el('div', { id: 'wl-bar' },
-        '<div class="t" id="wl-bar-t">차량번호 뒤 4자리를 누르고 OK<div class="s">건물 내 다른 상가에서 등록하신 경우 최대 1시간만 추가 가능</div></div>');
-      var hb = el('button', { type: 'button' }, '처음으로');
-      hb.addEventListener('click', home);
-      bar.appendChild(hb);
-      root.appendChild(bar);
-
-      // 차를 고르면 나오는 큰 버튼
-      var go = el('button', { type: 'button', id: 'wl-go', class: 'off' }, '주차 등록하기');
+      // 아래 큰 버튼 하나 — 차 고르기 전엔 회색 안내, 고르면 「322가8152 주차 등록하기」
+      var NOTE = '<span class="n">' + ICON + '건물 내 다른 상가에서 등록하신 경우 최대 1시간만 추가 가능</span>';
+      var go = el('button', { type: 'button', id: 'wl-go', class: 'wait' }, '<span class="m">차량번호 뒤 4자리를 누르고 OK</span>' + NOTE);
       root.appendChild(go);
 
-      // 방문 경로 질문(닫기·넘어가기 없음)
-      var ask = el('div', { class: 'wl-pane off', id: 'wl-ask' });
-      ask.appendChild(el('div', { class: 'tag' }, '등록 전에 하나만 알려 주세요'));
-      ask.appendChild(el('h1', null, '어디서 웨이브랩스를<br>보고 오셨어요?'));
+      // 방문 경로 질문 — 가볍게 뜨는 팝업(닫기·넘어가기 없음)
+      var ask = el('div', { class: 'wl-pop off', id: 'wl-ask' });
+      var card = el('div', { class: 'wl-card' },
+        '<div class="q-s">등록 전에 하나만 알려 주세요</div><div class="q">어디서 웨이브랩스를 보고 오셨어요?</div>');
       var grid = el('div', { class: 'grid' });
-      ask.appendChild(grid);
-      root.appendChild(ask);
+      card.appendChild(grid); ask.appendChild(card); root.appendChild(ask);
 
-      // 진행·결과
-      var res = el('div', { class: 'wl-pane off', id: 'wl-res' });
-      root.appendChild(res);
+      // 진행·결과 — 같은 모양의 작은 카드
+      var res = el('div', { class: 'wl-pop off', id: 'wl-res' });
+      var rcard = el('div', { class: 'wl-card' });
+      res.appendChild(rcard); root.appendChild(res);
 
       var picked = '';
       CH.forEach(function (c) {
@@ -236,38 +233,36 @@
         grid.appendChild(b);
       });
 
-      go.addEventListener('click', function () { ask.classList.remove('off'); });
+      go.addEventListener('click', function () { if (!go.classList.contains('wait')) ask.classList.remove('off'); });
 
       async function run() {
         ask.classList.add('off');
-        res.innerHTML = '<div class="big">등록 중…</div><div class="sub">잠시만 기다려 주세요</div>';
-        res.classList.remove('off');
         var car = carNoText();
+        rcard.innerHTML = (car ? '<div class="car">' + car + '</div>' : '') + '<div class="done">등록 중…</div>';
+        res.classList.remove('off');
         var r = await applyHours();
         var total = r.got + r.mineBefore;
         record(picked, r.got, r.note);
-        if (total > 0) {
-          res.innerHTML = '<div class="big">주차 등록 완료!</div>' +
-            '<div class="big2">' + total + '시간 무료</div>' + (car ? '<div class="tag">' + car + '</div>' : '') +
-            '<div class="sub">' + (r.others > 0 ? '다른 상가에서 등록한 시간과 함께 적용돼요' : '즐거운 시간 보내세요') +
-            (r.note && r.got < (r.others > 0 ? MAX_IF_OTHER : MAX_HOURS) - r.mineBefore ? '<br>(' + r.note + ')' : '') + '</div>';
-        } else {
-          res.innerHTML = '<div class="tag">' + (car ? car + ' · ' : '') + '등록이 안 됐어요</div>' +
-            '<div class="big">픽업대에 말씀해 주세요</div><div class="sub">' + (r.note || '') + '</div>';
+        var main = total > 0 ? '주차 등록 ' + total + '시간 완료' : '주차 등록이 안 됐어요 · 픽업대에 말씀해 주세요';
+        var left = Math.round(DONE_MS / 1000);
+        function paint() {
+          rcard.innerHTML = (car ? '<div class="car">' + car + '</div>' : '') + '<div class="done">' + main + '</div>' +
+            '<div class="cnt">' + left + '초 뒤 처음 화면으로</div>';
         }
-        var h = el('button', { type: 'button', class: 'home' }, '처음으로');
-        h.addEventListener('click', home);
-        res.appendChild(h);
-        setTimeout(home, DONE_MS);
+        paint();
+        var tm = setInterval(function () { left--; if (left <= 0) { clearInterval(tm); home(); } else paint(); }, 1000);
+        res.addEventListener('click', home);
       }
 
-      // 차가 골라지면 버튼 보이기
+      // 차가 골라지면 버튼을 「번호 + 주차 등록하기」로
       setInterval(function () {
-        var ready = carPicked && carNoText();
-        go.classList.toggle('off', !ready || !ask.classList.contains('off') || !res.classList.contains('off'));
-        if (ready) go.textContent = carNoText() + '  주차 등록하기';
-        var t = document.getElementById('wl-bar-t');
-        if (t) t.firstChild.nodeValue = ready ? '차량번호가 맞으면 「주차 등록하기」를 눌러 주세요' : '차량번호 뒤 4자리를 누르고 OK';
+        var ready = !!(carPicked && carNoText());
+        var busy = !ask.classList.contains('off') || !res.classList.contains('off');
+        go.classList.toggle('hide', busy);
+        go.classList.toggle('wait', !ready);
+        var m = go.querySelector('.m');
+        var want = ready ? carNoText() + '  주차 등록하기' : '차량번호 뒤 4자리를 누르고 OK';
+        if (m && m.textContent !== want) m.textContent = want;
       }, 400);
 
       // 안 만지면 처음으로
