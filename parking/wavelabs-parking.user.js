@@ -53,7 +53,7 @@
     'html.wl-on #gnbWrap,html.wl-on .mobileMenu{display:none!important}',
     'html.wl-on #contentWrap{left:0!important;margin-left:0!important;width:100%!important;padding-left:0!important}',
     'html.wl-on .used_ticket_box.yellow,html.wl-on .keypadUsed,html.wl-on .keypad_help{display:none!important}',
-    'html.wl-on .used_ticket_box.blue{transform:scale(1.35);transform-origin:left center;margin-right:70px!important}',
+    'html.wl-on #mf_wfm_body_remainTkListMainBox{zoom:1.4}',
     '#wl-ov{position:fixed;inset:0;z-index:2147483000;background:#0B5F84;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;font-family:-apple-system,"Apple SD Gothic Neo",sans-serif;-webkit-user-select:none;user-select:none}',
     '#wl-ov.off{display:none}',
     '#wl-ov .tag{font-size:16px;opacity:.85;margin-bottom:12px}',
@@ -97,10 +97,19 @@
     }
     document.documentElement.classList.add('wl-on');
 
-    // 주차 화면에 불필요한 칸 가리기(사진조회 · 비고)
-    ['mf_wfm_body_carImgBtnId'].forEach(function (id) { var x = document.getElementById(id); if (x) x.classList.add('wl-hide'); });
-    var remark = document.getElementById('mf_wfm_body_remark');
-    if (remark) { var row = remark.closest('tr') || remark.parentElement; if (row) row.classList.add('wl-hide'); }
+    // 주차 화면에 불필요한 칸 가리기(왼쪽 메뉴 · 사진조회 · 비고 · 유료권) — 사이트 CSS가 !important로 덮어서 요소에 직접 넣고 2초마다 다시 확인
+    function mask() {
+      var hide = ['#gnbWrap', '.mobileMenu', '.mobileMypage', '#mf_wfm_body_carImgBtnId', '.used_ticket_box.yellow', '.keypadUsed'];
+      hide.forEach(function (s) {
+        document.querySelectorAll(s).forEach(function (x) { x.style.setProperty('display', 'none', 'important'); });
+      });
+      var remark = document.getElementById('mf_wfm_body_remark');
+      if (remark) { var row = remark.closest('tr') || remark.parentElement; if (row) row.style.setProperty('display', 'none', 'important'); }
+      var cw = document.getElementById('contentWrap');
+      if (cw) ['left', 'margin-left', 'padding-left'].forEach(function (p) { cw.style.setProperty(p, '0', 'important'); });
+    }
+    mask();
+    setInterval(mask, 2000);
 
     // 첫 질문
     ov = el('div', { id: 'wl-ov' });
