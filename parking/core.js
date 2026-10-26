@@ -144,7 +144,8 @@
       '#wl-head img{width:40px;height:40px;border-radius:10px;flex:none}',
       '#wl-head .t1{font-size:18px;font-weight:800;color:#15212B;line-height:1.2}',
       '#wl-head .t2{font-size:13px;color:#63737F;margin-top:2px}',
-      'html.wl-on #mf_wfm_body_mobileGrp{background:#fff!important;border:1px solid #E4E9ED!important;border-radius:18px!important;height:auto!important;padding:12px 12px 12px 20px!important;box-shadow:none!important;display:flex!important;align-items:center;gap:12px;box-sizing:border-box}',
+      'html.wl-on #mf_wfm_body_mobileGrp{background:#fff!important;border:1px solid #E4E9ED!important;border-radius:18px!important;height:auto!important;padding:12px 12px 12px 20px!important;box-shadow:none!important;box-sizing:border-box}',
+      'html.wl-on.wl-mob #mf_wfm_body_mobileGrp{display:flex!important;align-items:center;gap:12px}',
       'html.wl-on #mf_wfm_body_carNo{flex:1;width:auto!important;background:transparent!important;border:0!important;outline:none!important;box-shadow:none!important;color:#15212B!important;font-size:34px!important;height:64px!important;font-weight:800!important;letter-spacing:8px;text-align:center;padding:0!important}',
       'html.wl-on #mf_wfm_body_carNo::placeholder{color:#AAB4BD;font-weight:600;letter-spacing:2px;font-size:24px}',
       "html.wl-on #mf_wfm_body_mobileOkBtn{position:static!important;flex:none;width:56px!important;height:56px!important;border:0!important;border-radius:14px!important;background:#20769B url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E\") center/26px no-repeat!important;font-size:0!important;color:transparent!important;text-indent:-999px;overflow:hidden;transform:none!important}",
@@ -311,6 +312,8 @@
         go.classList.toggle('hide', busy);
         go.classList.toggle('wait', !ready);
         document.documentElement.classList.toggle('wl-nocar', !ready);
+        var kp = document.getElementById('mf_wfm_body_keypadOkBtn');   // 숫자판이 안 보이면 = 나이스 모바일 모양(아이패드 세로)
+        document.documentElement.classList.toggle('wl-mob', !(kp && kp.getClientRects().length));
         var m = go.querySelector('.m');
         var want = ready ? carNoText() + '  주차 등록하기' : '차량번호 뒤 4자리를 입력해 주세요';
         if (m && m.textContent !== want) m.textContent = want;
