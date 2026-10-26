@@ -5,6 +5,16 @@
     'use strict';
     if (window.__wlParkingCore) return;   // 로더가 둘 깔려 있어도 한 번만
     window.__wlParkingCore = true;
+    // 아이패드에서 본체가 실제로 불러와졌는지 확인용(10분에 한 번만)
+    try {
+      var lp = +(localStorage.getItem('wl-ping') || 0);
+      if (Date.now() - lp > 600000) {
+        localStorage.setItem('wl-ping', String(Date.now()));
+        fetch('https://gsnsroacvbibljpecizu.supabase.co/rest/v1/records', { method: 'POST',
+          headers: { apikey: 'sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw', Authorization: 'Bearer sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw', 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+          body: JSON.stringify([{ id: 'wlping-' + Date.now().toString(36), kind: 'wl-ping', data: { v: 'core-3.0.2', ua: navigator.userAgent.slice(0, 160), w: innerWidth, h: innerHeight, old: !!document.getElementById('wl-ov') } }]) }).catch(function () {});
+      }
+    } catch (e) {}
 
     // ---- 설정 ----
     var SB = 'https://gsnsroacvbibljpecizu.supabase.co/rest/v1/records';
