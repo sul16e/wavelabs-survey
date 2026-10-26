@@ -135,6 +135,10 @@
       'html.wl-on #mf_grp_wrap #mf_wfm_header_layoutWrap.layoutWrap::before{content:none!important;display:none!important}',
       'html.wl-on #mf_grp_wrap #contentWrap .saleWrap{padding-left:16px!important;box-sizing:border-box}',
       'html.wl-on body{padding-bottom:120px!important}',
+      'html.wl-on #mf_wfm_body_mobileGrp{height:auto!important;padding:8px 12px!important;border-radius:16px!important}',
+      'html.wl-on #mf_wfm_body_carNo{font-size:30px!important;height:64px!important;font-weight:700!important;letter-spacing:6px;text-align:center}',
+      'html.wl-on #mf_wfm_body_mobileOkBtn{transform:scale(1.6)}',
+      'html.wl-on #contentWrap .carinfoArea{margin-top:16px!important}',
       '#wl-root{font-family:-apple-system,"Apple SD Gothic Neo",sans-serif;-webkit-user-select:none;user-select:none;color:#15212B}',
       '#wl-root button{border:0;touch-action:manipulation;font-family:inherit;cursor:pointer}',
       // 아래 큰 버튼 하나(안에 작게 주의 문구)
@@ -174,18 +178,31 @@
     function mask() {
       killOld();
       ['#gnbWrap', '.mobileMenu', '.mobileMypage', '#mf_wfm_body_carImgBtnId', '#mf_wfm_body_remainTkListMainBox',
-        '#mf_wfm_body_usedTkListMainBox', '.keypadUsed'].forEach(function (s) {
+        '#mf_wfm_body_usedTkListMainBox', '.keypadUsed', '#contentWrap .content_title', '#mf_wfm_body_btn_select_02',
+        '#contentWrap .more_btnArea'].forEach(function (s) {
         document.querySelectorAll(s).forEach(function (x) { x.style.setProperty('display', 'none', 'important'); });
       });
       var remark = document.getElementById('mf_wfm_body_remark');
       if (remark) { var row = remark.closest('tr') || remark.parentElement; if (row) row.style.setProperty('display', 'none', 'important'); }
+      var inp = document.getElementById('mf_wfm_body_carNo');
+      if (inp && !inp.__wl) {
+        inp.__wl = true;
+        inp.setAttribute('inputmode', 'numeric'); inp.setAttribute('pattern', '[0-9]*'); inp.setAttribute('maxlength', '4');
+        inp.setAttribute('placeholder', '차량번호 뒤 4자리');
+      }
       var cw = document.getElementById('contentWrap');
       if (cw) ['left', 'margin-left', 'padding-left'].forEach(function (p) { cw.style.setProperty(p, '0', 'important'); });
     }
 
     function carNoText() {
-      var e = document.getElementById('mf_wfm_body_carNoText');
-      return e ? (e.innerText || e.value || '').trim() : '';
+      // PC 모양(carNoText)·아이패드 모양(mobileCarNoText) 둘 다 본다
+      var ids = ['mf_wfm_body_carNoText', 'mf_wfm_body_mobileCarNoText'];
+      for (var i = 0; i < ids.length; i++) {
+        var e = document.getElementById(ids[i]);
+        var t = e ? (e.textContent || e.value || '').trim() : '';
+        if (t) return t;
+      }
+      return '';
     }
 
     function build() {
@@ -278,7 +295,7 @@
       // 시험용: 차를 고른 것처럼 보이기
       window.__wlSim = function (others) {
         carPicked = true; lastCarTk = others ? [{ webDisShpNm: '다른 상가', discountTkKnd: '10000060', useCnt: 1 }] : [];
-        var e = document.getElementById('mf_wfm_body_carNoText'); if (e && !carNoText()) e.textContent = '12가3456';
+        ['mf_wfm_body_carNoText', 'mf_wfm_body_mobileCarNoText'].forEach(function (id) { var e = document.getElementById(id); if (e && !e.textContent.trim()) e.textContent = '322가8152'; });
       };
       flush();
     }
