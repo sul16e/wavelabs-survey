@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         웨이브랩스 셀프 주차 등록 + 방문 경로
 // @namespace    wavelabs
-// @version      2.0.0
+// @version      2.0.1
 // @description  나이스파크 웹할인: 차량번호 → 「주차 등록하기」 → 방문 경로 질문(필수) → 1시간 무료 자동 적용 → 「주차 등록 완료! N시간」 (픽업대 아이패드용)
 // @match        https://npdc-i.nicepark.co.kr/*
 // @run-at       document-end
@@ -149,6 +149,7 @@
       '.wl-pane .grid button{min-height:84px;border-radius:16px;background:#fff;color:#0B5F84;font-size:22px}',
       '.wl-pane .grid button:active{background:#6EAAC2;color:#fff}',
       '.wl-pane .big{font-size:52px;font-weight:800;margin:8px 0 12px}',
+      '.wl-pane .big2{display:inline-block;background:#fff;color:#0B5F84;border-radius:18px;padding:8px 28px;font-size:46px;font-weight:800;margin:4px 0 16px}',
       '.wl-pane .sub{font-size:20px;opacity:.92;line-height:1.5}',
       '.wl-pane .home{margin-top:32px;min-height:56px;padding:0 28px;border-radius:14px;background:#fff;color:#0B5F84;font-size:20px}',
       '#wl-corner{position:fixed;top:0;left:0;width:80px;height:80px;z-index:2147483002}',
@@ -242,8 +243,8 @@
         var total = r.got + r.mineBefore;
         record(picked, r.got, r.note);
         if (total > 0) {
-          res.innerHTML = '<div class="tag">' + (car ? car + ' · ' : '') + '주차 등록 완료!</div>' +
-            '<div class="big">' + total + '시간 무료</div>' +
+          res.innerHTML = '<div class="big">주차 등록 완료!</div>' +
+            '<div class="big2">' + total + '시간 무료</div>' + (car ? '<div class="tag">' + car + '</div>' : '') +
             '<div class="sub">' + (r.others > 0 ? '다른 상가에서 등록한 시간과 함께 적용돼요' : '즐거운 시간 보내세요') +
             (r.note && r.got < (r.others > 0 ? MAX_IF_OTHER : MAX_HOURS) - r.mineBefore ? '<br>(' + r.note + ')' : '') + '</div>';
         } else {
