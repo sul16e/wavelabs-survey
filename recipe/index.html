@@ -684,9 +684,10 @@ body:not([data-tab="faq"]) #tFaq{display:none}
     <div class="prog"><span id="pc">0 / 0</span><div class="bar"><i id="pb"></i></div><button type="button" class="lnk" id="reset">처음부터</button></div>
     <div class="done" id="done">마감 끝! 수고하셨어요 🙌</div>
 <div class="ckl" data-mode="close">
-<section class="g"><h3>1. 마감 시작 <span>0/2</span></h3>
+<section class="g"><h3>1. 마감 시작 <span>0/3</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:블라인드 내리기"><div><b>블라인드 내리기</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:전등 켜기"><div><b>전등 켜기</b></div></label>
+<label class="ck"><input type="checkbox" data-id="close:POS 「현황」에 남은 주문 「완료」 누르기"><div><b>POS 「현황」에 남은 주문 「완료」 누르기</b><small>진행 중으로 남은 주문은 그날 매출에 안 잡혀요 — 0개가 될 때까지</small></div></label>
 </section>
 <section class="g"><h3>2. 커피 머신 청소 <span>0/2</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:가스켓 청소"><div><b>가스켓 청소</b><ol class="sub"><li>포터필터 바스켓을 청소용으로 교체</li><li>포터필터에 클리너 분말 넣고 머신에 결합</li><li>클리닝 모드 선택 후 깜빡이는 세 번째 버튼 클릭</li><li>브러시로 가스켓 닦기</li><li>세척 끝나면 Home 모드로 복구</li></ol></div></label>
@@ -929,7 +930,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-10-28 01:12
+  갱신 2026-10-28 01:21
 </footer>
 
 <script>
@@ -2102,7 +2103,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-10-28 01:12",lastTouch=Date.now();
+var BUILD="2026-10-28 01:21",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
