@@ -929,7 +929,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-10-27 15:39
+  갱신 2026-10-28 01:12
 </footer>
 
 <script>
@@ -1344,6 +1344,11 @@ function saveStock(){
   var now=Date.now(),pd=(stRow&&stRow.data)||{},pv=pd.v||{},pt=pd.t||{},t={};
   Object.keys(v).forEach(function(k){t[k]=(pv[k]===v[k])?(pt[k]||pd.at||now):now;});
   var data={v:v,t:t,note:stNote.value.trim(),at:now};
+  /* 잔여수량 이력(10/28 사장 「히스토리 파악해야 하니 마지막 값 말고 다 남겨」) — 바뀐 칸만 [이전, 새 값]으로 stocklog에 한 줄씩 쌓는다 */
+  if(stRow){var ch={};Object.keys(v).forEach(function(k){if(pv[k]!==v[k])ch[k]=[pv[k]==null?null:pv[k],v[k]];});
+    Object.keys(pv).forEach(function(k){if(!(k in v))ch[k]=[pv[k],null];});
+    if(Object.keys(ch).length&&ONLINE)fetch(REST,{method:'POST',headers:hdr({Prefer:'return=minimal'}),
+      body:JSON.stringify({id:uid(),kind:'stocklog',data:{at:now,ch:ch},at:new Date(now).toISOString()})}).catch(function(){});}
   (stRow?DB.set('stock',stRow.id,data):DB.add('stock',data).then(function(r){stRow=r;}))
     .then(function(){stSaving=false;if(g===stGen){stDirty=false;bSave.classList.add('ok');bSave.textContent='자동 저장됐어요 ✓';}drawStock();},
           function(){stSaving=false;bSave.textContent='저장 실패 — 눌러서 다시 저장';});
@@ -2097,7 +2102,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-10-27 15:39",lastTouch=Date.now();
+var BUILD="2026-10-28 01:12",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
