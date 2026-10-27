@@ -1,4 +1,4 @@
-// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체 v7(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
+// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체 v8(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
 // 고칠 땐 이 파일만 고치고 push → 아이패드는 다음 새로고침부터 바로 반영(재설치 필요 없음)
 (function () {
   function main() {
@@ -383,10 +383,23 @@
       flush();
     }
 
-    var tries = 0;
+    // 주차 화면(숫자판)이 뜰 때까지 계속 기다림 — 아침에 로그인이 풀려 로그인 화면으로 열렸다가
+    // 로그인 뒤 같은 페이지 안에서 주차 화면으로 바뀌는 경우가 있어 30초 만에 포기하면 안 됨(10/27)
+    var t0 = Date.now(), pinged = 0;
+    function ping(stage) {
+      try {
+        var k = 'wl-ping-core-' + stage, lp = +(localStorage.getItem(k) || 0);
+        if (Date.now() - lp < 600000) return;
+        localStorage.setItem(k, String(Date.now()));
+        fetch(SB, { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+          body: JSON.stringify([{ id: 'wlping-core-' + Date.now().toString(36), kind: 'wl-ping', data: { v: 'core-v8', stage: stage, w: innerWidth, h: innerHeight,
+            login: !!document.querySelector('input[type=password]'), kp: !!document.querySelector('.keypadArea') } }]) }).catch(function () {});
+      } catch (e) {}
+    }
     (function wait() {
-      if (document.getElementById('mf_wfm_body_keypadOkBtn')) return build();
-      if (++tries < 60) setTimeout(wait, 500);
+      if (document.getElementById('mf_wfm_body_keypadOkBtn') || document.querySelector('#contentWrap .keypadArea')) { ping('built'); return build(); }
+      if (!pinged && Date.now() - t0 > 60000) { pinged = 1; ping('waiting'); }
+      setTimeout(wait, 1000);
     })();
   }
   main();
