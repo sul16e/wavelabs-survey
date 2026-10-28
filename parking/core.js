@@ -16,6 +16,9 @@
     var MAX_IF_OTHER = 1;           // 다른 상가에서 이미 등록한 차면 최대 1시간
     var IDLE_MS = 60000, DONE_MS = 5000, STAFF_MS = 10 * 60000;
     var LS_Q = 'wl-visit-q', LS_STAFF = 'wl-staff-until', LS_TEST = 'wl-test', LS_DRY = 'wl-dry';
+    var CH_DK = '잘 모르겠어요';
+    // 일행 묶음(10/28 사장 「단체가 이거 뭐야 아무거나 눌러 하고 와다다 눌렀다」): 앞 등록 3분 안이면 질문 없이 같은 답 + grp 표시
+    var LS_LAST = 'wl-last-reg', GROUP_MS = 3 * 60 * 1000;
 
     function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
     function staffOn() { return Date.now() < +(ls(LS_STAFF) || 0); }
@@ -74,11 +77,14 @@
     function loadQ() { try { return JSON.parse(ls(LS_Q) || '[]'); } catch (e) { return []; } }
     function saveQ(q) { try { localStorage.setItem(LS_Q, JSON.stringify(q.slice(-300))); } catch (e) {} }
     function flush() { var q = loadQ(); if (q.length) send(q).then(function () { saveQ([]); }).catch(function () {}); }
-    function record(ch, hours, note) {
+    function lastReg() { try { var o = JSON.parse(ls(LS_LAST) || 'null'); return o && o.at ? o : null; } catch (e) { return null; } }
+    function saveLast(ch) { try { localStorage.setItem(LS_LAST, JSON.stringify({ at: Date.now(), ch: ch })); } catch (e) {} }
+    function record(ch, hours, note, grp) {
       var now = Date.now();
       var row = { id: 'visit-' + now.toString(36) + Math.random().toString(36).slice(2, 6), kind: 'visit',
         data: { ch: ch, at: now, src: '주차', hours: hours } };
       if (note) row.data.note = String(note).slice(0, 120);
+      if (grp) row.data.grp = 1;
       if (ls(LS_TEST) === '1' || DRY) row.data.test = 1;
       var q = loadQ(); q.push(row); saveQ(q); flush();
     }
@@ -204,6 +210,8 @@
       '.wl-card .grid button.ic-b{padding-left:4px;padding-right:16px}',
       '.wl-card .ic{width:24px;height:24px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;flex:none}',
       '.wl-card .ic svg{width:15px;height:15px}',
+      '.wl-card .dk{display:block;width:100%;margin-top:10px;min-height:48px;border-radius:14px;background:#F4F6F8;color:#63737F;font-size:16px;font-weight:600}',
+      '.wl-card .dk:active{background:#E4E9ED}',
       '.wl-card .car{font-size:18px;color:#63737F;margin-bottom:6px}',
       '.wl-card .done{font-size:26px;font-weight:800;line-height:1.35}',
       '.wl-card .cnt{font-size:13px;color:#63737F;margin-top:14px}',
@@ -315,12 +323,15 @@
       var rcard = el('div', { class: 'wl-card' });
       res.appendChild(rcard); root.appendChild(res);
 
-      var picked = '';
+      var picked = '', grp = 0;
       CH.forEach(function (c) {
         var b = el('button', { type: 'button', class: ICONS[c] ? 'ic-b' : '' }, (ICONS[c] || '') + '<span>' + c + '</span>');
-        b.addEventListener('click', function () { picked = c; run(); });
+        b.addEventListener('click', function () { picked = c; grp = 0; run(); });
         grid.appendChild(b);
       });
+      var dk = el('button', { type: 'button', class: 'dk' }, CH_DK);
+      dk.addEventListener('click', function () { picked = CH_DK; grp = 0; run(); });
+      card.appendChild(dk);
 
       function digits() {
         var t = document.querySelector('#contentWrap .keypad_top');
@@ -329,7 +340,11 @@
       var mode = 'query';
       go.addEventListener('click', function () {
         if (go.classList.contains('wait')) return;
-        if (mode === 'reg') { ask.classList.remove('off'); return; }
+        if (mode === 'reg') {
+          var lr = lastReg();
+          if (lr && Date.now() - lr.at < GROUP_MS) { picked = lr.ch || '기타'; grp = 1; run(); return; }
+          ask.classList.remove('off'); return;
+        }
         var ok = document.querySelector('#mf_wfm_body_keypadOkBtn input') || document.getElementById('mf_wfm_body_keypadOkBtn');
         if (ok) ok.click();
       });
@@ -341,7 +356,8 @@
         res.classList.remove('off');
         var r = await applyHours();
         var total = r.got + r.mineBefore;
-        record(picked, r.got, r.note);
+        record(picked, r.got, r.note, grp);
+        saveLast(picked);
         var main = total > 0 ? '주차 등록 ' + total + '시간 완료' : '주차 등록이 안 됐어요 · 픽업대에 말씀해 주세요';
         var left = Math.round(DONE_MS / 1000);
         function paint() {
@@ -398,7 +414,7 @@
         if (Date.now() - lp < 600000) return;
         localStorage.setItem(k, String(Date.now()));
         fetch(SB, { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-          body: JSON.stringify([{ id: 'wlping-core-' + Date.now().toString(36), kind: 'wl-ping', data: { v: 'core-v8', stage: stage, w: innerWidth, h: innerHeight,
+          body: JSON.stringify([{ id: 'wlping-core-' + Date.now().toString(36), kind: 'wl-ping', data: { v: 'core-v9', stage: stage, w: innerWidth, h: innerHeight,
             login: !!document.querySelector('input[type=password]'), kp: !!document.querySelector('.keypadArea') } }]) }).catch(function () {});
       } catch (e) {}
     }
