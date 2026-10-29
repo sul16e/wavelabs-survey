@@ -1,4 +1,4 @@
-// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체 v8(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
+// 웨이브랩스 셀프 주차 등록 + 방문 경로 — 본체 v10(아이패드의 Userscripts 로더가 매번 이 파일을 새로 불러온다)
 // 고칠 땐 이 파일만 고치고 push → 아이패드는 다음 새로고침부터 바로 반영(재설치 필요 없음)
 (function () {
   function main() {
@@ -8,12 +8,21 @@
     // ---- 설정 ----
     var SB = 'https://gsnsroacvbibljpecizu.supabase.co/rest/v1/records';
     var KEY = 'sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw';
-    var CH = ['네이버 지도', '카카오맵', '인스타그램', '엘리베이터 전단', '친구·지인 소개', '기타'];
+    // 10/29 사장 「원래 알았어요 넣고 순서 섞기, 아이콘은 직관적이니 다 넣고, 읽어야 하는 순간 만들지 마」
+    // 위 6칸은 손님마다 순서를 섞고(맨 앞 칸 몰림 막기 — 누른 칸 위치 pos 저장), 아래 줄 「기타 · 잘 모르겠어요」는 고정
+    var CH = ['네이버 지도', '카카오맵', '인스타그램', '엘리베이터 전단', '친구·지인 소개', '원래 알았어요'];
+    var CH_ETC = '기타';
+    var LABEL = { '엘리베이터 전단': '엘베 전단', '친구·지인 소개': '지인 소개' };   // 화면 글자만 짧게, 저장 값은 그대로
+    // 10/27 사장 「네이버·카카오·인스타만 아이콘, 작게, 아이콘 버튼은 시각 보정으로 왼쪽 여백 좁게」 — 앱 색 + 위치 핀(네이버·카카오), 인스타는 simple-icons 로고
+    var ICONS = {"네이버 지도": "<span class=\"ic\" style=\"background:#03C75A\"><svg viewBox=\"0 0 256 256\" fill=\"#fff\"><path d=\"M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z\"/></svg></span>", "카카오맵": "<span class=\"ic\" style=\"background:#FEE500\"><svg viewBox=\"0 0 256 256\" fill=\"#3C1E1E\"><path d=\"M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z\"/></svg></span>", "인스타그램": "<span class=\"ic\" style=\"background:linear-gradient(45deg,#FEDA75,#FA7E1E 30%,#D62976 60%,#962FBF 85%,#4F5BD5)\"><svg viewBox=\"0 0 24 24\" fill=\"#fff\"><path d=\"M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077\"/></svg></span>", "엘리베이터 전단": "<span class=\"ic\" style=\"background:#20769B\"><svg viewBox=\"0 0 256 256\" fill=\"#fff\"><path d=\"M128,40,188,112H68Z\"/><path d=\"M68,144H188L128,216Z\"/></svg></span>", "친구·지인 소개": "<span class=\"ic\" style=\"background:#F59E0B\"><svg viewBox=\"0 0 256 256\" fill=\"#fff\"><circle cx=\"96\" cy=\"92\" r=\"36\"/><path d=\"M28,212c0-40,30-68,68-68s68,28,68,68Z\"/><circle cx=\"176\" cy=\"100\" r=\"28\"/><path d=\"M150,152c8-3,17-5,26-5,31,0,56,24,56,60v5H176C176,190,166,168,150,152Z\"/></svg></span>", "원래 알았어요": "<span class=\"ic\" style=\"background:#E5484D\"><svg viewBox=\"0 0 256 256\" fill=\"#fff\"><path d=\"M240,94c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,220.66,16,164,16,94A62.07,62.07,0,0,1,78,32c20.65,0,38.73,8.88,50,23.89C139.27,40.88,157.35,32,178,32A62.07,62.07,0,0,1,240,94Z\"/></svg></span>"};
     var OUR_SHOP = '3715';          // 나이스에 등록된 우리 상점 이름에 들어 있는 글자(「Office 3715호 텔온커피」)
     var MAX_HOURS = 2;              // 기본 1시간 무료 2번 = 2시간
     var MAX_IF_OTHER = 1;           // 다른 상가에서 이미 등록한 차면 최대 1시간
     var IDLE_MS = 60000, DONE_MS = 5000, STAFF_MS = 10 * 60000;
     var LS_Q = 'wl-visit-q', LS_STAFF = 'wl-staff-until', LS_TEST = 'wl-test', LS_DRY = 'wl-dry';
+    var CH_DK = '잘 모르겠어요';
+    // 일행 묶음(10/28 사장 「단체가 이거 뭐야 아무거나 눌러 하고 와다다 눌렀다」): 앞 등록 3분 안이면 질문 없이 같은 답 + grp 표시
+    var LS_LAST = 'wl-last-reg', GROUP_MS = 3 * 60 * 1000;
 
     function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
     function staffOn() { return Date.now() < +(ls(LS_STAFF) || 0); }
@@ -72,11 +81,15 @@
     function loadQ() { try { return JSON.parse(ls(LS_Q) || '[]'); } catch (e) { return []; } }
     function saveQ(q) { try { localStorage.setItem(LS_Q, JSON.stringify(q.slice(-300))); } catch (e) {} }
     function flush() { var q = loadQ(); if (q.length) send(q).then(function () { saveQ([]); }).catch(function () {}); }
-    function record(ch, hours, note) {
+    function lastReg() { try { var o = JSON.parse(ls(LS_LAST) || 'null'); return o && o.at ? o : null; } catch (e) { return null; } }
+    function saveLast(ch) { try { localStorage.setItem(LS_LAST, JSON.stringify({ at: Date.now(), ch: ch })); } catch (e) {} }
+    function record(ch, hours, note, grp, pos) {
       var now = Date.now();
       var row = { id: 'visit-' + now.toString(36) + Math.random().toString(36).slice(2, 6), kind: 'visit',
         data: { ch: ch, at: now, src: '주차', hours: hours } };
       if (note) row.data.note = String(note).slice(0, 120);
+      if (grp) row.data.grp = 1;
+      if (pos) row.data.pos = pos;   // 섞인 순서에서 몇 번째 칸이었나(1~6, 아래 줄 7·8)
       if (ls(LS_TEST) === '1' || DRY) row.data.test = 1;
       var q = loadQ(); q.push(row); saveQ(q); flush();
     }
@@ -198,6 +211,14 @@
       '.wl-card .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}',
       '.wl-card .grid button{min-height:56px;border-radius:14px;background:#EDF4F8;color:#0B5F84;font-size:18px;font-weight:700}',
       '.wl-card .grid button:active{background:#20769B;color:#fff}',
+      '.wl-card .grid button{display:flex;align-items:center;justify-content:center;gap:8px}',
+      '.wl-card .grid button.ic-b{padding-left:4px;padding-right:16px}',
+      '.wl-card .ic{width:24px;height:24px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;flex:none}',
+      '.wl-card .ic svg{width:15px;height:15px}',
+      '.wl-card .dk{display:block;width:100%;margin-top:10px;min-height:48px;border-radius:14px;background:#F4F6F8;color:#63737F;font-size:16px;font-weight:600}',
+      '.wl-card .dk:active{background:#E4E9ED}',
+      '.wl-card .dks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}',
+      '.wl-card .dks .dk{margin-top:0}',
       '.wl-card .car{font-size:18px;color:#63737F;margin-bottom:6px}',
       '.wl-card .done{font-size:26px;font-weight:800;line-height:1.35}',
       '.wl-card .cnt{font-size:13px;color:#63737F;margin-top:14px}',
@@ -309,12 +330,25 @@
       var rcard = el('div', { class: 'wl-card' });
       res.appendChild(rcard); root.appendChild(res);
 
-      var picked = '';
-      CH.forEach(function (c) {
-        var b = el('button', { type: 'button' }, c);
-        b.addEventListener('click', function () { picked = c; run(); });
-        grid.appendChild(b);
+      var picked = '', grp = 0, pos = 0;
+      function buildGrid() {   // 질문을 띄울 때마다 6칸 순서를 새로 섞음
+        grid.innerHTML = '';
+        var order = CH.slice();
+        for (var i = order.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = order[i]; order[i] = order[j]; order[j] = t; }
+        order.forEach(function (c, k) {
+          var b = el('button', { type: 'button', class: ICONS[c] ? 'ic-b' : '' }, (ICONS[c] || '') + '<span>' + (LABEL[c] || c) + '</span>');
+          b.addEventListener('click', function () { picked = c; grp = 0; pos = k + 1; run(); });
+          grid.appendChild(b);
+        });
+      }
+      buildGrid();
+      var dks = el('div', { class: 'dks' });
+      [CH_ETC, CH_DK].forEach(function (c, k) {
+        var b = el('button', { type: 'button', class: 'dk' }, c);
+        b.addEventListener('click', function () { picked = c; grp = 0; pos = 7 + k; run(); });
+        dks.appendChild(b);
       });
+      card.appendChild(dks);
 
       function digits() {
         var t = document.querySelector('#contentWrap .keypad_top');
@@ -323,7 +357,11 @@
       var mode = 'query';
       go.addEventListener('click', function () {
         if (go.classList.contains('wait')) return;
-        if (mode === 'reg') { ask.classList.remove('off'); return; }
+        if (mode === 'reg') {
+          var lr = lastReg();
+          if (lr && Date.now() - lr.at < GROUP_MS) { picked = lr.ch || '기타'; grp = 1; pos = 0; run(); return; }
+          buildGrid(); ask.classList.remove('off'); return;
+        }
         var ok = document.querySelector('#mf_wfm_body_keypadOkBtn input') || document.getElementById('mf_wfm_body_keypadOkBtn');
         if (ok) ok.click();
       });
@@ -335,7 +373,8 @@
         res.classList.remove('off');
         var r = await applyHours();
         var total = r.got + r.mineBefore;
-        record(picked, r.got, r.note);
+        record(picked, r.got, r.note, grp, pos);
+        saveLast(picked);
         var main = total > 0 ? '주차 등록 ' + total + '시간 완료' : '주차 등록이 안 됐어요 · 픽업대에 말씀해 주세요';
         var left = Math.round(DONE_MS / 1000);
         function paint() {
@@ -392,7 +431,7 @@
         if (Date.now() - lp < 600000) return;
         localStorage.setItem(k, String(Date.now()));
         fetch(SB, { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-          body: JSON.stringify([{ id: 'wlping-core-' + Date.now().toString(36), kind: 'wl-ping', data: { v: 'core-v8', stage: stage, w: innerWidth, h: innerHeight,
+          body: JSON.stringify([{ id: 'wlping-core-' + Date.now().toString(36), kind: 'wl-ping', data: { v: 'core-v10', stage: stage, w: innerWidth, h: innerHeight,
             login: !!document.querySelector('input[type=password]'), kp: !!document.querySelector('.keypadArea') } }]) }).catch(function () {});
       } catch (e) {}
     }
