@@ -90,12 +90,14 @@
     }
 
     // ---- 할인권 적용 ----
-    function hourTicket() {
-      // 사용가능 할인권 중 「1시간 · 무료」 칸(유료는 노란색)
+    function ticket(re) {
+      // 사용가능 할인권 중 「1시간 · 무료」 / 「30분 · 무료」 칸(유료는 노란색)
       return [].slice.call(document.querySelectorAll('.used_ticket_box.blue')).filter(function (b) {
-        return /1시간/.test(b.innerText || '') && /무료/.test(b.innerText || '') && !b.closest('[id*=usedDcTk]');
+        return re.test(b.innerText || '') && /무료/.test(b.innerText || '') && !b.closest('[id*=usedDcTk]');
       })[0];
     }
+    function hourTicket() { return ticket(/1시간/); }
+    function halfTicket() { return ticket(/30분/); }
     function countHours(list, mine) {
       var min = 0;
       (list || []).forEach(function (d) {
@@ -111,17 +113,30 @@
       var mineBefore = countHours(lastCarTk, true), others = countHours(lastCarTk, false);
       var want = (others > 0 ? MAX_IF_OTHER : MAX_HOURS) - mineBefore;
       var got = 0, note = '';
-      for (var i = 0; i < want; i++) {
-        if (DRY) { await sleep(700); got++; continue; }
-        var b = hourTicket();
-        if (!b) { note = '1시간 무료 칸을 못 찾음'; break; }
+      // 한 장 누르기 → 성공 true
+      async function press(b) {
         var wait = waitXhr(/useOrCancelDiscountTk\.do/, 10000);
         var refresh = waitXhr(/selectPtnrShpDisInfoList\.do/, 10000);
         b.click();
         var r = await Promise.race([wait, (async function () { for (var k = 0; k < 20; k++) { await sleep(300); var m = readAndCloseAlert(); if (m) return { ok: false, alert: m }; } return new Promise(function () {}); })()]);
-        if (!r.ok) { note = r.alert || readAndCloseAlert() || (r.timeout ? '응답 없음' : '적용 안 됨'); break; }
-        got++;
-        await refresh; await sleep(300);
+        if (!r.ok) { note = r.alert || readAndCloseAlert() || (r.timeout ? '응답 없음' : ('적용 안 됨 ' + JSON.stringify((r.body && (r.body.errorMsg || r.body.errorMsgCode)) || '')).slice(0, 100)); return false; }
+        await refresh; await sleep(300); return true;
+      }
+      // 10/31 사장: 다른 상가에서 이미 등록한 차는 1시간 무료권이 안 먹고 30분 무료권 2장으로 1시간(§4 주차 규칙) → 30분권 먼저
+      var useHalf = others > 0;
+      while (got < want) {
+        if (DRY) { await sleep(700); got++; continue; }
+        if (!useHalf) {
+          var b = hourTicket();
+          if (b && await press(b)) { got++; continue; }
+          useHalf = true;   // 1시간권이 없거나 거절 → 30분권 2장으로
+        }
+        var h1 = halfTicket();
+        if (!h1) { note = note || '30분 무료 칸을 못 찾음'; break; }
+        if (!(await press(h1))) break;
+        var h2 = halfTicket();
+        if (!h2 || !(await press(h2))) { got += 0.5; break; }
+        got++; note = '';
       }
       return { got: got, mineBefore: mineBefore, others: others, note: note };
     }
@@ -358,7 +373,7 @@
         var total = r.got + r.mineBefore;
         record(picked, r.got, r.note, grp);
         saveLast(picked);
-        var main = total > 0 ? '주차 등록 ' + total + '시간 완료' : '주차 등록이 안 됐어요 · 픽업대에 말씀해 주세요';
+        var main = total > 0 ? (total >= 1 ? total + '시간' : '30분') + ' 등록되었습니다' + (r.others > 0 ? '<div class="cnt">건물 내 다른 상가 등록분과 합산</div>' : '') : '주차 등록이 안 됐어요 · 픽업대에 말씀해 주세요';
         var left = Math.round(DONE_MS / 1000);
         function paint() {
           rcard.innerHTML = (car ? '<div class="car">' + car + '</div>' : '') + '<div class="done">' + main + '</div>' +
