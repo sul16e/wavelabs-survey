@@ -476,6 +476,21 @@ body:not([data-owner="1"]) .tabs button[data-tab="ads"]{display:none}
 .adst .bad b{color:var(--bad-ink)}
 .adtb{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
 .adtb th,.adtb td{padding:6px 4px;border-top:1px solid var(--line);text-align:right;white-space:nowrap}
+.adtb .gd,.adbig .gd,.sub .gd{color:var(--brand);font-weight:800}
+.adtb .bd,.adbig .bd,.sub .bd{color:var(--bad-ink);font-weight:800}
+.adtb td.gd{background:color-mix(in srgb,var(--brand) 8%,transparent)}
+.adtb td.bd{background:color-mix(in srgb,var(--bad-ink) 7%,transparent)}
+.adtb small{font-size:11px;color:var(--dim);font-weight:400}
+.adhd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.adhd h3{margin:0}
+.adpill{font-size:12.5px;font-weight:800;padding:4px 10px;border-radius:999px}
+.adpill.gdb{color:var(--brand);background:color-mix(in srgb,var(--brand) 10%,transparent)}
+.adpill.bdb{color:var(--bad-ink);background:color-mix(in srgb,var(--bad-ink) 10%,transparent)}
+.adbig{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.adbig div{border:1px solid var(--line);border-radius:8px;padding:10px}
+.adbig small{display:block;font-size:12.5px;color:var(--dim)}
+.adbig b{font-size:24px;font-weight:800;display:block}
+.adbig i{font-style:normal;font-size:13px}
 .adtb th:first-child,.adtb td:first-child{text-align:left}
 .adtb thead th{border-top:0;color:var(--dim);font-weight:700;font-size:12px}
 .adtb tr.sum td{font-weight:800}
@@ -955,7 +970,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-06 23:57
+  갱신 2026-11-07 00:05
 </footer>
 
 <script>
@@ -2123,6 +2138,15 @@ document.getElementById('faqList').addEventListener('click',function(e){
    인스타·전단 추적 링크 = kind=qr · 셀프 주차 = kind=visit (여기서 직접 셈) */
 function adN(x){return (x||0).toLocaleString('ko-KR');}
 function adE(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+/* 가장 좋은 값 파랑(gd) · 가장 나쁜 값 빨강(bd) — 값이 2개 이상이고 서로 다를 때만 */
+function adMark(vals,hiGood){
+  var ok=vals.filter(function(v){return v!=null&&isFinite(v);});
+  if(ok.length<2)return vals.map(function(){return '';});
+  var mx=Math.max.apply(null,ok), mn=Math.min.apply(null,ok); if(mx===mn)return vals.map(function(){return '';});
+  return vals.map(function(v){if(v==null||!isFinite(v))return ''; if(v===(hiGood?mx:mn))return 'gd'; if(v===(hiGood?mn:mx))return 'bd'; return '';});
+}
+function adPct(a,b){if(!b)return '';var p=Math.round((a-b)/b*100);return '<i class="'+(p>0?'gd':p<0?'bd':'')+'">'+(p>0?'▲':p<0?'▼':'')+Math.abs(p)+'%</i>';}
+function adCmp(a,b,hiGood){if(!b)return '';var p=Math.round((a-b)/b*100);var good=hiGood?p>0:p<0;return '<i class="'+(p===0?'':good?'gd':'bd')+'">'+(p>0?'▲':p<0?'▼':'')+Math.abs(p)+'%</i>';}
 function drawAds(){
   var box=document.getElementById('adsBox'); if(!box||!ONLINE)return; window.adsAt=Date.now();
   var since=new Date(Date.now()-13*864e5); since.setHours(0,0,0,0);
@@ -2131,55 +2155,71 @@ function drawAds(){
     q('?kind=eq.qr&at=gte.'+since.toISOString()+'&select=data,at&order=at.desc&limit=5000'),
     q('?kind=eq.visit&at=gte.'+since.toISOString()+'&select=data,at&order=at.desc&limit=5000')]).then(function(rs){
     var d=rs[0][0]&&rs[0][0].data, h='';
-    if(!d){box.innerHTML='<p class="dsum">아직 광고 현황이 안 올라왔어요(15분마다 올라옴).</p>';return;}
+    if(!d){box.innerHTML='<p class="dsum">아직 광고 현황이 안 올라왔어요.</p>';return;}
     var st=d.status, at=new Date(d.at), ago=Math.round((Date.now()-at)/60000);
     var on=!st.lock&&st.approved>0&&st.campaign==='ELIGIBLE';
     var lim=st.reason==='CAMPAIGN_LIMITED_BY_BUDGET';
-    h+='<div class="adc"><h3>네이버 플레이스광고 지금</h3><p class="sub">'+at.toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+' 기준 ('+ago+'분 전) · 통계는 1~2시간 늦게 들어와요</p><div class="adst">'
-      +'<div class="'+(on&&!lim?'':'bad')+'"><small>상태</small><b>'+(st.lock?'꺼짐':lim?'예산 다 씀':on?'나가는 중':'확인 필요')+'</b></div>'
+    var D=d.days.filter(Boolean);
+    var lastH=D[0]&&D[0].date===d.at.slice(0,10)?Math.max.apply(null,Object.keys(D[0].h||{}).map(Number).concat([-1])):99;
+    // 같은 시간까지 합 [노출, 클릭, 광고비]
+    var upto=function(x){var s=[0,0,0];Object.keys(x.h||{}).forEach(function(k){if(+k<=lastH){var v=x.h[k];s[0]+=v[0]||0;s[1]+=v[1]||0;s[2]+=v[2]||0;}});return s;};
+    var T=D[0]?upto(D[0]):[0,0,0], L=D[1]?upto(D[1]):null;
+    var nd=new Date(),tdStr=nd.getFullYear()+'-'+String(nd.getMonth()+1).padStart(2,'0')+'-'+String(nd.getDate()).padStart(2,'0'),isT=D[0]&&D[0].date===tdStr,dl=isT?'오늘':(D[0]?D[0].date.slice(5).replace('-','/')+'('+D[0].dow+')':'');
+    var cpc=function(s){return s&&s[1]&&s[2]?Math.round(s[2]/s[1]):null;};
+    // 1) 한눈에 — 상태 + 오늘 vs 지난주
+    var stTxt=st.lock?'꺼짐':lim?'예산 다 씀':on?'나가는 중':'확인 필요';
+    h+='<div class="adc"><div class="adhd"><h3>네이버 광고 지금</h3><span class="adpill '+(on&&!lim?'gdb':'bdb')+'">'+stTxt+'</span></div>'
+      +'<p class="sub">'+at.toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+' 기준 · <b class="'+(ago>30?'bd':'')+'">'+ago+'분 전</b> · 통계는 1~2시간 늦게 들어와요</p>'
+      +'<div class="adbig"><div><small>'+dl+' 클릭</small><b>'+adN(T[1])+'</b>'+(L?adCmp(T[1],L[1],true):'')+'</div>'
+      +'<div><small>'+dl+' 노출</small><b>'+adN(T[0])+'</b>'+(L?adCmp(T[0],L[0],true):'')+'</div>'
+      +(T[2]?'<div><small>클릭 1번당</small><b>'+adN(cpc(T))+'원</b>'+(cpc(L)?adCmp(cpc(T),cpc(L),false):'')+'</div>':'')
+      +'</div>'+(L?'<p class="sub">▲▼ = 지난주 '+D[1].dow+'요일 같은 시간('+(lastH>=0?lastH+'시':'')+')까지와 비교 · 파랑 좋음 · 빨강 나쁨</p>':'')
+      +'<div class="adst">'
+      +'<div class="'+(st.spent>=st.budget*0.95&&lastH<21?'bad':'')+'"><small>쓴 돈 / 예산</small><b>'+adN(st.spent)+' / '+adN(st.budget)+'</b></div>'
       +'<div class="'+(st.approved?'':'bad')+'"><small>승인 문구</small><b>'+st.approved+'/'+st.ads+'</b></div>'
       +'<div><small>입찰</small><b>'+adN(st.bid)+'원</b></div>'
-      +'<div><small>오늘 쓴 돈 / 예산</small><b>'+adN(st.spent)+' / '+adN(st.budget)+'</b></div>'
       +'<div class="'+(st.bizmoney<3000?'bad':'')+'"><small>비즈머니</small><b>'+adN(st.bizmoney)+'원</b></div>'
       +'<div><small>노출 시간</small><b>'+adE(st.expo)+'</b></div></div></div>';
-    // 시간대별
-    var D=d.days.filter(Boolean), hs={};
-    D.forEach(function(x){Object.keys(x.h||{}).forEach(function(k){hs[k]=1;});});
+    // 2) 광고 문구별 — 클릭 비율 순
+    var A=d.ads.slice().sort(function(a,b){return (b.w7[1]/(b.w7[0]||1))-(a.w7[1]/(a.w7[0]||1));});
+    var ar=adMark(A.map(function(a){return a.w7[0]?a.w7[1]/a.w7[0]:null;}),true), ac=adMark(A.map(function(a){return a.w7[1];}),true);
+    h+='<div class="adc"><h3>광고 문구 · 누가 잘하나</h3><p class="sub">7일 클릭 비율(클릭 ÷ 노출) 높은 순 · 파랑 1등 · 빨강 꼴찌</p><div class="adwrap"><table class="adtb"><thead><tr><th>문구</th><th>클릭 비율</th><th>7일 클릭</th><th>오늘 클릭</th></tr></thead><tbody>'
+      +A.map(function(a,i){return '<tr><td class="'+ar[i]+'">'+adE(a.name)+(a.on?'':' (꺼짐·검수)')+'</td><td class="'+ar[i]+'">'+(a.w7[0]?(a.w7[1]/a.w7[0]*100).toFixed(2)+'%':'–')+'</td><td class="'+ac[i]+'">'+a.w7[1]+'</td><td>'+a.today[1]+'</td></tr>';}).join('')
+      +'</tbody></table></div></div>';
+    // 3) 시간대별 — 열마다 클릭 많은 시간 파랑, 적은 시간 빨강
+    var hs={}; D.forEach(function(x){Object.keys(x.h||{}).forEach(function(k){hs[k]=1;});});
     var hk=Object.keys(hs).map(Number).sort(function(a,b){return a-b;});
-    var lastH=D[0]&&D[0].date===d.at.slice(0,10)?Math.max.apply(null,Object.keys(D[0].h||{}).map(Number).concat([-1])):99;
-    h+='<div class="adc"><h3>시간대별 · 노출 / 클릭</h3><p class="sub">오늘은 '+(lastH>=0?lastH+'시':'—')+'까지 들어옴 · 같은 요일 지난주·2주 전과 비교 · 합계는 오늘 들어온 시간까지만</p><div class="adwrap"><table class="adtb"><thead><tr><th>시간</th>'
-      +D.map(function(x){return '<th>'+x.date.slice(5).replace('-','/')+'('+x.dow+')</th>';}).join('')+'</tr></thead><tbody>';
+    var mk=D.map(function(x,i){return adMark(hk.map(function(k){var v=(x.h||{})[k];if(!v||!v[0])return null;if(i===0&&k>lastH)return null;return v[1];}),true);});
+    h+='<div class="adc"><h3>시간대별 클릭</h3><p class="sub">칸 = 클릭 (작은 글씨 노출) · 날짜마다 파랑 = 클릭 가장 많은 시간 · 빨강 = 가장 적은 시간 · 오늘은 '+(lastH>=0?lastH+'시':'—')+'까지</p><div class="adwrap"><table class="adtb"><thead><tr><th>시간</th>'
+      +D.map(function(x,i){return '<th>'+(i===0&&isT?'오늘 ':'')+x.date.slice(5).replace('-','/')+'('+x.dow+')</th>';}).join('')+'</tr></thead><tbody>';
     var sums=D.map(function(){return [0,0];});
-    hk.forEach(function(k){
+    hk.forEach(function(k,j){
       h+='<tr><td>'+k+'시</td>'+D.map(function(x,i){var v=(x.h||{})[k];
-        if(v&&k<=lastH){sums[i][0]+=v[0];sums[i][1]+=v[1];}
-        var up=i===0&&v&&D[1]&&D[1].h[k]&&v[1]>D[1].h[k][1];
-        return '<td>'+(v?adN(v[0])+' / <span class="'+(up?'up':'')+'">'+v[1]+'</span>':'–')+'</td>';}).join('')+'</tr>';});
-    h+='<tr class="sum"><td>합</td>'+sums.map(function(s){return '<td>'+adN(s[0])+' / '+s[1]+'</td>';}).join('')+'</tr></tbody></table></div></div>';
-    // 문구별
-    h+='<div class="adc"><h3>광고 문구별</h3><div class="adwrap"><table class="adtb"><thead><tr><th>문구</th><th>오늘 노출/클릭</th><th>7일 클릭</th><th>7일 클릭 비율</th></tr></thead><tbody>'
-      +d.ads.slice().sort(function(a,b){return (b.w7[1]/(b.w7[0]||1))-(a.w7[1]/(a.w7[0]||1));}).map(function(a){
-        return '<tr><td>'+adE(a.name)+(a.on?'':' (꺼짐·검수)')+'</td><td>'+adN(a.today[0])+' / '+a.today[1]+'</td><td>'+a.w7[1]+'</td><td>'+(a.w7[0]?(a.w7[1]/a.w7[0]*100).toFixed(2)+'%':'–')+'</td></tr>';}).join('')
+        if(v&&(i>0||k<=lastH)){sums[i][0]+=v[0];sums[i][1]+=v[1];}
+        return '<td class="'+mk[i][j]+'">'+(v?'<b>'+v[1]+'</b> <small>'+adN(v[0])+'</small>':'–')+'</td>';}).join('')+'</tr>';});
+    h+='<tr class="sum"><td>합</td>'+sums.map(function(s){return '<td><b>'+s[1]+'</b> <small>'+adN(s[0])+'</small></td>';}).join('')+'</tr></tbody></table></div></div>';
+    // 4) 최근 14일 — 클릭 많은 날 파랑 · 클릭 1번당 싼 날 파랑 · 순위 높은 날 파랑
+    var R=d.daily.slice().reverse();
+    var rc=adMark(R.map(function(x){return x.clk;}),true), rp=adMark(R.map(function(x){return x.clk?x.cost/x.clk:null;}),false), rk=adMark(R.map(function(x){return x.rank||null;}),false);
+    h+='<div class="adc"><h3>최근 14일</h3><p class="sub">파랑 = 14일 중 가장 좋음 · 빨강 = 가장 나쁨 (클릭은 많을수록 · 1번당 돈은 쌀수록 · 순위는 숫자 작을수록)</p><div class="adwrap"><table class="adtb"><thead><tr><th>날짜</th><th>클릭</th><th>노출</th><th>광고비</th><th>1번당</th><th>순위</th></tr></thead><tbody>'
+      +R.map(function(x,i){return '<tr><td>'+x.date.slice(5).replace('-','/')+'('+x.dow+')</td><td class="'+rc[i]+'">'+x.clk+'</td><td>'+adN(x.imp)+'</td><td>'+adN(x.cost)+'</td><td class="'+rp[i]+'">'+(x.clk?adN(Math.round(x.cost/x.clk)):'–')+'</td><td class="'+rk[i]+'">'+(x.rank||'–')+'</td></tr>';}).join('')
       +'</tbody></table></div></div>';
-    // 일별
-    h+='<div class="adc"><h3>최근 14일</h3><div class="adwrap"><table class="adtb"><thead><tr><th>날짜</th><th>노출</th><th>클릭</th><th>광고비</th><th>순위</th></tr></thead><tbody>'
-      +d.daily.slice().reverse().map(function(x){return '<tr><td>'+x.date.slice(5).replace('-','/')+'('+x.dow+')</td><td>'+adN(x.imp)+'</td><td>'+x.clk+'</td><td>'+adN(x.cost)+'</td><td>'+(x.rank||'–')+'</td></tr>';}).join('')
-      +'</tbody></table></div></div>';
-    // 추적 링크 (인스타·전단·명함 등)
+    // 5) 추적 링크
     var td=new Date(); td.setHours(0,0,0,0); var w7=new Date(td-6*864e5), m={};
     rs[1].forEach(function(r){var s=(r.data&&r.data.src)||'기타', t=new Date(r.at); m[s]=m[s]||[0,0,0];
       if(t>=td)m[s][0]++; if(t>=w7)m[s][1]++; m[s][2]++;});
     var ks=Object.keys(m).sort(function(a,b){return m[b][1]-m[a][1]||m[b][2]-m[a][2];});
-    h+='<div class="adc"><h3>추적 링크 클릭 (인스타·전단·명함)</h3><p class="sub">링크마다 따로 셈 · 인스타 광고비는 인스타 광고 도구에서만 보여요</p><div class="adwrap"><table class="adtb"><thead><tr><th>링크</th><th>오늘</th><th>7일</th><th>14일</th></tr></thead><tbody>'
-      +(ks.length?ks.map(function(k){return '<tr><td>'+adE(k)+'</td><td>'+m[k][0]+'</td><td>'+m[k][1]+'</td><td>'+m[k][2]+'</td></tr>';}).join(''):'<tr><td colspan="4">14일 동안 없음</td></tr>')
+    var km=adMark(ks.map(function(k){return m[k][1];}),true);
+    h+='<div class="adc"><h3>추적 링크 클릭 (인스타·전단·명함)</h3><p class="sub">7일 많은 순 · 파랑 1등 · 인스타 광고비는 인스타 광고 도구에서만 보여요</p><div class="adwrap"><table class="adtb"><thead><tr><th>링크</th><th>7일</th><th>오늘</th><th>14일</th></tr></thead><tbody>'
+      +(ks.length?ks.map(function(k,i){return '<tr><td class="'+(km[i]==='gd'?'gd':'')+'">'+adE(k)+'</td><td class="'+(km[i]==='gd'?'gd':'')+'">'+m[k][1]+'</td><td>'+m[k][0]+'</td><td>'+m[k][2]+'</td></tr>';}).join(''):'<tr><td colspan="4">14일 동안 없음</td></tr>')
       +'</tbody></table></div></div>';
-    // 셀프 주차 방문 경로
+    // 6) 셀프 주차 방문 경로
     var pv={}, pn=[0,0];
     rs[2].forEach(function(r){var x=r.data||{}; if(x.test||x.rand)return; var t=new Date(r.at); if(t<w7)return;
       pn[1]++; if(t>=td)pn[0]++; if(x.grp||!x.ch)return; pv[x.ch]=pv[x.ch]||[0,0]; pv[x.ch][1]++; if(t>=td)pv[x.ch][0]++;});
-    var pk=Object.keys(pv).sort(function(a,b){return pv[b][1]-pv[a][1];});
-    h+='<div class="adc"><h3>셀프 주차 · 어디서 알고 왔나</h3><p class="sub">차 오늘 '+pn[0]+'대 · 7일 '+pn[1]+'대 (일행 차는 경로에서 뺌)</p><div class="adwrap"><table class="adtb"><thead><tr><th>경로</th><th>오늘</th><th>7일</th></tr></thead><tbody>'
-      +(pk.length?pk.map(function(k){return '<tr><td>'+adE(k)+'</td><td>'+pv[k][0]+'</td><td>'+pv[k][1]+'</td></tr>';}).join(''):'<tr><td colspan="3">7일 동안 없음</td></tr>')
+    var pk=Object.keys(pv).sort(function(a,b){return pv[b][1]-pv[a][1];}), tot=pk.reduce(function(s,k){return s+pv[k][1];},0);
+    h+='<div class="adc"><h3>셀프 주차 · 어디서 알고 왔나</h3><p class="sub">차 오늘 '+pn[0]+'대 · 7일 '+pn[1]+'대 (일행 차는 경로에서 뺌)</p><div class="adwrap"><table class="adtb"><thead><tr><th>경로</th><th>7일</th><th>비율</th><th>오늘</th></tr></thead><tbody>'
+      +(pk.length?pk.map(function(k,i){var c=i===0&&pk.length>1?'gd':'';return '<tr><td class="'+c+'">'+adE(k)+'</td><td class="'+c+'">'+pv[k][1]+'</td><td class="'+c+'">'+Math.round(pv[k][1]/tot*100)+'%</td><td>'+pv[k][0]+'</td></tr>';}).join(''):'<tr><td colspan="4">7일 동안 없음</td></tr>')
       +'</tbody></table></div></div>';
     box.innerHTML=h;
   });
@@ -2195,7 +2235,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-06 23:57",lastTouch=Date.now();
+var BUILD="2026-11-07 00:05",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
