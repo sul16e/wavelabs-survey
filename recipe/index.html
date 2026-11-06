@@ -955,7 +955,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-05 17:30
+  갱신 2026-11-06 23:57
 </footer>
 
 <script>
@@ -964,7 +964,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 /* ===== 영업장 설정 (생성기가 매장_설정.json에서 채운다) ===== */
 var CFG={store:"WaveLabs 매장",pinStaff:"3715",pinOwner:"0012",
          brand:{logo:"logo.jpg",bg:false,c1:"#0B5F84",c2:"#20769B",name:"웨이브랩스 광교SK뷰레이크37F",phone:"01084068985"},
-         url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["예준", "유정"],vatRate:3.5};
+         url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["예준"],vatRate:3.5};
 var ONLINE=!!(CFG.url&&CFG.key);
 var REST=CFG.url.replace(/\/+$/,'')+'/rest/v1/records';
 function hdr(extra){var h={apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json'};
@@ -2195,7 +2195,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-05 17:30",lastTouch=Date.now();
+var BUILD="2026-11-06 23:57",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
