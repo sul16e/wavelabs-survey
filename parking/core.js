@@ -326,10 +326,10 @@
       dock.appendChild(el('div', { id: 'wl-note' }, ICON + '건물 내 다른 상가에서 등록하신 경우 최대 1시간만 추가 가능'));
       root.appendChild(dock);
 
-      // 방문 경로 질문 — 가볍게 뜨는 팝업(닫기·넘어가기 없음)
+      // 방문 경로 질문 — 가볍게 뜨는 팝업(닫기·넘어가기 없음) · 11/11 사장: 위 문구 「하나만 골라 주시면 바로 주차 등록이 끝나요」(안 누르고 가면 등록 안 되던 문제)
       var ask = el('div', { class: 'wl-pop off', id: 'wl-ask' });
       var card = el('div', { class: 'wl-card' },
-        '<div class="q-s">등록 전에 하나만 알려 주세요</div><div class="q">어디서 웨이브랩스를 보고 오셨어요?</div>');
+        '<div class="q-s">하나만 골라 주시면 바로 주차 등록이 끝나요</div><div class="q">어디서 웨이브랩스를 보고 오셨어요?</div>');
       var grid = el('div', { class: 'grid' });
       card.appendChild(grid); ask.appendChild(card); root.appendChild(ask);
 
