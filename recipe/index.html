@@ -970,16 +970,16 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-07 14:16
+  갱신 2026-11-11 21:09
 </footer>
 
 <script>
 (function(){
 "use strict";
 /* ===== 영업장 설정 (생성기가 매장_설정.json에서 채운다) ===== */
-var CFG={store:"WaveLabs 매장",pinStaff:"3715",pinOwner:"0012",
+var CFG={store:"WaveLabs 매장",keys:{"3c7a70c5eda77b4eef0e60c628ef55ead8a62392fc6a23efb2b37098889b866e": {"n": "사장", "o": 1}, "ebf93864e1fb9287661e41065e19e001cdb8fb59df31827b0a94771a19db5b26": {"n": "보빈", "o": 0}},
          brand:{logo:"logo.jpg",bg:false,c1:"#0B5F84",c2:"#20769B",name:"웨이브랩스 광교SK뷰레이크37F",phone:"01084068985"},
-         url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["예준"],vatRate:3.5};
+         url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["보빈"],vatRate:3.5};
 var ONLINE=!!(CFG.url&&CFG.key);
 var REST=CFG.url.replace(/\/+$/,'')+'/rest/v1/records';
 function hdr(extra){var h={apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json'};
@@ -1063,22 +1063,29 @@ function fmt(ms){var d=new Date(ms),W='일월화수목금토';
 function ago(ms){var m=Math.round((Date.now()-ms)/60000);if(m<1)return'방금';if(m<60)return m+'분 전';
   var h=Math.round(m/60);if(h<24)return h+'시간 전';return Math.round(h/24)+'일 전';}
 
-/* ===== 잠금 ===== */
-try{ if(localStorage.getItem('wl-reset1')!=='1'){
-  localStorage.removeItem('wl-ok'); localStorage.removeItem('wl-owner');
-  localStorage.setItem('wl-reset1','1');
-} }catch(e){}
+/* ===== 잠금 — 사람마다 비밀번호(11/11 사장). 기기엔 비밀번호 해시만 남기고, 목록에서 빠진 사람은 다음 새로고침 때 잠김 ===== */
+function curKey(){try{var k=localStorage.getItem('wl-key');return k&&CFG.keys[k]?k:null;}catch(e){return null;}}
+try{ if(!curKey()){ localStorage.removeItem('wl-ok'); localStorage.removeItem('wl-owner'); localStorage.removeItem('wl-key'); } }catch(e){}
 var lock=document.getElementById('lock');
-try{ if(localStorage.getItem('wl-ok')==='1'){ lock.remove(); lock=null; } }catch(e){}
+if(curKey()){ lock.remove(); lock=null; }
+function pinHash(p){
+  var d=new TextEncoder().encode('wl|'+p);
+  return crypto.subtle.digest('SHA-256',d).then(function(b){
+    return Array.prototype.map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2);}).join('');});
+}
 if(lock){
   var pin=document.getElementById('pin'), bad=document.getElementById('bad');
   setTimeout(function(){pin.focus();},200);
   var chk=function(){
-    if(pin.value===CFG.pinStaff||pin.value===CFG.pinOwner){
-      setOwner(pin.value===CFG.pinOwner);
-      try{localStorage.setItem('wl-ok','1')}catch(e){}
-      lock.remove(); lock=null;
-    } else { bad.textContent='비밀번호가 달라요'; pin.value=''; pin.focus(); }
+    var v=pin.value;
+    pinHash(v).then(function(h){
+      var who=CFG.keys[h];
+      if(who){
+        try{localStorage.setItem('wl-key',h);localStorage.setItem('wl-ok','1');}catch(e){}
+        setOwner(who.o===1);
+        if(lock){lock.remove(); lock=null;}
+      } else { bad.textContent='비밀번호가 일치하지 않습니다'; pin.value=''; pin.focus(); }
+    });
   };
   document.getElementById('go').addEventListener('click',chk);
   pin.addEventListener('keydown',function(e){if(e.key==='Enter')chk();});
@@ -1091,14 +1098,14 @@ function setOwner(on){ document.body.dataset.owner=on?'1':'0';
   if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='ads'||document.body.dataset.tab==='set'||document.body.dataset.tab==='duty')&&typeof setTab==='function') setTab('recipe');
   if(window.wlSort)window.wlSort();     /* 잠그면 마진율순 → 이름순 */
   drawSub(); }
-setOwner(localStorage.getItem('wl-owner')==='1');
+setOwner(!!(curKey()&&CFG.keys[curKey()].o===1));
 document.getElementById('rfBtn').addEventListener('click',function(){
   if(typeof stDirty!=='undefined'&&stDirty&&!confirm('잔여 수량을 아직 저장 안 했어요. 그래도 새로고침할까요?'))return;
   location.reload();
 });
 document.getElementById('lockBtn').addEventListener('click',function(){
   if(!confirm('잠글까요? 다시 비밀번호를 넣어야 해요.'))return;
-  try{localStorage.removeItem('wl-ok');localStorage.removeItem('wl-owner');}catch(e){}
+  try{localStorage.removeItem('wl-ok');localStorage.removeItem('wl-owner');localStorage.removeItem('wl-key');}catch(e){}
   location.reload();
 });
 
@@ -2235,7 +2242,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-07 14:16",lastTouch=Date.now();
+var BUILD="2026-11-11 21:09",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
