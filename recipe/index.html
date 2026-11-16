@@ -739,7 +739,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <label class="ck"><input type="checkbox" data-id="close:레몬 슬라이스 채우기 (최소 5장)"><div><b>레몬 슬라이스 채우기 (최소 5장)</b></div></label>
 </section>
 <section class="g"><h3>5. 냉장 · 냉동 <span>0/4</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:크림 부족하면 만들기"><div><b>크림 부족하면 만들기</b><small>시그니처 크림 · 화이트 크림 — 배합은 레시피 탭 → 프렙 · 보관</small></div></label>
+<label class="ck"><input type="checkbox" data-id="close:🔴 크림 한 통(한 봉지) 남았으면 새로 만들기"><div><b>🔴 크림 한 통(한 봉지) 남았으면 새로 만들기</b><ol class="sub"><li>시그니처 크림 (음료용) — 한 통 혹은 한 봉지 남았을 경우 새로 만들기</li><li>화이트 크림 (디저트용) — 한 통 혹은 한 봉지 남았을 경우 새로 만들기</li><li>배합은 레시피 탭 → 크림</li></ol></div></label>
 <label class="ck"><input type="checkbox" data-id="close:아이스크림 미리 떠두기"><div><b>아이스크림 미리 떠두기</b><small>작은 스쿱(진갈색)으로 동그랗게 떠서 냉동실에 — 주문 들어오면 바로 올리기</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:🔴 냉장 보관 재료 꼭 냉장고에 넣기"><div><b>🔴 냉장 보관 재료 꼭 냉장고에 넣기</b><ol class="sub"><li>연유</li><li>바닐라빈 시럽</li><li>키위 소스</li><li>시그니처 크림</li><li>메이플시럽</li><li>흑임자 페이스트 (음료용)</li><li>그 밖에 냉장 보관 필요한 재료 전부</li></ol></div></label>
 <label class="ck"><input type="checkbox" data-id="close:🔴 냉장고 문 잘 닫혔는지 확인하기"><div><b>🔴 냉장고 문 잘 닫혔는지 확인하기</b><small>⚠️ 주방 밖에 있는 냉장고는 문이 잘 안 닫힐 때가 많음</small></div></label>
@@ -977,7 +977,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-16 18:21
+  갱신 2026-11-16 18:29
 </footer>
 
 <script>
@@ -1104,7 +1104,7 @@ function setOwner(on){ document.body.dataset.owner=on?'1':'0';
   try{localStorage.setItem('wl-owner',on?'1':'0')}catch(e){}
   if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='ads'||document.body.dataset.tab==='set'||document.body.dataset.tab==='duty')&&typeof setTab==='function') setTab('recipe');
   if(window.wlSort)window.wlSort();     /* 잠그면 마진율순 → 이름순 */
-  drawSub(); }
+  drawSub(); if(window.custReady)drawCust(); }
 setOwner(!!(curKey()&&CFG.keys[curKey()].o===1));
 document.getElementById('rfBtn').addEventListener('click',function(){
   if(typeof stDirty!=='undefined'&&stDirty&&!confirm('잔여 수량을 아직 저장 안 했어요. 그래도 새로고침할까요?'))return;
@@ -1456,8 +1456,8 @@ function drawCust(){
       });
       var sum=cnt?(left?'<em>남은 '+left+'개</em> · 사용 '+used+'개':'모두 사용 · '+used+'개'):'아직 선결제 없음';
       return '<div class="cc" data-pact="open" data-id="'+E(c.id)+'">'
-        +'<div class="ci"><div class="n1"><b>'+E(c.data.n||'손님')+'</b>'
-        +'<span class="ph2">'+E(c.data.p||'')+'</span></div>'
+        +'<div class="ci"><div class="n1"><b>'+E(mName(c.data.n)||'손님')+'</b>'
+        +'<span class="ph2">'+E(mPhone(c.data.p))+'</span></div>'
         +'<div class="n2">'+sum+'</div></div>'
         +'<span class="arw">›</span></div>';
     }).join('');
@@ -1465,6 +1465,7 @@ function drawCust(){
   });
 }
 document.getElementById('custSearch').addEventListener('input',drawCust);
+window.custReady=true;
 var custForm=document.getElementById('custForm');
 document.getElementById('custNew').addEventListener('click',function(){custForm.classList.toggle('on');});
 document.getElementById('cf-cancel').addEventListener('click',function(){custForm.classList.remove('on');});
@@ -1478,12 +1479,16 @@ document.getElementById('cf-ok').addEventListener('click',function(){
 });
 
 /* ---- 고객 상세 ---- */
+/* 알바 화면에선 손님 이름 가운데 · 전화번호는 뒤 4자리만(11/16 사장) */
+function isOwn(){return document.body.dataset.owner==='1';}
+function mName(n){n=String(n||'');if(isOwn()||n.length<2)return n;if(n.length===2)return n[0]+'*';return n[0]+Array(n.length-1).join('*')+n[n.length-1];}
+function mPhone(p){p=String(p||'');if(isOwn())return p;var d=p.replace(/\D/g,'');return d.length>=4?'***-****-'+d.slice(-4):(d?'****':'');}
 function openCust(id){
   curCust=null;
   for(var i=0;i<custRows.length;i++) if(custRows[i].id===id) curCust=custRows[i];
   if(!curCust)return;
-  document.getElementById('cuName').textContent=curCust.data.n||'손님';
-  document.getElementById('cuPhone').textContent=curCust.data.p||'';
+  document.getElementById('cuName').textContent=mName(curCust.data.n)||'손님';
+  document.getElementById('cuPhone').textContent=mPhone(curCust.data.p);
   pv('cust'); drawPre();
 }
 function preCard(row){
@@ -1533,7 +1538,7 @@ function preCard(row){
     +'<button type="button" class="memobtn" data-pact="memoopen">메모 추가</button>'
     +'<div class="memoin"><input type="text" placeholder="예: 아메리카노 → 디카페인으로 사용" data-memo="'+E(row.id)+'" value="'+E(memoDraft[row.id]||'')+'">'
     +'<button type="button" class="sec" data-pact="memo" data-id="'+E(row.id)+'">추가</button></div></div>'
-    +'<div class="ft">'+(d.img?'<button type="button" class="sec" data-pact="img" data-id="'+E(row.id)+'">영수증 보기</button>':'')
+    +'<div class="ft">'+(d.img?'<button type="button" class="sec onlyown" data-pact="img" data-id="'+E(row.id)+'">영수증 보기</button>':'')
     +'<button type="button" class="sec onlyown" data-pact="addit" data-id="'+E(row.id)+'">+ 항목 추가</button>'
     +'<button type="button" class="sec onlyown" data-pact="edit" data-id="'+E(row.id)+'">고치기</button>'
     +'<span class="grow"></span>'
@@ -2264,7 +2269,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-16 18:21",lastTouch=Date.now();
+var BUILD="2026-11-16 18:29",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
