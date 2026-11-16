@@ -715,8 +715,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
     <div class="prog"><span id="pc">0 / 0</span><div class="bar"><i id="pb"></i></div><button type="button" class="lnk" id="reset">처음부터</button></div>
     <div class="done" id="done">마감 끝! 수고하셨어요 🙌</div>
 <div class="ckl" data-mode="close">
-<section class="g"><h3>1. 마감 시작 <span>0/4</span></h3>
-<label class="ck"><input type="checkbox" data-id="close:블라인드 내리기"><div><b>블라인드 내리기</b></div></label>
+<section class="g"><h3>1. 마감 시작 <span>0/3</span></h3>
 <label class="ck"><input type="checkbox" data-id="close:전등 켜기"><div><b>전등 켜기</b></div></label>
 <label class="ck"><input type="checkbox" data-id="close:POS 「현황」에 남은 주문 「완료」 누르기"><div><b>POS 「현황」에 남은 주문 「완료」 누르기</b><small>진행 중으로 남은 주문은 그날 매출에 안 잡혀요 — 0개가 될 때까지</small></div></label>
 <label class="ck"><input type="checkbox" data-id="close:내일 예약 있으면 창가에 예약석 팻말 걸기"><div><b>내일 예약 있으면 창가에 예약석 팻말 걸기</b><small>캘린더 🌈 일정 확인 — 팻말에 시간·인원 적기(11/1 12시 예약석에 11시 손님이 앉아 크로플 서비스로 사과)</small></div></label>
@@ -977,7 +976,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-16 18:29
+  갱신 2026-11-16 18:30
 </footer>
 
 <script>
@@ -2269,7 +2268,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-16 18:29",lastTouch=Date.now();
+var BUILD="2026-11-16 18:30",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
