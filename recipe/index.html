@@ -339,6 +339,7 @@ body[data-tab="ops"][data-seg="stock"]{padding-bottom:calc(92px + env(safe-area-
 .chead{display:flex;align-items:center;gap:10px;background:var(--tint);border:1px solid var(--line);
   border-radius:11px;padding:12px;margin-bottom:12px;flex-wrap:wrap}
 .chead b{font-size:16px}
+.chead .cuview{color:var(--brand);text-decoration:none;font-weight:700;min-height:38px;display:inline-flex;align-items:center;touch-action:manipulation}
 .chead span{font-size:13px;color:var(--dim);font-variant-numeric:tabular-nums;flex:1 1 auto}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
 .two>*{margin:0}
@@ -840,6 +841,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
   <div class="pv" data-pv="cust">
     <button type="button" class="lnk back" data-pact="back">← 고객 목록</button>
     <div class="chead"><b id="cuName"></b><span id="cuPhone"></span>
+      <a class="lnk cuview" id="cuView" target="_blank" rel="noopener">고객님 화면 ↗</a>
       <button type="button" class="lnk onlyown" data-pact="cdel">고객 삭제</button></div>
     <div class="two">
       <label class="pri btnlike" for="rcpt">영수증 사진 올리기</label>
@@ -978,7 +980,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-16 19:37
+  갱신 2026-11-17 17:43
 </footer>
 
 <script>
@@ -1490,6 +1492,7 @@ function openCust(id){
   if(!curCust)return;
   document.getElementById('cuName').textContent=mName(curCust.data.n)||'손님';
   document.getElementById('cuPhone').textContent=mPhone(curCust.data.p);
+  document.getElementById('cuView').href='https://wavelabscoffee.github.io/jan/?c='+encodeURIComponent(curCust.id);
   pv('cust'); drawPre();
 }
 function preCard(row){
@@ -2270,7 +2273,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-16 19:37",lastTouch=Date.now();
+var BUILD="2026-11-17 17:43",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
