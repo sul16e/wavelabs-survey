@@ -465,6 +465,39 @@ body:not([data-owner="1"]) .tabs button[data-tab="duty"]{display:none}
   background:var(--bg);color:var(--ink);font-family:ui-monospace,Menlo,monospace;text-transform:uppercase}
 .setsave{display:grid;grid-template-columns:1fr 2fr;gap:8px}
 .setmsg{font-size:13px;color:var(--ok-ink);min-height:20px;margin-top:8px;text-align:center}
+/* ---------- 할 일 (11/18, 사장 전용) ---------- */
+body:not([data-tab="todo"]) #tTodo{display:none}
+body:not([data-owner="1"]) .tabs button[data-tab="todo"]{display:none}
+.tdadd{display:flex;gap:4px;margin-bottom:8px}
+.tdadd input,.tdadd select{height:40px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-size:16px;padding:0 8px;min-width:0}
+.tdadd input[type=text]{flex:1 1 auto}
+.tdadd select{flex:0 0 52px;padding:0 4px}
+.tdadd input[type=date]{flex:0 0 120px;font-size:14px}
+.tdadd .pri{flex:0 0 52px;min-height:40px;padding:0;font-size:14px}
+.tdf{display:flex;gap:4px;overflow-x:auto;margin-bottom:6px;padding-bottom:2px}
+.tdf button{flex:0 0 auto;font-size:12px;height:28px;padding:0 10px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);touch-action:manipulation}
+.tdf button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.tdsum{font-size:12px;color:var(--dim);margin:0 2px 6px}
+.tdsum b{color:var(--bad-ink)}
+.tdtb{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.tdtb th{font-size:11px;color:var(--dim);font-weight:700;text-align:left;padding:5px 4px;background:var(--head)}
+.tdtb td{padding:4px;border-top:1px solid var(--line);vertical-align:top;line-height:1.35}
+.tdtb td.n{white-space:nowrap;font-variant-numeric:tabular-nums}
+.tdtb td.tx{width:100%;cursor:pointer}
+.tdtb td.tx small{display:block;color:var(--dim);font-size:11px}
+.tdtb .ck{width:26px;height:26px;border:1.5px solid var(--line);border-radius:6px;background:var(--card);color:transparent;font-weight:800;padding:0;touch-action:manipulation}
+.tdtb tr.dn .ck{background:var(--brand);border-color:var(--brand);color:#fff}
+.tdtb tr.dn td.tx{color:var(--dim);text-decoration:line-through}
+.tdp{display:inline-block;font-size:11px;font-weight:800;border-radius:4px;padding:1px 4px}
+.tdp.p1{color:#fff;background:var(--bad-ink)}
+.tdp.p2{color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,transparent)}
+.tdp.p3{color:var(--dim);background:var(--head)}
+.tdtb .late{color:var(--bad-ink);font-weight:800}
+.tded{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px;margin:0 0 8px}
+.tded .r{display:flex;gap:4px;margin-bottom:4px}
+.tded input,.tded select,.tded textarea{flex:1 1 0;min-width:0;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:16px;padding:0 8px}
+.tded textarea{height:64px;padding:8px}
+.tded .r button{flex:1 1 0;min-height:40px}
 /* ---------- 광고 현황 (11/5, 사장) ---------- */
 body:not([data-tab="ads"]) #tAds{display:none}
 body:not([data-owner="1"]) .tabs button[data-tab="ads"]{display:none}
@@ -550,6 +583,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
  <div class="hw">
   <div class="ws"><span id="logoBox"><span class="lt"></span></span><div class="wst"><b id="wsName">웨이브랩스 광교SK뷰레이크37F</b><small id="wsSub"></small></div><button type="button" id="rfBtn" aria-label="새로고침"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 3 21 9 15 9"/></svg></button></div>
   <div class="tabs" role="tablist">
+    <button type="button" role="tab" data-tab="todo">할 일</button>
     <button type="button" role="tab" data-tab="recipe">레시피</button>
     <button type="button" role="tab" data-tab="ops">오픈·마감</button>
     <button type="button" role="tab" data-tab="pre">선결제</button>
@@ -894,6 +928,13 @@ body:not([data-tab="faq"]) #tFaq{display:none}
   <button type="button" class="pri wide stickybtn" id="noteNew">+ 전달사항 남기기</button>
 </section>
 
+<section id="tTodo" class="pane">
+  <div class="tdadd"><input type="text" id="tdT" placeholder="할 일 추가" autocomplete="off"><select id="tdP"><option value="1">상</option><option value="2" selected>중</option><option value="3">하</option></select><input type="date" id="tdD"><button type="button" class="pri" id="tdGo">추가</button></div>
+  <div class="tdf" id="tdF"></div>
+  <div id="tdEd"></div>
+  <div id="todoBox"><p class="dsum">불러오는 중…</p></div>
+</section>
+
 <section id="tAds" class="pane">
   <div id="adsBox"><p class="dsum">불러오는 중…</p></div>
 </section>
@@ -980,7 +1021,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-17 20:49
+  갱신 2026-11-18 13:14
 </footer>
 
 <script>
@@ -1105,7 +1146,7 @@ if(lock){
 /* ===== 사장 모드 ===== */
 function setOwner(on){ document.body.dataset.owner=on?'1':'0';
   try{localStorage.setItem('wl-owner',on?'1':'0')}catch(e){}
-  if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='ads'||document.body.dataset.tab==='set'||document.body.dataset.tab==='duty')&&typeof setTab==='function') setTab('recipe');
+  if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='ads'||document.body.dataset.tab==='set'||document.body.dataset.tab==='duty'||document.body.dataset.tab==='todo')&&typeof setTab==='function') setTab('recipe');
   if(window.wlSort)window.wlSort();     /* 잠그면 마진율순 → 이름순 */
   drawSub(); if(window.custReady)drawCust(); }
 setOwner(!!(curKey()&&CFG.keys[curKey()].o===1));
@@ -1226,11 +1267,11 @@ function setTab(t){
     if(on&&b.scrollIntoView)try{b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});}catch(e){}});
   LSset('wl-tab',t); window.scrollTo(0,0);
   if(t==='pre'){ if(tPre.dataset.pv==='cust')drawPre(); else {tPre.dataset.pv='list';drawCust();} }
-  if(t==='note')drawNote(); if(t==='insight')drawIns(); if(t==='set')drawSet(); if(t==='duty')drawDuty(); if(t==='faq')drawFaq(); if(t==='ads')drawAds();
+  if(t==='note')drawNote(); if(t==='insight')drawIns(); if(t==='set')drawSet(); if(t==='duty')drawDuty(); if(t==='faq')drawFaq(); if(t==='ads')drawAds(); if(t==='todo')drawTodo();
 }
 tabBtns.forEach(function(b){b.addEventListener('click',function(){
   var t=b.dataset.tab;
-  if((t==='insight'||t==='ads'||t==='set'||t==='duty')&&document.body.dataset.owner!=='1')return;
+  if((t==='insight'||t==='ads'||t==='set'||t==='duty'||t==='todo')&&document.body.dataset.owner!=='1')return;
   setTab(t);
 });});
 
@@ -2263,17 +2304,79 @@ function drawAds(){
   });
 }
 
+
+/* ===== 할 일 (11/18 사장 「와다다 말하면 다 저장, 우선순위·기한 알아서, 사장 모드에만」) — records kind=todo {t,p(1상 2중 3하),due,cat,who,m,done,dAt} ===== */
+var todoRows=[],tdF={p:0,cat:'',done:false},tdEdit='';
+function tdE(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function tdDays(d){if(!d)return null;var t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(d+'T00:00:00')-t)/864e5);}
+function tdFmt(d){if(!d)return '';var x=new Date(d+'T00:00:00');return (x.getMonth()+1)+'/'+x.getDate()+'('+'일월화수목금토'[x.getDay()]+')';}
+function drawTodo(){DB.list('todo').then(function(r){todoRows=r||[];renderTodo();});}
+function renderTodo(){
+  var all=todoRows.map(function(r){return r;});
+  var open=all.filter(function(r){return !(r.data||{}).done;});
+  var cats={};all.forEach(function(r){var c=(r.data||{}).cat;if(c)cats[c]=1;});
+  var f='<button data-k="p" data-v="0" aria-pressed="'+(!tdF.p)+'">전체</button>';
+  [['1','상'],['2','중'],['3','하']].forEach(function(a){f+='<button data-k="p" data-v="'+a[0]+'" aria-pressed="'+(tdF.p==a[0])+'">'+a[1]+'</button>';});
+  Object.keys(cats).sort().forEach(function(c){f+='<button data-k="cat" data-v="'+tdE(c)+'" aria-pressed="'+(tdF.cat===c)+'">'+tdE(c)+'</button>';});
+  f+='<button data-k="done" aria-pressed="'+tdF.done+'">끝난 것</button>';
+  document.getElementById('tdF').innerHTML=f;
+  var rows=all.filter(function(r){var d=r.data||{};return !!d.done===tdF.done&&(!tdF.p||d.p==tdF.p)&&(!tdF.cat||d.cat===tdF.cat);});
+  rows.sort(function(a,b){var x=a.data||{},y=b.data||{};
+    if(tdF.done)return (y.dAt||0)-(x.dAt||0);
+    var lx=x.due&&tdDays(x.due)<0?0:1,ly=y.due&&tdDays(y.due)<0?0:1;if(lx!==ly)return lx-ly;
+    if((x.p||2)!==(y.p||2))return (x.p||2)-(y.p||2);
+    return (x.due||'9999')<(y.due||'9999')?-1:(x.due||'9999')>(y.due||'9999')?1:0;});
+  var late=open.filter(function(r){var d=r.data||{};return d.due&&tdDays(d.due)<0;}).length,
+      wk=open.filter(function(r){var d=r.data||{},n=tdDays(d.due);return d.due&&n>=0&&n<=7;}).length;
+  var h='<p class="tdsum">남은 '+open.length+'개 · 기한 지남 <b>'+late+'</b> · 7일 안 '+wk+' · 줄을 누르면 고치기</p>';
+  h+='<table class="tdtb"><thead><tr><th></th><th>우선</th><th>할 일</th><th>기한</th><th>D</th><th>분류</th><th>누가</th></tr></thead><tbody>';
+  rows.forEach(function(r){var d=r.data||{},n=tdDays(d.due),dd=d.due?(n<0?'+'+(-n):n===0?'오늘':'-'+n):'';
+    h+='<tr class="'+(d.done?'dn':'')+'"><td><button type="button" class="ck" data-ck="'+r.id+'" aria-label="완료">✓</button></td>'
+     +'<td class="n"><span class="tdp p'+(d.p||2)+'">'+['','상','중','하'][d.p||2]+'</span></td>'
+     +'<td class="tx" data-ed="'+r.id+'">'+tdE(d.t)+(d.m?'<small>'+tdE(d.m)+'</small>':'')+'</td>'
+     +'<td class="n'+(n!=null&&n<0&&!d.done?' late':'')+'">'+tdFmt(d.due)+'</td>'
+     +'<td class="n'+(n!=null&&n<0&&!d.done?' late':'')+'">'+dd+'</td>'
+     +'<td class="n">'+tdE(d.cat)+'</td><td class="n">'+tdE(d.who)+'</td></tr>';});
+  if(!rows.length)h+='<tr><td colspan="7" style="text-align:center;color:var(--dim);padding:16px">없음</td></tr>';
+  document.getElementById('todoBox').innerHTML=h+'</tbody></table>';
+  tdDrawEd();
+}
+function tdDrawEd(){var box=document.getElementById('tdEd');
+  var r=todoRows.filter(function(x){return x.id===tdEdit;})[0];if(!r){box.innerHTML='';return;}var d=r.data||{};
+  box.innerHTML='<div class="tded"><div class="r"><input type="text" id="teT" value="'+tdE(d.t)+'"></div>'
+   +'<div class="r"><select id="teP"><option value="1">상</option><option value="2">중</option><option value="3">하</option></select><input type="date" id="teD" value="'+tdE(d.due)+'"></div>'
+   +'<div class="r"><input type="text" id="teC" placeholder="분류" value="'+tdE(d.cat)+'"><input type="text" id="teW" placeholder="누가" value="'+tdE(d.who)+'"></div>'
+   +'<div class="r"><textarea id="teM" placeholder="메모">'+tdE(d.m)+'</textarea></div>'
+   +'<div class="r"><button type="button" class="pri" id="teS">저장</button><button type="button" class="sec" id="teX">닫기</button><button type="button" class="sec" id="teR" style="color:var(--bad-ink)">삭제</button></div></div>';
+  document.getElementById('teP').value=String(d.p||2);
+  document.getElementById('teS').onclick=function(){var nd=Object.assign({},d,{t:document.getElementById('teT').value.trim(),p:+document.getElementById('teP').value,due:document.getElementById('teD').value,cat:document.getElementById('teC').value.trim(),who:document.getElementById('teW').value.trim(),m:document.getElementById('teM').value.trim()});
+    if(!nd.t)return;DB.set('todo',r.id,nd,true).then(function(){r.data=nd;tdEdit='';renderTodo();});};
+  document.getElementById('teX').onclick=function(){tdEdit='';tdDrawEd();};
+  document.getElementById('teR').onclick=function(){if(!confirm('이 할 일을 지울까요?'))return;DB.del('todo',r.id).then(function(){todoRows=todoRows.filter(function(x){return x.id!==r.id;});tdEdit='';renderTodo();});};
+  window.scrollTo(0,0);
+}
+document.getElementById('tdF').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+  if(b.dataset.k==='p')tdF.p=+b.dataset.v;else if(b.dataset.k==='cat')tdF.cat=tdF.cat===b.dataset.v?'':b.dataset.v;else tdF.done=!tdF.done;renderTodo();});
+document.getElementById('todoBox').addEventListener('click',function(e){
+  var c=e.target.closest('[data-ck]');if(c){var r=todoRows.filter(function(x){return x.id===c.dataset.ck;})[0];if(!r)return;
+    var nd=Object.assign({},r.data,{done:!r.data.done,dAt:Date.now()});c.disabled=true;DB.set('todo',r.id,nd,true).then(function(){r.data=nd;renderTodo();},function(){c.disabled=false;});return;}
+  var t=e.target.closest('[data-ed]');if(t){tdEdit=t.dataset.ed;tdDrawEd();}});
+document.getElementById('tdGo').addEventListener('click',function(){var t=document.getElementById('tdT').value.trim();if(!t)return;
+  var d={t:t,p:+document.getElementById('tdP').value,due:document.getElementById('tdD').value,cat:'',who:'사장',m:'',done:false};
+  DB.add('todo',d).then(function(row){todoRows.unshift(row);document.getElementById('tdT').value='';document.getElementById('tdD').value='';renderTodo();});});
+document.getElementById('tdT').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('tdGo').click();});
+
 /* ===== 시작 ===== */
 banners();
 setSeg(LSget('wl-seg','close'));
 (function(){var t=LSget('wl-tab','recipe');
-  if((t==='insight'||t==='ads'||t==='set'||t==='duty')&&document.body.dataset.owner!=='1')t='recipe';
+  if((t==='insight'||t==='ads'||t==='set'||t==='duty'||t==='todo')&&document.body.dataset.owner!=='1')t='recipe';
   setTab(t);})();
 apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-17 20:49",lastTouch=Date.now();
+var BUILD="2026-11-18 13:14",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
