@@ -499,6 +499,16 @@ body:not([data-owner="1"]) .tabs button[data-tab="todo"]{display:none}
 .tded input,.tded select,.tded textarea{flex:1 1 0;min-width:0;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:16px;padding:0 8px}
 .tded textarea{height:64px;padding:8px}
 .tded .r button{flex:1 1 0;min-height:40px}
+/* ---------- 발주 (11/21, 사장) ---------- */
+body:not([data-tab="buy"]) #tBuy{display:none}
+body:not([data-owner="1"]) .tabs button[data-tab="buy"]{display:none}
+.bytb td.st{white-space:nowrap;font-weight:800;font-size:12px}
+.bytb .s0{color:var(--bad-ink)}
+.bytb .s1{color:var(--brand)}
+.bytb .s2{color:var(--dim);font-weight:600}
+.bytb .s3{color:var(--dim);font-weight:600}
+.bytb td.tx{cursor:pointer}
+.bytb tr.hd td{background:var(--head);font-size:11px;font-weight:800;color:var(--dim)}
 /* ---------- 광고 현황 (11/5, 사장) ---------- */
 body:not([data-tab="ads"]) #tAds{display:none}
 body:not([data-owner="1"]) .tabs button[data-tab="ads"]{display:none}
@@ -586,6 +596,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-tab="todo">할 일</button>
     <button type="button" role="tab" data-tab="recipe">레시피</button>
+    <button type="button" role="tab" data-tab="buy">발주</button>
     <button type="button" role="tab" data-tab="ops">오픈·마감</button>
     <button type="button" role="tab" data-tab="pre">선결제</button>
     <button type="button" role="tab" data-tab="note">전달사항</button>
@@ -641,7 +652,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <h2 class="grp" data-g="디저트">디저트 <span style="font-weight:600">12</span></h2>
 <article class="m" data-g="디저트" data-n="1인 미니 크로플 SET(평일 한정)" data-mg="86.1" data-s="1인 미니 크로플 set(평일 한정) 1인 미니 크로플 set(평일 한정) 디저트"><div class="hd"><img class="th" src="photo/1인 미니 크로플 SET.jpg" alt="" loading="lazy" data-cap=""><span class="nm">1인 미니 크로플 SET(평일 한정)</span><span class="pr">12,400원</span></div><div class="body"><ol class="st"><li>생지 1개 굽기</li><li>구운 생지 올리기</li><li>시나몬 가루 0.25g</li><li>사과잼 드리즐 7.5g</li><li>사과파이필링 30g</li><li>화이트 크림 40g</li><li>크럼블 15g</li><li>로즈마리 1줄기 눕혀 꽂기</li><li>아이스크림 추가를 고르면 작은 스쿱(진갈색) 60g을 로즈마리 옆에</li><li>아메리카노 2샷 (음료 변경을 고르면 그 음료 레시피대로)</li></ol><div class="tip"><b>주의</b>아이스크림 기본 없음 · 옥수수를 고르면: 구운 옥수수 프렙 35g → 화이트 크림 75g → 그라나 파다노 강판 1.5g⚠️ → 통후추 · 무화과를 고르면: 화이트 크림 50g → 무화과 반 개(4쪽, 나가기 직전 자르기) → 크럼블 5g 가장자리 → 피스타치오 분태 5g → 저당 메이플 10g</div><div class="cost own"><div class="nums"><span>원가 <b>1,729</b> (빨대 10 포함)</span><span>판매 <b>12,400</b></span><span class="hi">마진 <b>86.1%</b></span><span>남는 돈 <b>10,671</b></span><span>원가율 <b>13.9%</b></span></div><div class="rc"><i>미니 애플 시나몬 크로플 1,239원</i><s>·</s><i>아이스 아메리카노 480원</i></div><div class="exp"><b>1개월 이내</b>화이트 크림 3~5일 · 사과파이필링 개봉 후 1주 · 로즈마리 2주 · 아몬드 소보루 2주</div></div></div></article>
 <article class="m" data-g="디저트" data-n="누텔라 바나나 크로플" data-mg="85.4" data-c="34" data-s="누텔라 바나나 브륄레 크로플 누텔라 바나나 크로플 디저트"><div class="hd"><img class="th" src="photo/누텔라 바나나 브륄레 크로플.jpg" alt="" loading="lazy" data-cap=""><span class="nm">누텔라 바나나 크로플</span><span class="pr">14,800원</span></div><div class="body"><ol class="st"><li>투명 유리 접시 사용</li><li>바나나 껍질째 세로로 반 갈라 백설탕 10g 뿌려 토치</li><li>생지 2개 굽기</li><li>화이트 크림 75g 접시 가운데에 짜기 - 크럼블 없음</li><li>브륄레한 바나나 올리기</li><li>누텔라 20g 드리즐</li><li>초코 그래놀라 15g 흩뿌리기</li><li>아이스크림 추가 옵션이면 작은 스쿱(진갈색) 60g + 초코 그래놀라 조금 위에<img class="sp" src="photo/step/nutella_ic.jpg" alt="" loading="lazy"></li></ol><div class="cost own"><div class="nums"><span>원가 <b>2,162</b></span><span>판매 <b>14,800</b></span><span class="hi">마진 <b>85.4%</b></span><span>남는 돈 <b>12,638</b></span><span>원가율 <b>14.6%</b></span></div><div class="rc"><i>생지 2개 1,040원</i><s>·</s><i class="w">누텔라 20g⚠️ 318원</i><s>·</s><i>화이트 크림 75g 298원</i><s>·</s><i>바나나 1개 353원</i><s>·</s><i class="w">백설탕 10g⚠️ 14원</i><s>·</s><i class="w">초코 그래놀라 15g⚠️ 134원</i><s>·</s><i class="w">토치 부탄 1g⚠️ 5원</i></div><div class="exp"><b>1개월 이내</b>화이트 크림 3~5일 · 바나나 7~10일 · 초코 그래놀라 1개월</div></div></div></article>
-<article class="m" data-g="디저트" data-n="딸기 크로플(시즌 한정)" data-mg="71.0" data-s="딸기 크로플(시즌 한정) 딸기 크로플(시즌 한정) 디저트"><div class="hd"><img class="th" src="photo/딸기 크로플(시즌 한정).jpg" alt="" loading="lazy" data-cap=""><span class="nm">딸기 크로플(시즌 한정)</span><span class="pr">16,800원</span></div><div class="body"><ol class="st"><li>투명 유리 접시 사용</li><li>생지 2개 굽기</li><li>접시 바닥에 화이트 크림 50g 깔기<img class="sp" src="photo/step/crumble_0.jpg" alt="" loading="lazy"></li><li>크럼블(아몬드 소보루) 큰 스푼 1번 떠서 가장자리에 반씩 나눠 놓기 - 아이스크림 받치는 용도<img class="sp" src="photo/step/crumble_1.jpg" alt="" loading="lazy"></li><li>크로플 1개 올리기 - 크로플이 크게 나오면 사선으로 꽂아야 다 들어감<button type="button" class="zm" data-src="photo/zoom/croffle_diag.jpg" data-cap="크로플 1개 올리기 - 크로플이 크게 나오면 사선으로 꽂아야 다 들어감" aria-label="사진 보기">🔍</button></li><li>그 위에 화이트 크림 50g</li><li>크로플 1개 더 올리기(크림이 크로플 사이에)<img class="sp" src="photo/step/crumble_2.jpg" alt="" loading="lazy"></li><li>딸기 80g(대과 약 4~5알) 꼭지 떼고 반은 통째, 반은 반으로 잘라 딸기청 5g에 살짝 버무리기</li><li>통 딸기는 위에 · 자른 딸기는 아래 둘레에 (줄 세우지 말고 손으로 툭툭)</li><li>피스타치오 분태 10g 크림에 묻게 뿌리기</li><li>크럼블 위에 바닐라 아이스크림 작은 스쿱(진갈색) 1개(60g)</li></ol><div class="tip"><b>주의</b>딸기는 나가기 직전에 자르기</div><div class="cost own"><div class="nums"><span>원가 <b>4,868</b></span><span>판매 <b>16,800</b></span><span class="hi">마진 <b>71.0%</b></span><span>남는 돈 <b>11,932</b></span><span>원가율 <b>29.0%</b></span></div><div class="rc"><i>생지 2개 1,040원</i><s>·</s><i class="w">생딸기 80g⚠️ 2,720원</i><s>·</s><i>딸기청 5g 67원</i><s>·</s><i>화이트 크림 100g 397원</i><s>·</s><i>피스타치오 분태 10g 256원</i><s>·</s><i>크럼블 10g 96원</i><s>·</s><i>바닐라 아이스크림 작은 스쿱 60g 292원</i></div><div class="exp"><b>1개월 이내</b>화이트 크림 3~5일 · 딸기청(해동 후) 2주</div></div></div></article>
+<article class="m" data-g="디저트" data-n="딸기 크로플(시즌 한정)" data-mg="70.3" data-s="딸기 크로플(시즌 한정) 딸기 크로플(시즌 한정) 디저트"><div class="hd"><img class="th" src="photo/딸기 크로플(시즌 한정).jpg" alt="" loading="lazy" data-cap=""><span class="nm">딸기 크로플(시즌 한정)</span><span class="pr">17,800원</span></div><div class="body"><ol class="st"><li>투명 유리 접시 사용</li><li>생지 2개 굽기</li><li>접시 바닥에 화이트 크림 50g 깔기<img class="sp" src="photo/step/crumble_0.jpg" alt="" loading="lazy"></li><li>크럼블(아몬드 소보루) 큰 스푼 1번 떠서 가장자리에 반씩 나눠 놓기 - 아이스크림 받치는 용도<img class="sp" src="photo/step/crumble_1.jpg" alt="" loading="lazy"></li><li>크로플 1개 올리기 - 크로플이 크게 나오면 사선으로 꽂아야 다 들어감<button type="button" class="zm" data-src="photo/zoom/croffle_diag.jpg" data-cap="크로플 1개 올리기 - 크로플이 크게 나오면 사선으로 꽂아야 다 들어감" aria-label="사진 보기">🔍</button></li><li>그 위에 화이트 크림 50g</li><li>크로플 1개 더 올리기(크림이 크로플 사이에)<img class="sp" src="photo/step/crumble_2.jpg" alt="" loading="lazy"></li><li>딸기 4알 꼭지 떼고 반은 통째, 반은 반으로 잘라 딸기청 30g에 살짝 버무리기</li><li>통 딸기는 위에 · 자른 딸기는 아래 둘레에 (줄 세우지 말고 손으로 툭툭)</li><li>피스타치오 분태 10g 크림에 묻게 뿌리기</li><li>크럼블 위에 바닐라 아이스크림 작은 스쿱(진갈색) 1개(60g)</li></ol><div class="tip"><b>주의</b>딸기는 나가기 직전에 자르기</div><div class="cost own"><div class="nums"><span>원가 <b>5,282</b></span><span>판매 <b>17,800</b></span><span class="hi">마진 <b>70.3%</b></span><span>남는 돈 <b>12,518</b></span><span>원가율 <b>29.7%</b></span></div><div class="rc"><i>생지 2개 1,040원</i><s>·</s><i>생딸기 4알 2,800원</i><s>·</s><i>딸기청 30g 401원</i><s>·</s><i>화이트 크림 100g 397원</i><s>·</s><i>피스타치오 분태 10g 256원</i><s>·</s><i>크럼블 10g 96원</i><s>·</s><i>바닐라 아이스크림 작은 스쿱 60g 292원</i></div><div class="exp"><b>1개월 이내</b>화이트 크림 3~5일 · 딸기청(해동 후) 2주</div></div></div></article>
 <article class="m" data-g="디저트" data-n="무화과 아이스크림(시즌 한정/11월까지)" data-mg="86.5" data-c="1" data-s="무화과 아이스크림(시즌 한정/11월까지) 무화과 아이스크림(시즌 한정/11월까지) 디저트"><div class="hd"><img class="th" src="photo/무화과 아이스크림.jpg" alt="" loading="lazy" data-cap=""><span class="nm">무화과 아이스크림(시즌 한정/11월까지)</span><span class="pr">7,800원</span></div><div class="body"><ol class="st"><li>잔에 바닐라 아이스크림 큰 스쿱(황갈색) 1개(100g)</li><li>생 무화과 반 개를 4쪽으로 잘라 위와 둘레에 올리기</li><li>헤이즐넛 시럽 10ml 드리즐</li><li>피스타치오 분태 2g 뿌리기</li></ol><div class="tip"><b>주의</b>무화과는 나가기 직전에 자르기 · 11/30까지</div><div class="cost own"><div class="nums"><span>원가 <b>1,056</b></span><span>판매 <b>7,800</b></span><span class="hi">마진 <b>86.5%</b></span><span>남는 돈 <b>6,744</b></span><span>원가율 <b>13.5%</b></span></div><div class="rc"><i>바닐라 아이스크림 큰 스쿱 100g 487원</i><s>·</s><i>생 무화과 반 개 333원</i><s>·</s><i>헤이즐넛 시럽 10ml 175원</i><s>·</s><i>피스타치오 분태 2g 51원</i><s>·</s><i>스푼 10원</i></div></div></div></article>
 <article class="m" data-g="디저트" data-n="무화과 크로플" data-mg="80.4" data-c="91" data-s="무화과 크로플 무화과 크로플 디저트"><div class="hd"><img class="th" src="photo/무화과 크로플.jpg" alt="" loading="lazy" data-cap=""><span class="nm">무화과 크로플</span><span class="pr">15,800원</span></div><div class="body"><ol class="st"><li>투명 유리 접시 사용</li><li>생지 2개 굽기</li><li>접시 바닥에 화이트 크림 50g 깔기<img class="sp" src="photo/step/crumble_0.jpg" alt="" loading="lazy"></li><li>크럼블(아몬드 소보루) 큰 스푼 1번 떠서 가장자리에 반씩 나눠 놓기 - 아이스크림 받치는 용도<img class="sp" src="photo/step/crumble_1.jpg" alt="" loading="lazy"></li><li>크로플 1개 올리기 - 크로플이 크게 나오면 사선으로 꽂아야 다 들어감<button type="button" class="zm" data-src="photo/zoom/croffle_diag.jpg" data-cap="크로플 1개 올리기 - 크로플이 크게 나오면 사선으로 꽂아야 다 들어감" aria-label="사진 보기">🔍</button></li><li>그 위에 화이트 크림 50g</li><li>크로플 1개 더 올리기(크림이 크로플 사이에)<img class="sp" src="photo/step/crumble_2.jpg" alt="" loading="lazy"></li><li>무화과 1개를 8쪽으로 갈라 3쪽은 위에 · 5쪽은 아래 둘레에</li><li>피스타치오 분태 10g 크림에 묻게 뿌리기</li><li>헤이즐넛 시럽 20ml 드리즐</li><li>크럼블 위에 바닐라 아이스크림 작은 스쿱(진갈색) 1개(60g)</li></ol><div class="tip"><b>주의</b>무화과는 나가기 직전에 자르기</div><div class="cost own"><div class="nums"><span>원가 <b>3,097</b></span><span>판매 <b>15,800</b></span><span class="hi">마진 <b>80.4%</b></span><span>남는 돈 <b>12,703</b></span><span>원가율 <b>19.6%</b></span></div><div class="rc"><i>생지 2개 1,040원</i><s>·</s><i>생무화과 1개 666원</i><s>·</s><i>화이트 크림 100g 397원</i><s>·</s><i class="w">헤이즐넛 시럽 20ml⚠️ 350원</i><s>·</s><i>피스타치오 분태 10g 256원</i><s>·</s><i class="w">크럼블 10g⚠️ 96원</i><s>·</s><i>바닐라 아이스크림 작은 스쿱 60g 292원</i></div><div class="exp"><b>1개월 이내</b>화이트 크림 3~5일 · 아몬드 소보루 2주</div></div></div></article>
 <article class="m" data-g="디저트" data-n="바나나 브륄레와 아이스크림" data-mg="88.8" data-c="7" data-s="바나나 브륄레와 아이스크림 바나나 브륄레와 아이스크림 디저트"><div class="hd"><img class="th" src="photo/바나나브륄레.webp" alt="" loading="lazy" data-cap=""><span class="nm">바나나 브륄레와 아이스크림</span><span class="pr">13,800원</span></div><div class="body"><ol class="st"><li>바나나 1개 껍질째 세로로 반 가르기</li><li>갈색설탕 15g 뿌려 토치</li><li>접시에 눕히기</li><li>초코 그래놀라 40g 흩뿌리기</li><li>바닐라 아이스크림 큰 스쿱(황갈색) 1개(100g)</li><li>누텔라 20g 드리즐</li></ol><div class="cost own"><div class="nums"><span>원가 <b>1,549</b></span><span>판매 <b>13,800</b></span><span class="hi">마진 <b>88.8%</b></span><span>남는 돈 <b>12,251</b></span><span>원가율 <b>11.2%</b></span></div><div class="rc"><i>바나나 1개 353원</i><s>·</s><i>갈색설탕 15g 27원</i><s>·</s><i>초코 그래놀라 40g 358원</i><s>·</s><i>바닐라 아이스크림 큰 스쿱 100g 487원</i><s>·</s><i>누텔라 드리즐 20g 319원</i><s>·</s><i class="w">토치 부탄 1g⚠️ 5원</i></div><div class="exp"><b>1개월 이내</b>바나나 7~10일 · 초코 그래놀라 1개월</div></div></div></article>
@@ -938,6 +949,10 @@ body:not([data-tab="faq"]) #tFaq{display:none}
   <div id="todoBox"><p class="dsum">불러오는 중…</p></div>
 </section>
 
+<section id="tBuy" class="pane">
+  <div id="buyBox"><p class="dsum">불러오는 중…</p></div>
+</section>
+
 <section id="tAds" class="pane">
   <div id="adsBox"><p class="dsum">불러오는 중…</p></div>
 </section>
@@ -1024,7 +1039,7 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-20 13:31
+  갱신 2026-11-21 21:27
 </footer>
 
 <script>
@@ -1149,7 +1164,7 @@ if(lock){
 /* ===== 사장 모드 ===== */
 function setOwner(on){ document.body.dataset.owner=on?'1':'0';
   try{localStorage.setItem('wl-owner',on?'1':'0')}catch(e){}
-  if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='ads'||document.body.dataset.tab==='set'||document.body.dataset.tab==='duty'||document.body.dataset.tab==='todo')&&typeof setTab==='function') setTab('recipe');
+  if(!on&&(document.body.dataset.tab==='insight'||document.body.dataset.tab==='ads'||document.body.dataset.tab==='set'||document.body.dataset.tab==='duty'||document.body.dataset.tab==='todo'||document.body.dataset.tab==='buy')&&typeof setTab==='function') setTab('recipe');
   if(window.wlSort)window.wlSort();     /* 잠그면 마진율순 → 이름순 */
   drawSub(); if(window.custReady)drawCust(); }
 setOwner(!!(curKey()&&CFG.keys[curKey()].o===1));
@@ -1270,11 +1285,11 @@ function setTab(t){
     if(on&&b.scrollIntoView)try{b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});}catch(e){}});
   LSset('wl-tab',t); window.scrollTo(0,0);
   if(t==='pre'){ if(tPre.dataset.pv==='cust')drawPre(); else {tPre.dataset.pv='list';drawCust();} }
-  if(t==='note')drawNote(); if(t==='insight')drawIns(); if(t==='set')drawSet(); if(t==='duty')drawDuty(); if(t==='faq')drawFaq(); if(t==='ads')drawAds(); if(t==='todo')drawTodo();
+  if(t==='note')drawNote(); if(t==='insight')drawIns(); if(t==='set')drawSet(); if(t==='duty')drawDuty(); if(t==='faq')drawFaq(); if(t==='ads')drawAds(); if(t==='todo')drawTodo(); if(t==='buy')drawBuy();
 }
 tabBtns.forEach(function(b){b.addEventListener('click',function(){
   var t=b.dataset.tab;
-  if((t==='insight'||t==='ads'||t==='set'||t==='duty'||t==='todo')&&document.body.dataset.owner!=='1')return;
+  if((t==='insight'||t==='ads'||t==='set'||t==='duty'||t==='todo'||t==='buy')&&document.body.dataset.owner!=='1')return;
   setTab(t);
 });});
 
@@ -2366,17 +2381,59 @@ document.getElementById('tdGo').addEventListener('click',function(){var t=docume
   DB.add('todo',d).then(function(row){todoRows.unshift(row);document.getElementById('tdT').value='';document.getElementById('tdD').value='';renderTodo();});});
 document.getElementById('tdT').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('tdGo').click();});
 
+
+/* ===== 발주 (11/21 사장 「부자재 개수도 다 트래킹해서 살 때 된 거 사라고」) — 구매주기.csv(빌드) + records kind=buy {n,q,d,rem} =====
+   남은 양 = 기준량 − 하루사용 × 지난 날 · 바닥 날 = 기준일 + 기준량/하루사용 · 살 날 = 바닥 − 배송일 − 3일 여유
+   「샀어요」 = 산 양을 더함(rem:false) · 품목 이름 누르기 = 지금 남은 양으로 다시 맞춤(rem:true) */
+var BUY=[{"cat": "부자재", "n": "빨대", "src": "보니팩 일자 검정 7x210mm 500개x3 (쿠팡)", "d": "2026-10-01", "q": "1500", "u": "개", "r": "36", "lead": "1", "m": "아이스 음료 하루 36잔(POS 10/1~18) · 11/21 다 씀(사장) · 다음 후보 플라마트 500x20 45000원"}, {"cat": "부자재", "n": "유산지컵", "src": "천운패키지 유산지컵 백색 55mm (쿠팡)", "d": "2026-09-22", "q": "200", "u": "개", "r": "3.7", "lead": "1", "m": "바스크 하루 3.7조각(POS 10월 99조각/27일) · 11/21 다 씀(사장) · 다음 후보 600개 8500원"}, {"cat": "부자재", "n": "아이스컵 12oz", "src": "92파이 12온스 PET 500개 (쿠팡)", "d": "2026-11-17", "q": "500", "u": "개", "r": "3", "lead": "1", "m": "⚠️ 포장·배달 음료 하루 3잔 가정(POS 엑셀에 매장/포장 구분 없음)"}, {"cat": "부자재", "n": "아이스컵 뚜껑", "src": "92파이 평뚜껑", "d": "", "q": "", "u": "개", "r": "3", "lead": "1", "m": "구매 기록 없음 — 살 때 「샀어요」"}, {"cat": "부자재", "n": "HOT 컵·뚜껑", "src": "", "d": "", "q": "", "u": "개", "r": "1", "lead": "1", "m": "구매 기록 없음 — 살 때 「샀어요」"}, {"cat": "부자재", "n": "캐리어 봉투 (1구·2구)", "src": "봉다리넷", "d": "", "q": "", "u": "장", "r": "2", "lead": "1", "m": "구매 기록 없음 — 살 때 「샀어요」"}, {"cat": "부자재", "n": "배달 비닐", "src": "", "d": "", "q": "", "u": "장", "r": "0.5", "lead": "1", "m": "구매 기록 없음 — 살 때 「샀어요」"}, {"cat": "부자재", "n": "소스용기 60ml", "src": "탐사 소스용기 100개 (쿠팡)", "d": "2026-09-28", "q": "100", "u": "개", "r": "0.5", "lead": "1", "m": "⚠️ 배달 치즈케이크 크림·리뷰 메이플 하루 0.5개 가정"}, {"cat": "부자재", "n": "일회용 포크", "src": "개별포장 백색 100개 (쿠팡)", "d": "2026-10-03", "q": "100", "u": "개", "r": "0.5", "lead": "1", "m": "⚠️ 배달 하루 약 0.5건(10월 배달 매출 2.7%)"}, {"cat": "부자재", "n": "펄프용기 (샌드위치 포장)", "src": "B001 직사각 100개 (쿠팡)", "d": "2026-10-13", "q": "100", "u": "개", "r": "0.5", "lead": "2", "m": "⚠️ 샌드위치 포장·배달 하루 0.5개 가정"}, {"cat": "부자재", "n": "크로플 포장 박스", "src": "", "d": "", "q": "", "u": "개", "r": "0.5", "lead": "1", "m": "구매 기록 없음 — 살 때 「샀어요」"}, {"cat": "부자재", "n": "냅킨", "src": "주지 칵테일 냅킨 10000매 (쿠팡)", "d": "2026-10-17", "q": "10000", "u": "장", "r": "30", "lead": "2", "m": "⚠️ 하루 30장 가정"}, {"cat": "부자재", "n": "인생네컷 인화지", "src": "잉크메이드 KP-108IN 108매 (쿠팡)", "d": "2026-10-04", "q": "108", "u": "장", "r": "1.5", "lead": "2", "m": "⚠️ POS 판매 하루 약 1.2장 + 무료 출력"}, {"cat": "부자재", "n": "종이호일", "src": "", "d": "", "q": "", "u": "장", "r": "1", "lead": "1", "m": "구매 기록 없음 — 살 때 「샀어요」"}, {"cat": "식자재", "n": "탈지분유", "src": "경인상단 탈지분유 (전 가게 재고)", "d": "2026-11-21", "q": "500", "u": "g", "r": "5.6", "lead": "1", "m": "11/21 남은 양 약 500g(사장) · 시그니처 크림 1통 20g · 크림 음료 하루 8.4잔 · 다음 후보 500gx2 14500원"}, {"cat": "식자재", "n": "누텔라", "src": "", "d": "2026-11-05", "q": "350", "u": "g", "r": "21", "lead": "1", "m": "11/5 300~400g 남음(사장) · 크로플·바나나 브륄레 접시당 약 21g · 그 뒤 샀으면 「샀어요」"}, {"cat": "식자재", "n": "헤이즐넛 시럽", "src": "1883 메종루틴", "d": "", "q": "", "u": "ml", "r": "22", "lead": "1", "m": "⚠️ 무화과 크로플 20ml + 아메·라떼 옵션 — 구매 기록 없음"}, {"cat": "식자재", "n": "카라멜 소스", "src": "모닌 1.89L", "d": "", "q": "", "u": "ml", "r": "30", "lead": "2", "m": "⚠️ 카라멜 라떼 1잔 30ml · 하루 1잔 가정 — 구매 기록 없음"}, {"cat": "식자재", "n": "피스타치오 분태", "src": "", "d": "2026-11-05", "q": "", "u": "g", "r": "12", "lead": "1", "m": "11/5 다시 삼(사장) · 양 모름"}, {"cat": "식자재", "n": "다이제 크럼블", "src": "닥터유 다이제 351gx4", "d": "", "q": "", "u": "g", "r": "6", "lead": "1", "m": "⚠️ 피스타치오 라떼·시그니처 바닐라 3g — 구매 기록 없음"}, {"cat": "식자재", "n": "백설탕", "src": "", "d": "", "q": "", "u": "g", "r": "40", "lead": "1", "m": "⚠️ 크림·바치케·시럽 — 구매 기록 없음"}, {"cat": "식자재", "n": "바닐라 파우더", "src": "", "d": "", "q": "", "u": "g", "r": "6", "lead": "1", "m": "⚠️ 시그니처 크림 1통 20g — 구매 기록 없음"}, {"cat": "식자재", "n": "홍차 티백 (얼그레이·히비스커스·캐모마일)", "src": "", "d": "", "q": "", "u": "개", "r": "3", "lead": "1", "m": "구매 기록 없음"}, {"cat": "식자재", "n": "김치볶음밥", "src": "곰곰 300g", "d": "", "q": "", "u": "봉", "r": "0.4", "lead": "1", "m": "⚠️ 필라프 하루 약 0.4개 — 구매 기록 없음"}, {"cat": "식자재", "n": "살라미", "src": "", "d": "", "q": "", "u": "g", "r": "10", "lead": "1", "m": "와인 플래터·미니 안주 — 구매 기록 없음"}, {"cat": "식자재", "n": "케이준 감자", "src": "", "d": "", "q": "", "u": "g", "r": "20", "lead": "1", "m": "크로플 맥주 플래터 — 구매 기록 없음"}],buyRows=[];
+function byD(s){return s?new Date(s+'T00:00:00'):null;}
+function byToday(){var x=new Date();x.setHours(0,0,0,0);return x;}
+function byIso(x){return x.getFullYear()+'-'+('0'+(x.getMonth()+1)).slice(-2)+'-'+('0'+x.getDate()).slice(-2);}
+function byState(it){
+  var base=byD(it.d),q=it.q===''?null:+it.q,r=+it.r||0;
+  buyRows.filter(function(x){return (x.data||{}).n===it.n;}).sort(function(a,b){return (a.data.d<b.data.d)?-1:1;}).forEach(function(x){
+    var d=x.data,dd=byD(d.d);if(!dd)return;
+    if(d.rem||base==null||q==null){base=dd;q=+d.q;return;}
+    var left=Math.max(0,q-r*Math.round((dd-base)/864e5));base=dd;q=left+(+d.q);});
+  if(!base||q==null||!r)return {lv:3};
+  var days=q/r,end=new Date(base.getTime()+days*864e5),by=new Date(end.getTime()-((+it.lead||1)+3)*864e5),t=byToday();
+  var left=Math.max(0,q-r*Math.round((t-base)/864e5)),n=Math.round((by-t)/864e5);
+  return {lv:n<=0?0:n<=7?1:2,left:left,end:end,by:by,n:n,base:base};
+}
+function byFmt(x){return (x.getMonth()+1)+'/'+x.getDate()+'('+'일월화수목금토'[x.getDay()]+')';}
+function drawBuy(){DB.list('buy').then(function(r){buyRows=r||[];renderBuy();});}
+function renderBuy(){
+  var rows=BUY.map(function(it){return {it:it,s:byState(it)};});
+  rows.sort(function(a,b){if(a.s.lv!==b.s.lv)return a.s.lv-b.s.lv;return a.s.lv===3?0:(a.s.by-b.s.by);});
+  var c=[0,0,0,0];rows.forEach(function(x){c[x.s.lv]++;});
+  var h='<p class="tdsum">지금 사기 <b>'+c[0]+'</b> · 7일 안 '+c[1]+' · 기록 없음 '+c[3]+' · 품목 이름 누르면 지금 남은 양 입력</p>';
+  h+='<table class="tdtb bytb"><thead><tr><th>상태</th><th>품목</th><th>남은 양(추정)</th><th>바닥</th><th>살 날</th><th></th></tr></thead><tbody>';
+  var lab=['지금 사기','곧','여유','기록 없음'];
+  rows.forEach(function(x){var it=x.it,s=x.s,u=it.u;
+    h+='<tr><td class="st s'+s.lv+'">'+lab[s.lv]+(s.lv<2?'<small style="display:block;font-weight:600">'+(s.n<=0?(s.n<0?(-s.n)+'일 지남':'오늘'):s.n+'일 남음')+'</small>':'')+'</td>'
+      +'<td class="tx" data-rm="'+tdE(it.n)+'">'+tdE(it.n)+'<small>'+tdE(it.cat)+(it.src?' · '+tdE(it.src):'')+(it.m?' · '+tdE(it.m):'')+'</small></td>'
+      +'<td class="n">'+(s.lv<3?Math.round(s.left).toLocaleString()+u:'')+'</td><td class="n">'+(s.lv<3?byFmt(s.end):'')+'</td><td class="n">'+(s.lv<3?byFmt(s.by):'')+'</td>'
+      +'<td><button type="button" class="ck" data-bg="'+tdE(it.n)+'">샀어요</button></td></tr>';});
+  document.getElementById('buyBox').innerHTML=h+'</tbody></table>';
+}
+document.getElementById('buyBox').addEventListener('click',function(e){
+  var b=e.target.closest('[data-bg],[data-rm]');if(!b)return;var nm=b.dataset.bg||b.dataset.rm,rem=!!b.dataset.rm;
+  var it=BUY.filter(function(x){return x.n===nm;})[0];if(!it)return;
+  var v=prompt(rem?(nm+' — 지금 남은 양('+it.u+')'):(nm+' — 산 양('+it.u+')'),rem?'':(it.q||''));if(v==null)return;
+  v=parseFloat(String(v).replace(/,/g,''));if(!(v>=0))return;
+  DB.add('buy',{n:nm,q:v,d:byIso(byToday()),rem:rem}).then(function(row){buyRows.unshift(row);renderBuy();});});
+
 /* ===== 시작 ===== */
 banners();
 setSeg(LSget('wl-seg','close'));
 (function(){var t=LSget('wl-tab','recipe');
-  if((t==='insight'||t==='ads'||t==='set'||t==='duty'||t==='todo')&&document.body.dataset.owner!=='1')t='recipe';
+  if((t==='insight'||t==='ads'||t==='set'||t==='duty'||t==='todo'||t==='buy')&&document.body.dataset.owner!=='1')t='recipe';
   setTab(t);})();
 apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-20 13:31",lastTouch=Date.now();
+var BUILD="2026-11-21 21:27",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
