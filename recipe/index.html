@@ -1042,16 +1042,16 @@ body:not([data-tab="faq"]) #tFaq{display:none}
 <footer>
   재료 옆 <b>⚠️</b> 는 아직 정확히 안 정해진 양이에요. 대충 그 정도로 하고, 사장님께 물어봐 주세요.<br>
   순서가 안 적힌 메뉴는 사장님께 확인 후 추가됩니다.<br>
-  갱신 2026-11-24 13:03
+  갱신 2026-11-24 20:11
 </footer>
 
 <script>
 (function(){
 "use strict";
 /* ===== 영업장 설정 (생성기가 매장_설정.json에서 채운다) ===== */
-var CFG={store:"WaveLabs 매장",keys:{"3c7a70c5eda77b4eef0e60c628ef55ead8a62392fc6a23efb2b37098889b866e": {"n": "사장", "o": 1}, "ebf93864e1fb9287661e41065e19e001cdb8fb59df31827b0a94771a19db5b26": {"n": "보빈", "o": 0}, "895a5fd922e2c38e7e64f49d67f6755c31176264de2fc2ce1f83bf8210d9b362": {"n": "사장(알바 화면 시험)", "o": 0}, "46268de38873944f85044307463662e104ebdcf71838167249a6c6bafacee55a": {"n": "형석님", "o": 0}},
+var CFG={store:"WaveLabs 매장",keys:{"3c7a70c5eda77b4eef0e60c628ef55ead8a62392fc6a23efb2b37098889b866e": {"n": "사장", "o": 1}, "ebf93864e1fb9287661e41065e19e001cdb8fb59df31827b0a94771a19db5b26": {"n": "보빈님", "o": 0}, "895a5fd922e2c38e7e64f49d67f6755c31176264de2fc2ce1f83bf8210d9b362": {"n": "사장(알바 화면 시험)", "o": 0}, "46268de38873944f85044307463662e104ebdcf71838167249a6c6bafacee55a": {"n": "형석님", "o": 0}},
          brand:{logo:"logo.jpg",bg:false,c1:"#0B5F84",c2:"#20769B",name:"웨이브랩스 광교SK뷰레이크37F",phone:"01084068985"},
-         url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["보빈", "형석님"],vatRate:3.5};
+         url:"https://gsnsroacvbibljpecizu.supabase.co",key:"sb_publishable_eCxa1FC6BIp3L0FJwI9x5w_I-4LQ-hw",bucket:"receipts",people:["보빈님", "형석님"],vatRate:3.5};
 var ONLINE=!!(CFG.url&&CFG.key);
 var REST=CFG.url.replace(/\/+$/,'')+'/rest/v1/records';
 function hdr(extra){var h={apikey:CFG.key,Authorization:'Bearer '+CFG.key,'Content-Type':'application/json'};
@@ -2436,7 +2436,7 @@ apply();
 drawStock();
 
 /* ===== 새 버전 자동 새로고침 — 쓰는 중이면 기다린다 ===== */
-var BUILD="2026-11-24 13:03",lastTouch=Date.now();
+var BUILD="2026-11-24 20:11",lastTouch=Date.now();
 ['pointerdown','keydown','input'].forEach(function(ev){document.addEventListener(ev,function(){lastTouch=Date.now();},true);});
 function busy(){
   if(Date.now()-lastTouch<5000)return true;
