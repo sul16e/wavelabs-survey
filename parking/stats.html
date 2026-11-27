@@ -65,8 +65,8 @@
     });
     var cnt={}; CH.forEach(function(c){cnt[c]=0});
     var hours=0, ng=0, nd=0;
-    // 경로 순위엔 진짜 답만: 일행 묶음(3분 안 연속 등록 — 질문 건너뜀) · 잘 모르겠어요 는 뺌(10/28)
-    var valid=list.filter(function(r){hours+=r.h||0; if(r.g){ng++;return false} if(r.ch==='잘 모르겠어요'){nd++;return false} return true});
+    // 일행 묶음은 뺌 · 옛 「잘 모르겠어요」는 기타로 합침(11/27)
+    var valid=list.filter(function(r){hours+=r.h||0; if(r.g){ng++;return false} if(r.ch==='잘 모르겠어요') r.ch='기타'; return true});
     valid.forEach(function(r){cnt[r.ch]=(cnt[r.ch]||0)+1});
     var cars=list.length, total=valid.length, max=Math.max(1,Math.max.apply(null,Object.keys(cnt).map(function(k){return cnt[k]})));
     var ex=[]; if(ng) ex.push('일행 '+ng); if(nd) ex.push('모르겠어요 '+nd);
